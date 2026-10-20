@@ -1398,15 +1398,16 @@ body.locked { overflow: hidden; }
 }
 .faq-group-title, .thca-faq h3 { background: var(--navy); color: var(--cream); }
 
-/* mascot lounging on a sticker heading. The ledge he lies on is 43.8% of the image width below its top,
-   and his rays + arm hang over the ledge between 27% and 63% of the image width, so the sticker gets
-   extra room on the right for them to dangle over plain navy instead of the title. */
-.sticker.has-mascot { position: relative; margin-top: 2.4em; padding-right: 4.4em; }
-.sticker-mascot {
-  position: absolute;
-  width: 5.4em;
-  height: auto;
-  right: 0.2em;
-  top: calc(-0.438 * 5.4em + 2px);
-  pointer-events: none;
-}
+/* Mascot on a sticker heading. Each image is cropped so the edge he lies on / hides behind sits a
+   known fraction of the image width below its top, which lines it up with the sticker's top edge. */
+.sticker.has-mascot { position: relative; }
+.sticker-mascot { position: absolute; height: auto; pointer-events: none; }
+
+/* lounging: edge at 43.8% of width; his rays and arm dangle over 27-63% of the width, so the sticker
+   gets room on the right for them to hang over plain navy instead of the title */
+.mascot-lounging { margin-top: 2.4em; padding-right: 4.4em; }
+.mascot-lounging .sticker-mascot { width: 5.4em; right: 0.2em; top: calc(-0.438 * 5.4em + 2px); }
+
+/* peeking: edge at 56.1% of width; only his fingertips come over the top of the sticker */
+.mascot-peeking { margin-top: 2.2em; }
+.mascot-peeking .sticker-mascot { width: 3.8em; right: 0.9em; top: calc(-0.561 * 3.8em + 1px); }

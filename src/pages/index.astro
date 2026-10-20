@@ -41,7 +41,7 @@ const promos = [
 
   <section class="block">
     <div class="wrap">
-      <SectionTitle title="Find din mellow" link={{ href: "/shop", label: "Se alle" }} mascot />
+      <SectionTitle title="Find din mellow" link={{ href: "/shop", label: "Se alle" }} mascot="lounging" />
       <div class="rail cat-rail">
         {categories.map((c) => (
           <a class="cat-tile" href={`/shop?kategori=${c.id}`}>
@@ -55,7 +55,7 @@ const promos = [
 
   <section class="block">
     <div class="wrap">
-      <SectionTitle title="Det gode stuff" />
+      <SectionTitle title="Det gode stuff" mascot="peeking" />
       <div class="promos">
         {promos.map((p) => (
           <a class={`promo promo-${p.tone}`} href={p.href}>

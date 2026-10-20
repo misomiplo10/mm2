@@ -2,17 +2,21 @@
 interface Props {
   title: string;
   link?: { href: string; label: string };
-  /** Show the mascot lounging on top of the sticker. */
-  mascot?: boolean;
+  /** Put the mascot on the sticker: lying on top of it, or peeking over it from behind. */
+  mascot?: "lounging" | "peeking";
 }
 
-const { title, link, mascot = false } = Astro.props;
+const { title, link, mascot } = Astro.props;
+const mascotImg = {
+  lounging: { src: "/img/mascot-lounging.webp", width: 600, height: 377 },
+  peeking: { src: "/img/mascot-peeking.webp", width: 480, height: 293 },
+};
 ---
 
 <div class="section-bar">
-  <h2 class:list={["sticker", { "has-mascot": mascot }]}>
+  <h2 class:list={["sticker", mascot && `has-mascot mascot-${mascot}`]}>
     {title}
-    {mascot && <img class="sticker-mascot" src="/img/mascot-lounging.webp" alt="" width="600" height="377" loading="lazy" />}
+    {mascot && <img class="sticker-mascot" alt="" loading="lazy" {...mascotImg[mascot]} />}
   </h2>
   {link && <a class="see-all" href={link.href}>{link.label} →</a>}
 </div>
