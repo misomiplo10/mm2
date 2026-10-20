@@ -1397,3 +1397,16 @@ body.locked { overflow: hidden; }
   border: 1px solid var(--line);
 }
 .faq-group-title, .thca-faq h3 { background: var(--navy); color: var(--cream); }
+
+/* mascot lounging on a sticker heading. The ledge he lies on is 43.8% of the image width below its top,
+   and his rays + arm hang over the ledge between 27% and 63% of the image width, so the sticker gets
+   extra room on the right for them to dangle over plain navy instead of the title. */
+.sticker.has-mascot { position: relative; margin-top: 2.4em; padding-right: 4.4em; }
+.sticker-mascot {
+  position: absolute;
+  width: 5.4em;
+  height: auto;
+  right: 0.2em;
+  top: calc(-0.438 * 5.4em + 2px);
+  pointer-events: none;
+}
