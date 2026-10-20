@@ -276,7 +276,7 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   font-style: italic;
   font-size: clamp(22px, 2.4vw, 30px);
   color: var(--navy);
-  margin: 20px 0 30px;
+  margin: 20px 0 48px; /* room for the Shop nu peekaboo mascot */
 }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .hero-art { position: relative; display: grid; place-items: center; min-height: 480px; }
@@ -1404,3 +1404,44 @@ body.locked { overflow: hidden; }
 /* peeking: edge at 56.1% of width; only his fingertips come over the top of the sticker */
 .mascot-peeking { margin-top: 2.2em; }
 .mascot-peeking .sticker-mascot { width: 3.8em; right: 0.9em; top: calc(-0.561 * 3.8em + 1px); }
+
+/* Peekaboo: the peeking mascot hides behind a button and pops up over its top edge on hover.
+   The clip box sits on the button's top edge (reaching 5% of the image width down, so his fingers
+   land on the button) and hides him by sliding him down out of it. */
+.peekaboo { position: relative; --peek-w: 76px; }
+.peekaboo-clip {
+  position: absolute;
+  right: 12px;
+  bottom: calc(100% - 0.05 * var(--peek-w));
+  width: var(--peek-w);
+  height: calc(0.611 * var(--peek-w));
+  overflow: hidden;
+  pointer-events: none;
+}
+.peekaboo-clip img {
+  width: 100%;
+  height: auto;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.peekaboo:hover .peekaboo-clip img,
+.peekaboo:focus-visible .peekaboo-clip img { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .peekaboo-clip img { transition: none; }
+}
+
+/* Mascot in the menu pointing at the Instagram icon, nudging towards it */
+.nav-pointer {
+  height: 50px;
+  width: auto;
+  margin-right: -6px;
+  pointer-events: none;
+  animation: point-nudge 2.4s ease-in-out infinite;
+}
+@keyframes point-nudge {
+  0%, 60%, 100% { transform: translateX(0); }
+  70%, 90% { transform: translateX(5px); }
+  80% { transform: translateX(1px); }
+}
+@media (max-width: 900px) { .nav-pointer { display: none; } }
+@media (prefers-reduced-motion: reduce) { .nav-pointer { animation: none; } }
