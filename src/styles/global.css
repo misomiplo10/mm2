@@ -13,6 +13,7 @@
   --ink: #1d2550;
   --muted: #2f3768;
   --sky: #6fb1e0;
+  --bg: #fcfaee; /* same warm cream as mistermellow.dk */
   --line: rgba(15, 33, 103, 0.12);
   --radius: 22px;
   --display: "Archivo Black", "Arial Black", sans-serif;
@@ -33,28 +34,9 @@ body {
   font-size: 17px;
   line-height: 1.6;
   color: var(--ink);
-  background: var(--sky);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-}
-
-/* Sky backdrop for the whole site: fixed layers (background-attachment: fixed is unreliable on iOS) */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-body::before { background: url("/img/sky-wide.jpg") center / cover no-repeat; }
-body::after {
-  opacity: 0.18;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-@media (orientation: portrait) {
-  body::before { background-image: url("/img/sky-tall.jpg"); }
 }
 
 img { max-width: 100%; display: block; }
@@ -1409,3 +1391,9 @@ body.locked { overflow: hidden; }
   filter: drop-shadow(0 14px 18px rgba(15, 33, 103, 0.2)) drop-shadow(0 3px 4px rgba(15, 33, 103, 0.12));
   transition: transform 0.5s ease;
 }
+
+/* light boxes need an edge now that the page background is cream instead of sky */
+.pcard, .find-grid, .table-card, .cart-empty.page, .pdp, .panel, .thca-copy, .faq-intro {
+  border: 1px solid var(--line);
+}
+.faq-group-title, .thca-faq h3 { background: var(--navy); color: var(--cream); }
