@@ -318,7 +318,7 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   animation: float 7s ease-in-out infinite;
 }
 .float { position: absolute; width: 22%; display: flex; justify-content: center; }
-.float .tube { width: 46%; }
+.float .hero-tube { width: 46%; filter: drop-shadow(0 18px 22px rgba(15, 33, 103, 0.28)); }
 .float-l { left: 4%; top: 28%; rotate: -14deg; animation: float 8s ease-in-out infinite reverse; }
 .float-r { right: 4%; top: 18%; rotate: 12deg; animation: float 9s ease-in-out infinite; }
 
