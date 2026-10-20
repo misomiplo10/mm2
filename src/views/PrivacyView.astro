@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import PrivacyDa from "./privacy/PrivacyDa.astro";
+import PrivacyEn from "./privacy/PrivacyEn.astro";
+import { langFromUrl, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const title = ui[lang].privacy;
+const description =
+  lang === "en"
+    ? "How Mister Mellow uses cookies, and how we collect, process and protect your personal data."
+    : "Sådan bruger Mister Mellow cookies, og sådan indsamler, behandler og beskytter vi dine personoplysninger.";
+---
+
+<BaseLayout title={`${title} – Mister Mellow`} description={description}>
+  <section class="block page-top">
+    <div class="wrap legal">
+      <SectionTitle title={title} />
+      {lang === "en" ? <PrivacyEn /> : <PrivacyDa />}
+    </div>
+  </section>
+</BaseLayout>

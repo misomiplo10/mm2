@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { categories, products } from "../data/products";
+import { langFromUrl } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const copy = {
+  da: {
+    description: "Køb Mister Mellow online: Cali-flower, pre-rolls og hash med THC-A. Lab-testet, høj styrke, gode vibes. Kun 18+.",
+    lead: "Håndplukket Cali-flower, pre-rolls og hash med THC-A fra potente sorter – udvalgt for aroma, smag og styrke, og testet af et uafhængigt laboratorium, før det kommer i posen. Find din mellow og få den sendt hjem.",
+    note: "Alle priser er inkl. moms – kun til dig over 18 år.",
+    all: "Alle",
+    filter: "Filtrér produkter",
+    products: "produkter",
+  },
+  en: {
+    description: "Buy Mister Mellow online: Cali flower, pre-rolls and hash with THC-A. Lab-tested, high potency, good vibes. 18+ only.",
+    lead: "Hand-picked Cali flower, pre-rolls and hash with THC-A from potent strains – chosen for aroma, flavour and strength, and tested by an independent lab before it goes in the pouch. Find your mellow and have it delivered.",
+    note: "All prices include VAT – for adults 18+ only.",
+    all: "All",
+    filter: "Filter products",
+    products: "products",
+  },
+}[lang];
+const filters = [{ id: "all", label: copy.all }, ...categories.map((c) => ({ id: c.id, label: c.label[lang] }))];
+---
+
+<BaseLayout title="Shop – Mister Mellow" description={copy.description}>
+  <section class="block page-top">
+    <div class="wrap">
+      <SectionTitle title="Shop" />
+      <p class="page-lead">{copy.lead}</p>
+      <p class="page-note">{copy.note}</p>
+      <div class="filters" role="group" aria-label={copy.filter}>
+        {filters.map((f, i) => (
+          <button class:list={["filter", { active: i === 0 }]} data-filter={f.id}>{f.label}</button>
+        ))}
+      </div>
+      <p class="result-count" aria-live="polite"><span id="count">{products.length}</span> {copy.products}</p>
+      <div class="product-grid">
+        {products.map((p) => <ProductCard product={p} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

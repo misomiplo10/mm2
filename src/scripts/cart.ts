@@ -34,7 +34,12 @@ function commit() {
 export const getItems = () => items;
 export const count = () => items.reduce((n, i) => n + i.qty, 0);
 export const subtotal = () => items.reduce((n, i) => n + i.qty * i.price, 0);
-export const kr = (n: number) => `${n.toLocaleString("da-DK")} kr`;
+const en = document.documentElement.lang === "en";
+const shopPath = en ? "/en/shop" : "/shop";
+const t = en
+  ? { qty: "Quantity", fewer: "Fewer", more: "More", remove: "Remove" }
+  : { qty: "Antal", fewer: "Færre", more: "Flere", remove: "Fjern" };
+export const kr = (n: number) => (en ? `DKK ${n.toLocaleString("en-GB")}` : `${n.toLocaleString("da-DK")} kr`);
 export const onChange = (fn: () => void) => listeners.add(fn);
 
 export function add(item: Omit<CartItem, "qty">, qty = 1) {
@@ -62,19 +67,19 @@ export function lineHtml(i: CartItem) {
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
   return `
     <div class="cart-line" data-slug="${esc(i.slug)}">
-      <a class="cart-thumb bg-${esc(i.tint)}" href="/shop/${esc(i.slug)}"><img src="${esc(i.thumb)}" alt="" /></a>
+      <a class="cart-thumb bg-${esc(i.tint)}" href="${shopPath}/${esc(i.slug)}"><img src="${esc(i.thumb)}" alt="" /></a>
       <div class="cart-info">
-        <a class="cart-name" href="/shop/${esc(i.slug)}">${esc(i.name)}</a>
+        <a class="cart-name" href="${shopPath}/${esc(i.slug)}">${esc(i.name)}</a>
         <span class="cart-meta">${i.size ? esc(i.size) + " · " : ""}${kr(i.price)}</span>
-        <div class="stepper" role="group" aria-label="Antal ${esc(i.name)}">
-          <button type="button" data-qty="-1" aria-label="Færre">−</button>
+        <div class="stepper" role="group" aria-label="${t.qty} ${esc(i.name)}">
+          <button type="button" data-qty="-1" aria-label="${t.fewer}">−</button>
           <span>${i.qty}</span>
-          <button type="button" data-qty="1" aria-label="Flere">+</button>
+          <button type="button" data-qty="1" aria-label="${t.more}">+</button>
         </div>
       </div>
       <div class="cart-right">
         <strong>${kr(i.qty * i.price)}</strong>
-        <button type="button" class="cart-remove" data-remove>Fjern</button>
+        <button type="button" class="cart-remove" data-remove>${t.remove}</button>
       </div>
     </div>`;
 }

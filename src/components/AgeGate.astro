@@ -1,11 +1,16 @@
+---
+import { langFromUrl, ui } from "../i18n";
+const t = ui[langFromUrl(Astro.url)];
+---
+
 <div class="age-gate" id="age-gate" hidden>
   <div class="age-box">
     <img src="/img/logo-orange.png" alt="Mister Mellow" />
-    <h2>Er du fyldt <em>18 år?</em></h2>
-    <p>Mister Mellow sælges kun til personer over 18 år. Bekræft din alder for at fortsætte.</p>
+    <h2>{t.ageTitle} <em>{t.ageYears}</em></h2>
+    <p data-denied={t.ageDenied}>{t.ageText}</p>
     <div class="age-actions">
-      <button class="btn btn-orange" data-age="yes">Ja, jeg er 18+</button>
-      <button class="btn btn-ghost" data-age="no">Nej</button>
+      <button class="btn btn-orange" data-age="yes">{t.ageYes}</button>
+      <button class="btn btn-ghost" data-age="no">{t.ageNo}</button>
     </div>
   </div>
 </div>

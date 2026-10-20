@@ -1,51 +1,77 @@
 ---
 import SectionTitle from "./SectionTitle.astro";
+import { langFromUrl } from "../i18n";
 
-const why = [
-  {
-    title: "Ingen rus, før du selv bestemmer det",
-    text: "THC-A er syreformen af THC. Rå er den ikke psykoaktiv, men når den opvarmes – fx ved rygning eller bagning – omdannes den til THC. Hvordan produktet opleves, afhænger altså af, hvordan det bruges.",
+const copy = {
+  da: {
+    intro:
+      "Mister Mellow er til dig, der vil have mere end klassisk CBD. Vi samler medical grade Cali-flower og hash med THC-A i én kollektion – rå, lab-testede sorter udvalgt for aroma, udseende og styrke, uden at gå på kompromis med gennemsigtighed.",
+    whyTitle: "Hvorfor THC-A?",
+    why: [
+      {
+        title: "Ingen rus, før du selv bestemmer det",
+        text: "THC-A er syreformen af THC. Rå er den ikke psykoaktiv, men når den opvarmes – fx ved rygning eller bagning – omdannes den til THC. Hvordan produktet opleves, afhænger altså af, hvordan det bruges.",
+      },
+      {
+        title: "Under 0,2 % Δ9-THC",
+        text: "Alle vores THC-A-produkter holder sig under den danske grænse på 0,2 % Δ9-THC. Hver batch testes af et uafhængigt laboratorium, så du kan se præcis, hvad der er i posen.",
+      },
+      {
+        title: "Mere smag og flere terpener",
+        text: "Fordi THC-A ikke er varmet op på forhånd, bevares plantens naturlige aroma og terpenprofil. Det giver et rigere udtryk for dig, der går op i smag, karakter og sammensætning.",
+      },
+    ],
+    rangeTitle: "Et sortiment med flere profiler",
+    range:
+      "Uanset om du er stamkunde eller prøver Mister Mellow for første gang, får du et gennemtænkt udvalg med fokus på kvalitet og variation – fra Cali-flower og pre-rolls til Fresh Frozen og Dry Sift hash, hver med sin egen planteprofil.",
+    newTitle: "Først med det nye",
+    new: "Vi henter nye sorter hjem, så snart vi har fundet noget, der lever op til vores standard. Følg med på Instagram – så hører du om de nye drops først.",
+    faqTitle: "FAQ om Mister Mellow og THC-A",
+    qa: [
+      { q: "Hvad er Mister Mellow?", a: "Et dansk brand med medical grade Cali-flower, pre-rolls og hash med THC-A – udvalgt for kvalitet, styrke og smag og dokumenteret med lab-rapporter." },
+      { q: "Hvad er THC-A?", a: "Syreformen af THC, som findes naturligt i cannabisplanten. Rå er den ikke psykoaktiv, men ved opvarmning omdannes den til THC." },
+      { q: "Er THC-A lovligt i Danmark?", a: "Det afhænger af produktets indhold og dokumentation. Vores produkter er testet og holder sig under grænsen på 0,2 % Δ9-THC, og du kan se tallene for hver sort under Lab-rapporter." },
+      { q: "Bliver man skæv af THC-A?", a: "Ikke i rå form. Men når THC-A opvarmes, omdannes det til THC, og så ændrer produktet egenskaber. Brug det med omtanke." },
+      { q: "Hvilke produkter har Mister Mellow?", a: "Cali-flower, håndrullede pre-rolls og hash i både Fresh Frozen og Dry Sift – hver med sin egen terpenprofil og sit eget udtryk." },
+      { q: "Hvad er forskellen på CBD og THC-A?", a: "Det er to forskellige cannabinoider. CBD giver ingen rus, uanset hvordan det bruges. THC-A adskiller sig ved, at det omdannes til THC, når det opvarmes." },
+      { q: "Hvorfor vælge Mister Mellow?", a: "Fordi du får høj styrke, rig smag og fuld gennemsigtighed: hver sort er lab-testet, og rapporterne ligger klar til dig." },
+    ],
   },
-  {
-    title: "Under 0,2 % Δ9-THC",
-    text: "Alle vores THC-A-produkter holder sig under den danske grænse på 0,2 % Δ9-THC. Hver batch testes af et uafhængigt laboratorium, så du kan se præcis, hvad der er i posen.",
+  en: {
+    intro:
+      "Mister Mellow is for those who want more than classic CBD. We bring medical grade Cali flower and hash with THC-A together in one collection – raw, lab-tested strains chosen for aroma, looks and strength, without compromising on transparency.",
+    whyTitle: "Why THC-A?",
+    why: [
+      {
+        title: "No high until you decide",
+        text: "THC-A is the acid form of THC. Raw, it is not psychoactive, but when heated – for example by smoking or baking – it converts into THC. How the product feels depends on how it's used.",
+      },
+      {
+        title: "Below 0.2% Δ9-THC",
+        text: "All our THC-A products stay below the Danish limit of 0.2% Δ9-THC. Every batch is tested by an independent lab, so you can see exactly what's in the pouch.",
+      },
+      {
+        title: "More flavour, more terpenes",
+        text: "Because THC-A hasn't been heated beforehand, the plant's natural aroma and terpene profile are preserved. That means a richer experience for those who care about flavour, character and composition.",
+      },
+    ],
+    rangeTitle: "A range with many profiles",
+    range:
+      "Whether you're a regular or trying Mister Mellow for the first time, you get a well-curated range focused on quality and variety – from Cali flower and pre-rolls to Fresh Frozen and Dry Sift hash, each with its own plant profile.",
+    newTitle: "First with the new stuff",
+    new: "We bring in new strains as soon as we find something that lives up to our standard. Follow us on Instagram – and hear about new drops first.",
+    faqTitle: "FAQ about Mister Mellow and THC-A",
+    qa: [
+      { q: "What is Mister Mellow?", a: "A Danish brand of medical grade Cali flower, pre-rolls and hash with THC-A – chosen for quality, strength and flavour, and documented with lab reports." },
+      { q: "What is THC-A?", a: "The acid form of THC, found naturally in the cannabis plant. Raw, it is not psychoactive, but when heated it converts into THC." },
+      { q: "Is THC-A legal in Denmark?", a: "It depends on the product's content and documentation. Our products are tested and stay below the 0.2% Δ9-THC limit, and you can see the numbers for each strain under Lab reports." },
+      { q: "Does THC-A get you high?", a: "Not in raw form. But when THC-A is heated, it converts into THC, which changes the product's effects. Use it responsibly." },
+      { q: "What products does Mister Mellow make?", a: "Cali flower, hand-rolled pre-rolls and hash in both Fresh Frozen and Dry Sift – each with its own terpene profile and character." },
+      { q: "What's the difference between CBD and THC-A?", a: "They are two different cannabinoids. CBD doesn't get you high, however it's used. THC-A is different in that it converts into THC when heated." },
+      { q: "Why choose Mister Mellow?", a: "Because you get high potency, rich flavour and full transparency: every strain is lab-tested, and the reports are ready for you." },
+    ],
   },
-  {
-    title: "Mere smag og flere terpener",
-    text: "Fordi THC-A ikke er varmet op på forhånd, bevares plantens naturlige aroma og terpenprofil. Det giver et rigere udtryk for dig, der går op i smag, karakter og sammensætning.",
-  },
-];
-
-const qa = [
-  {
-    q: "Hvad er Mister Mellow?",
-    a: "Et dansk brand med medical grade Cali-flower, pre-rolls og hash med THC-A – udvalgt for kvalitet, styrke og smag og dokumenteret med lab-rapporter.",
-  },
-  {
-    q: "Hvad er THC-A?",
-    a: "Syreformen af THC, som findes naturligt i cannabisplanten. Rå er den ikke psykoaktiv, men ved opvarmning omdannes den til THC.",
-  },
-  {
-    q: "Er THC-A lovligt i Danmark?",
-    a: "Det afhænger af produktets indhold og dokumentation. Vores produkter er testet og holder sig under grænsen på 0,2 % Δ9-THC, og du kan se tallene for hver sort under Lab-rapporter.",
-  },
-  {
-    q: "Bliver man skæv af THC-A?",
-    a: "Ikke i rå form. Men når THC-A opvarmes, omdannes det til THC, og så ændrer produktet egenskaber. Brug det med omtanke.",
-  },
-  {
-    q: "Hvilke produkter har Mister Mellow?",
-    a: "Cali-flower, håndrullede pre-rolls og hash i både Fresh Frozen og Dry Sift – hver med sin egen terpenprofil og sit eget udtryk.",
-  },
-  {
-    q: "Hvad er forskellen på CBD og THC-A?",
-    a: "Det er to forskellige cannabinoider. CBD giver ingen rus, uanset hvordan det bruges. THC-A adskiller sig ved, at det omdannes til THC, når det opvarmes.",
-  },
-  {
-    q: "Hvorfor vælge Mister Mellow?",
-    a: "Fordi du får høj styrke, rig smag og fuld gennemsigtighed: hver sort er lab-testet, og rapporterne ligger klar til dig.",
-  },
-];
+}[langFromUrl(Astro.url)];
 ---
 
 <section class="block thca">
@@ -53,36 +79,27 @@ const qa = [
     <SectionTitle title="Mister Mellow & THC-A" />
     <div class="thca-grid">
       <div class="thca-copy">
-        <p>
-          Mister Mellow er til dig, der vil have mere end klassisk CBD. Vi samler medical grade Cali-flower og hash med THC-A i én
-          kollektion – rå, lab-testede sorter udvalgt for aroma, udseende og styrke, uden at gå på kompromis med gennemsigtighed.
-        </p>
+        <p>{copy.intro}</p>
 
-        <h3>Hvorfor THC-A?</h3>
-        {why.map((w) => (
+        <h3>{copy.whyTitle}</h3>
+        {copy.why.map((w) => (
           <div class="thca-point">
             <h4>{w.title}</h4>
             <p>{w.text}</p>
           </div>
         ))}
 
-        <h3>Et sortiment med flere profiler</h3>
-        <p>
-          Uanset om du er stamkunde eller prøver Mister Mellow for første gang, får du et gennemtænkt udvalg med fokus på kvalitet og
-          variation – fra Cali-flower og pre-rolls til Fresh Frozen og Dry Sift hash, hver med sin egen planteprofil.
-        </p>
+        <h3>{copy.rangeTitle}</h3>
+        <p>{copy.range}</p>
 
-        <h3>Først med det nye</h3>
-        <p>
-          Vi henter nye sorter hjem, så snart vi har fundet noget, der lever op til vores standard. Følg med på Instagram – så hører du
-          om de nye drops først.
-        </p>
+        <h3>{copy.newTitle}</h3>
+        <p>{copy.new}</p>
       </div>
 
       <div class="thca-faq">
-        <h3>FAQ om Mister Mellow og THC-A</h3>
+        <h3>{copy.faqTitle}</h3>
         <div class="faq">
-          {qa.map((f) => (
+          {copy.qa.map((f) => (
             <details>
               <summary>{f.q}<span class="faq-ico" aria-hidden="true">›</span></summary>
               <p>{f.a}</p>

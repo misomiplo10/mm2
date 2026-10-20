@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SunPalette from "../components/SunPalette.astro";
+import { href, langFromUrl, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const copy = {
+  da: {
+    description: "Mister Mellow er et dansk brand med medical grade Cali-flower og hash med THC-A. Lab-testet, høj styrke, gode vibes.",
+    kicker: "Mød Mister Mellow",
+    title: "Lidt highness i hver pakke.",
+    body: [
+      "Mister Mellow er et dansk brand med én mission: medical grade Cali-flower og hash – Fresh Frozen og Dry Sift – med THC-A.",
+      "Hver sort er udvalgt hos betroede dyrkere for aroma, udseende og styrke, og alt er laboratorietestet, før det kommer i posen.",
+      "Fra Cali Flower til Fresh Frozen og Dry Sift hash – lab-testet, høj styrke og gode vibes. Find din mellow.",
+    ],
+    seeLab: "Se lab-rapporter",
+  },
+  en: {
+    description: "Mister Mellow is a Danish brand of medical grade Cali flower and hash with THC-A. Lab-tested, high potency, good vibes.",
+    kicker: "Meet Mister Mellow",
+    title: "A little high in every pack.",
+    body: [
+      "Mister Mellow is a Danish brand on one mission: medical grade Cali flower and hash – Fresh Frozen and Dry Sift – with THC-A.",
+      "Every strain is picked from trusted growers for aroma, looks and strength, and everything is lab-tested before it goes in the pouch.",
+      "From Cali flower to Fresh Frozen and Dry Sift hash – lab-tested, high potency and good vibes. Find your mellow.",
+    ],
+    seeLab: "See lab reports",
+  },
+}[lang];
+const t = ui[lang];
+---
+
+<BaseLayout title={`${t.about} – Mister Mellow`} description={copy.description}>
+  <section class="story">
+    <div class="wrap story-inner">
+      <div class="story-copy">
+        <p class="kicker">{copy.kicker}</p>
+        <h1 class="story-title">{copy.title}</h1>
+        {copy.body.map((b) => <p>{b}</p>)}
+        <div class="hero-actions">
+          <a class="btn btn-orange" href={href(lang, "shop")}>{t.toShop}</a>
+          <a class="btn btn-ghost-light" href={href(lang, "lab")}>{copy.seeLab}</a>
+        </div>
+      </div>
+      <SunPalette />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { company } from "../data/company";
+import { href, langFromUrl, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const copy = {
+  da: {
+    description: "Mister Mellow fås hos udvalgte butikker. Følg med på Instagram for nye sorter, drops og hvor du finder os.",
+    title: "Hvor er Mister Mellow?",
+    body: [
+      "Mister Mellow fås hos udvalgte butikker. Spørg efter os ved kassen – eller følg med på Instagram for nye sorter, drops og hvor du finder os.",
+      "Driver du selv butik? Vi leverer personligt inden for 1–2 dage, og displayet sælger for dig ved kassen.",
+    ],
+    follow: "Følg",
+    alt: "Mister Mellow butiksdisplay",
+  },
+  en: {
+    description: "Mister Mellow is available in selected stores. Follow us on Instagram for new strains, drops and where to find us.",
+    title: "Where is Mister Mellow?",
+    body: [
+      "Mister Mellow is available in selected stores. Ask for us at the till – or follow us on Instagram for new strains, drops and where to find us.",
+      "Run a store yourself? We deliver in person within 1–2 days, and the display sells for you at the till.",
+    ],
+    follow: "Follow",
+    alt: "Mister Mellow store display",
+  },
+}[lang];
+const t = ui[lang];
+---
+
+<BaseLayout title={`${t.findUs} – Mister Mellow`} description={copy.description}>
+  <section class="block page-top">
+    <div class="wrap find-grid">
+      <div class="find-copy">
+        <SectionTitle title={copy.title} />
+        {copy.body.map((b) => <p>{b}</p>)}
+        <div class="hero-actions">
+          <a class="btn btn-navy" href={company.instagramUrl} target="_blank" rel="noopener">{copy.follow} {company.instagram}</a>
+          <a class="btn btn-ghost" href={href(lang, "retail")}>{t.becomeRetailer}</a>
+        </div>
+      </div>
+      <img class="find-img" src="/img/display.jpg" alt={copy.alt} />
+    </div>
+  </section>
+</BaseLayout>

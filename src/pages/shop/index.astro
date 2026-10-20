@@ -1,30 +1,5 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import ProductCard from "../../components/ProductCard.astro";
-import SectionTitle from "../../components/SectionTitle.astro";
-import { categories, products } from "../../data/products";
-
-const filters = [{ id: "all", label: "Alle" }, ...categories.map((c) => ({ id: c.id, label: c.label }))];
+import ShopView from "../../views/ShopView.astro";
 ---
 
-<BaseLayout
-  title="Shop – Mister Mellow"
-  description="Køb Mister Mellow online: Cali-flower, pre-rolls og hash med THC-A. Lab-testet, høj styrke, gode vibes. Kun 18+."
->
-  <section class="block page-top">
-    <div class="wrap">
-      <SectionTitle title="Shop" />
-      <p class="page-lead">Håndplukket Cali-flower, pre-rolls og hash med THC-A fra potente sorter – udvalgt for aroma, smag og styrke, og testet af et uafhængigt laboratorium, før det kommer i posen. Find din mellow og få den sendt hjem.</p>
-      <p class="page-note">Alle priser er inkl. moms – kun til dig over 18 år.</p>
-      <div class="filters" role="group" aria-label="Filtrér produkter">
-        {filters.map((f, i) => (
-          <button class:list={["filter", { active: i === 0 }]} data-filter={f.id}>{f.label}</button>
-        ))}
-      </div>
-      <p class="result-count" aria-live="polite"><span id="count">{products.length}</span> produkter</p>
-      <div class="product-grid">
-        {products.map((p) => <ProductCard product={p} />)}
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+<ShopView />

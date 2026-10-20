@@ -1,34 +1,38 @@
 ---
 import ProductVisual from "./ProductVisual.astro";
 import { cartData, isBuyable, kr, metaLine, productUrl, type Product } from "../data/products";
+import { langFromUrl, ui } from "../i18n";
 
 interface Props {
   product: Product;
 }
 
 const { product: p } = Astro.props;
+const lang = langFromUrl(Astro.url);
+const t = ui[lang];
 const buyable = isBuyable(p);
+const url = productUrl(p, lang);
 ---
 
 <article class="pcard" data-cat={p.category}>
-  <a class={`pcard-media bg-${p.tint}`} href={productUrl(p)} aria-label={p.name}>
-    {p.onRequest && <span class="pcard-flag">På bestilling</span>}
-    {!p.onRequest && !buyable && <span class="pcard-flag">Kommer snart</span>}
+  <a class={`pcard-media bg-${p.tint}`} href={url} aria-label={p.name}>
+    {p.onRequest && <span class="pcard-flag">{t.onRequest}</span>}
+    {!p.onRequest && !buyable && <span class="pcard-flag">{t.comingSoon}</span>}
     <ProductVisual visual={p.visual} />
   </a>
   <div class="pcard-body">
     <span class="pcard-brand">Mister Mellow</span>
-    <h3><a href={productUrl(p)}>{p.name}</a></h3>
-    <span class="pcard-meta">{metaLine(p)}</span>
-    <p>{p.description}</p>
+    <h3><a href={url}>{p.name}</a></h3>
+    <span class="pcard-meta">{metaLine(p, lang)}</span>
+    <p>{p.description[lang]}</p>
     <div class="pcard-price">
-      {buyable ? <span>{kr(p.retail!)}</span> : <span class="muted">{p.onRequest ? "Pris på forespørgsel" : "Pris kommer snart"}</span>}
+      {buyable ? <span>{kr(p.retail!, lang)}</span> : <span class="muted">{p.onRequest ? t.priceOnRequest : t.priceSoon}</span>}
       {p.size && <span class="chip">{p.size}</span>}
     </div>
     {buyable ? (
-      <button class="btn btn-navy btn-block" data-add={cartData(p)}>Læg i kurv</button>
+      <button class="btn btn-navy btn-block" data-add={cartData(p)}>{t.addToCart}</button>
     ) : (
-      <a class="btn btn-ghost btn-block" href={productUrl(p)}>Se produkt</a>
+      <a class="btn btn-ghost btn-block" href={url}>{t.viewProduct}</a>
     )}
   </div>
 </article>

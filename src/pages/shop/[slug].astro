@@ -1,11 +1,6 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import ProductCard from "../../components/ProductCard.astro";
-import ProductVisual from "../../components/ProductVisual.astro";
-import SectionTitle from "../../components/SectionTitle.astro";
-import ThcaInfo from "../../components/ThcaInfo.astro";
-import { cartData, categoryLabel, isBuyable, kr, metaLine, products, type Product } from "../../data/products";
-import { labName } from "../../data/lab";
+import ProductView from "../../views/ProductView.astro";
+import { products, type Product } from "../../data/products";
 
 export function getStaticPaths() {
   return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
@@ -14,104 +9,6 @@ export function getStaticPaths() {
 interface Props {
   product: Product;
 }
-
-const { product: p } = Astro.props;
-const buyable = isBuyable(p);
-const sameCategory = products.filter((x) => x.slug !== p.slug && x.category === p.category);
-const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug && x.category !== p.category && x.featured)].slice(0, 4);
 ---
 
-<BaseLayout title={`${p.name} – Mister Mellow`} description={`${p.name}: ${p.description}`}>
-  <section class="block page-top">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Brødkrumme">
-        <a href="/shop">Shop</a><span>/</span><a href={`/shop?kategori=${p.category}`}>{categoryLabel(p.category)}</a><span>/</span><span>{p.name}</span>
-      </nav>
-
-      <div class="pdp">
-        <div class={`pdp-media bg-${p.tint}`}>
-          {p.onRequest && <span class="pcard-flag">På bestilling</span>}
-          <ProductVisual visual={p.visual} />
-        </div>
-
-        <div class="pdp-info">
-          <span class="pcard-brand">Mister Mellow</span>
-          <h1 class="pdp-title">{p.name}</h1>
-          <span class="pcard-meta">{metaLine(p)}</span>
-          <p class="pdp-desc">{p.description}</p>
-
-          {buyable ? (
-            <div class="buy-box">
-              <div class="pdp-price">{kr(p.retail!)} <small>inkl. moms</small></div>
-              {p.size && <div class="pdp-size"><span>Størrelse</span><span class="chip">{p.size}</span></div>}
-              <div class="buy-row">
-                <label class="qty">
-                  <span class="sr-only">Antal</span>
-                  <button type="button" data-step="-1" aria-label="Færre">−</button>
-                  <input type="number" min="1" max="20" value="1" inputmode="numeric" data-qty-input />
-                  <button type="button" data-step="1" aria-label="Flere">+</button>
-                </label>
-                <button class="btn btn-orange btn-lg" data-add={cartData(p)}>Læg i kurv</button>
-              </div>
-              <p class="pdp-note">Kun til personer over 18 år.</p>
-            </div>
-          ) : (
-            <div class="buy-box">
-              <div class="pdp-price muted">{p.onRequest ? "Pris på forespørgsel" : "Pris kommer snart"}</div>
-              <p class="pdp-note">
-                {p.onRequest ? "Fremstilles kun på bestilling og kan ikke købes i webshoppen." : "Produktet kommer snart i webshoppen. Spørg efter det i din butik."}
-              </p>
-              <a class="btn btn-navy" href="/find-os">Find i butik</a>
-            </div>
-          )}
-
-          <ul class="pdp-usps">
-            <li>Lab-testet af {labName}</li>
-            <li>Medical grade · høj styrke</li>
-            <li>Gode vibes inkluderet</li>
-          </ul>
-
-          <div class="faq pdp-acc">
-            <details>
-              <summary>Opbevaring<span class="faq-ico" aria-hidden="true">›</span></summary>
-              <p>Opbevar køligt, tørt og mørkt i lukket emballage. THC-A omdannes gradvist ved varme og lys, så undgå vinduer og varmekilder.</p>
-            </details>
-            <details>
-              <summary>Lab-rapporter<span class="faq-ico" aria-hidden="true">›</span></summary>
-              <p>Alt testes af {labName}, før det kommer i posen. <a href="/lab-rapporter">Se rapporterne</a>.</p>
-            </details>
-            <details>
-              <summary>Ansvarligt brug<span class="faq-ico" aria-hidden="true">›</span></summary>
-              <p>Kun til personer over 18 år. Opbevares utilgængeligt for børn.</p>
-            </details>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {p.category !== "accessory" && <ThcaInfo />}
-
-  {related.length > 0 && (
-    <section class="block">
-      <div class="wrap">
-        <SectionTitle title="Du vil måske også kunne lide" link={{ href: "/shop", label: "Se alle" }} />
-        <div class="rail product-rail" id="related">
-          {related.map((r) => <ProductCard product={r} />)}
-        </div>
-      </div>
-    </section>
-  )}
-</BaseLayout>
-
-<script>
-  // Quantity stepper next to "Læg i kurv"
-  document.querySelectorAll<HTMLElement>(".qty").forEach((q) => {
-    const input = q.querySelector<HTMLInputElement>("input")!;
-    q.querySelectorAll<HTMLButtonElement>("[data-step]").forEach((b) =>
-      b.addEventListener("click", () => {
-        input.value = String(Math.min(20, Math.max(1, (Number(input.value) || 1) + Number(b.dataset.step))));
-      }),
-    );
-  });
-</script>
+<ProductView product={Astro.props.product} />

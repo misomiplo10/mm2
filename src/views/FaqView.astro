@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { faq } from "../data/faq";
+import { langFromUrl } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const copy = {
+  da: {
+    description: "Svar på de mest stillede spørgsmål om Mister Mellow, THC-A, CBD, levering, lovgivning og forhandling.",
+    title: "Spørg Mister Mellow",
+    introTitle: "Cannabis i Danmark – gjort ordentligt",
+    introKicker: "Ja, du læste rigtigt: cannabis kan godt holde sig inden for reglerne.",
+    intro: [
+      "Hos Mister Mellow får du lab-testede cannabisprodukter, der holder sig under den danske grænse på 0,2 % Δ9-THC. Hver sort er testet af et uafhængigt, EMA-akkrediteret laboratorium, og rapporterne ligger klar til dig.",
+      "Vi går efter høj kvalitet hele vejen. Hver sort er håndplukket hos betroede dyrkere og dyrket med respekt for plantens naturlige egenskaber – med fokus på renhed, smag og ægthed.",
+      "Vores produkter har en naturlig sammensætning af cannabinoider – især THC-A og CBD – som sammen med plantens terpener giver den karakter og kvalitet, Mister Mellow står for.",
+    ],
+    lead: "Herunder finder du svar på det, folk plejer at spørge om. Finder du ikke svaret, så skriv til os – vi svarer gerne.",
+  },
+  en: {
+    description: "Answers to the most common questions about Mister Mellow, THC-A, CBD, delivery, legislation and becoming a retailer.",
+    title: "Ask Mister Mellow",
+    introTitle: "Cannabis in Denmark – done properly",
+    introKicker: "Yes, you read that right: cannabis can stay within the rules.",
+    intro: [
+      "At Mister Mellow you get lab-tested cannabis products that stay below the Danish limit of 0.2% Δ9-THC. Every strain is tested by an independent, EMA-accredited laboratory, and the reports are ready for you.",
+      "We go for high quality all the way. Every strain is hand-picked from trusted growers and grown with respect for the plant's natural properties – with a focus on purity, flavour and authenticity.",
+      "Our products have a natural mix of cannabinoids – especially THC-A and CBD – which, together with the plant's terpenes, give the character and quality Mister Mellow stands for.",
+    ],
+    lead: "Below you'll find answers to what people usually ask. Can't find what you're looking for? Drop us a line – we're happy to help.",
+  },
+}[lang];
+---
+
+<BaseLayout title="FAQ – Mister Mellow" description={copy.description}>
+  <section class="block page-top">
+    <div class="wrap">
+      <SectionTitle title={copy.title} />
+      <div class="faq-intro">
+        <h2>{copy.introTitle}</h2>
+        <p class="faq-intro-kicker">{copy.introKicker}</p>
+        {copy.intro.map((p) => <p>{p}</p>)}
+      </div>
+      <p class="page-lead">{copy.lead}</p>
+      {faq[lang].map((g) => (
+        <div class="faq-group">
+          <h2 class="faq-group-title">{g.title}</h2>
+          <div class="faq">
+            {g.items.map((f) => (
+              <details>
+                <summary>{f.q}<span class="faq-ico" aria-hidden="true">›</span></summary>
+                {f.a.map((t) => <p>{t}</p>)}
+                {f.list && <ul>{f.list.map((li) => <li>{li}</li>)}</ul>}
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

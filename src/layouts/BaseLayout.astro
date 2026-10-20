@@ -4,6 +4,7 @@ import AgeGate from "../components/AgeGate.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import CartDrawer from "../components/CartDrawer.astro";
+import { langFromUrl, langs, translatePath } from "../i18n";
 
 interface Props {
   title: string;
@@ -11,10 +12,11 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const lang = langFromUrl(Astro.url);
 ---
 
 <!doctype html>
-<html lang="da">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,6 +24,7 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0f2167" />
     <link rel="icon" href="/favicon.png" />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={new URL(translatePath(Astro.url.pathname, l), Astro.site ?? Astro.url).href} />)}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

@@ -19,7 +19,7 @@ if (gate && !ageOk) {
       document.body.classList.remove("locked");
     } else {
       const msg = gate.querySelector("p")!;
-      msg.textContent = "Beklager – du skal være fyldt 18 år for at besøge siden.";
+      msg.textContent = msg.dataset.denied ?? "";
       msg.classList.add("age-denied");
       gate.querySelector(".age-actions")?.remove();
     }
@@ -45,7 +45,8 @@ header.querySelectorAll(".nav-links a").forEach((a) =>
   }),
 );
 
-// Product filter (shop page); the active category lives in ?kategori=
+// Product filter (shop page); the active category lives in ?kategori= (Danish) or ?category= (English)
+const catParam = document.documentElement.lang === "en" ? "category" : "kategori";
 const filters = document.querySelectorAll<HTMLButtonElement>(".filter");
 const count = document.getElementById("count");
 const applyFilter = (cat: string) => {
@@ -58,15 +59,15 @@ const applyFilter = (cat: string) => {
   if (count) count.textContent = String(shown);
 };
 if (filters.length) {
-  const initial = new URLSearchParams(location.search).get("kategori");
+  const initial = new URLSearchParams(location.search).get(catParam);
   if (initial && [...filters].some((b) => b.dataset.filter === initial)) applyFilter(initial);
   filters.forEach((btn) =>
     btn.addEventListener("click", () => {
       const cat = btn.dataset.filter!;
       applyFilter(cat);
       const url = new URL(location.href);
-      if (cat === "all") url.searchParams.delete("kategori");
-      else url.searchParams.set("kategori", cat);
+      if (cat === "all") url.searchParams.delete(catParam);
+      else url.searchParams.set(catParam, cat);
       history.replaceState(null, "", url);
     }),
   );

@@ -1,0 +1,122 @@
+---
+import { company } from "../../data/company";
+---
+
+<p>
+  At {company.legalName} we want you to feel safe when you visit us online. Here you can read how we use cookies, which personal
+  data we collect, why we collect it and how we look after it.
+</p>
+
+<h2>1. Introduction</h2>
+<p>When you visit mistermellow.dk, we collect information about your visit in order to:</p>
+<ul>
+  <li>tailor and improve the content of the site</li>
+  <li>make our marketing more relevant to you</li>
+  <li>give you a better and smoother experience</li>
+</ul>
+<p>If you don't want us to collect this information, you can delete or block cookies (see section 4) and stop using the site.</p>
+
+<h2>2. What are cookies?</h2>
+<p>A cookie is a small text file stored on your computer, tablet or phone when you visit a website. Cookies are used to:</p>
+<ul>
+  <li>recognise you when you come back</li>
+  <li>remember your choices and settings</li>
+  <li>collect statistics so we can improve the site</li>
+  <li>show you ads and content that suit you</li>
+</ul>
+<p>A cookie cannot contain viruses or other harmful code. It simply makes it easier for your browser and our site to talk to each other.</p>
+
+<h2>3. How we use cookies</h2>
+<p>We use both our own cookies (first-party) and cookies from partners (third-party) for three purposes:</p>
+<h3>Functional cookies</h3>
+<p>Make the site work and remember your choices – for example that you have confirmed your age and what you have put in your cart.</p>
+<h3>Statistical cookies</h3>
+<p>
+  Help us understand how the site is used so we can improve content and features. For this we may use Google Analytics or a
+  similar tool that shows which pages are visited and for how long.
+</p>
+<h3>Marketing cookies</h3>
+<p>Used by us and our partners to make ads more relevant and to make sure you don't see the same ad over and over.</p>
+
+<h2>4. How to delete or block cookies</h2>
+<p>
+  You can delete or block cookies in your browser at any time. See a guide (in Danish) at
+  <a href="https://minecookies.org/cookiehandtering" target="_blank" rel="noopener">minecookies.org/cookiehandtering</a>.
+</p>
+<p>
+  Please note that the site may not work as intended if you block or delete cookies. You may also see ads that are less relevant
+  and appear more often.
+</p>
+
+<h2>5. What personal data do we collect?</h2>
+<p>When you use the site, we collect two kinds of information:</p>
+<ul>
+  <li>
+    <strong>Information that cannot be traced back to you:</strong> for example your IP address, browser type, technical details
+    about your device, your approximate location and which pages you click on.
+  </li>
+  <li>
+    <strong>Information that can be traced back to you:</strong> the information you give us yourself with your consent – for
+    example when you shop, sign up for a newsletter or contact us. This may be your name, email, phone number, address and payment
+    details.
+  </li>
+</ul>
+
+<h2>6. Security</h2>
+<p>
+  We process your data in line with applicable law, including the General Data Protection Regulation (GDPR) and the Danish Data
+  Protection Act. Your data is treated confidentially, and we have technical and organisational safeguards that protect it from
+  being deleted, altered, disclosed, misused or seen by unauthorised persons.
+</p>
+
+<h2>7. Why do we collect data?</h2>
+<ul>
+  <li>To recognise you and give you a more personal experience on the site.</li>
+  <li>To deliver what you ask for – such as your orders, newsletters and competitions.</li>
+  <li>To make the site better and easier to use, partly based on statistics about how it is used.</li>
+  <li>To show you ads that are relevant to you.</li>
+</ul>
+
+<h2>8. How long do we keep the data?</h2>
+<p>
+  We only keep your personal data for as long as we need it for the purposes above, or for as long as the law requires – for
+  example the Danish Bookkeeping Act. How long depends on the type of information and why we have it. When we no longer need the
+  information, we delete or anonymise it.
+</p>
+
+<h2>9. Who do we share data with?</h2>
+<p>
+  We may share information about how you use the site – for example which ads you see and click on, your approximate location,
+  gender and age group – with our advertising partners, where this information is available. This is done so you see more relevant
+  ads. Read more in section 3.
+</p>
+<p>
+  We also use external suppliers (data processors) to store and process data, for example for hosting, payments and shipping. They
+  may only use the data on our behalf and according to our instructions – never for their own purposes. We only share your name and
+  email if you have explicitly agreed to it. We only use suppliers within the EU or in countries that protect data as well as the EU.
+</p>
+
+<h2>10. Your rights</h2>
+<p>You always have the right to:</p>
+<ul>
+  <li><strong>Access:</strong> find out what information we hold about you.</li>
+  <li><strong>Rectification:</strong> have incorrect or incomplete information corrected.</li>
+  <li><strong>Erasure:</strong> have your information deleted when we no longer have a legitimate need for it.</li>
+  <li><strong>Restriction:</strong> in certain cases, have the processing of your information restricted.</li>
+  <li><strong>Objection:</strong> object to the processing – especially when it comes to direct marketing.</li>
+  <li><strong>Data portability:</strong> receive your information in a structured, commonly used and machine-readable format.</li>
+</ul>
+<p>
+  If you want to use your rights or have questions about how we process your data, email
+  <a href={`mailto:${company.email}`}>{company.email}</a>.
+</p>
+<p>
+  If you are unhappy with how we process your data, you can complain to the Danish Data Protection Agency,
+  <a href="https://www.datatilsynet.dk" target="_blank" rel="noopener">Datatilsynet</a>.
+</p>
+
+<h2>Data controller</h2>
+<p>
+  {company.legalName} · CVR {company.cvr}<br />
+  <a href={`mailto:${company.email}`}>{company.email}</a> · <a href={company.phoneHref}>{company.phone}</a>
+</p>

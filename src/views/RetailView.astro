@@ -1,0 +1,316 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { kr, products } from "../data/products";
+import { company } from "../data/company";
+import { langFromUrl } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const VAT = 1.25;
+const byName = (name: string) => products.find((p) => p.name === name)!;
+const money = (n: number) => kr(n, lang);
+
+const copy = {
+  da: {
+    title: "For forhandlere – Mister Mellow",
+    description: "Bliv forhandler af Mister Mellow. Opstartspakke inkl. display, høj avance, levering på 1–2 dage.",
+    eyebrow: "For forhandlere",
+    h1: ["Et display, der ", "sælger for dig."],
+    lead: "Høj avance, hurtig omsætning og personlig levering. Sæt Mister Mellow ved kassen og lad sortimentet gøre arbejdet.",
+    become: "Bliv forhandler",
+    getCatalog: "Hent katalog 2026 (PDF)",
+    subnavLabel: "Forhandlersektioner",
+    subnav: ["Opstartspakke", "Priser", "Avance", "Vilkår", "Kontakt"],
+    startEyebrow: "Kom i gang",
+    startH: ["Opstartspakke ", "til din butik."],
+    exVat: "EKSKL. MOMS",
+    inclVatPrice: "5.800 kr inkl. moms",
+    starterTicks: ["Sammensæt selv din pakke frit fra hele kollektionen.", "Mister Mellow-display medfølger.", "Vejledende udsalgspriser på alle produkter."],
+    orderStarter: "Bestil opstartspakke",
+    displayAlt: "Mister Mellow display fyldt med pre-rolls og poser",
+    pricesEyebrow: "Produkter & priser",
+    pricesH: ["Kollektionen ", "& priser."],
+    pricesLead: "Indkøbspriser er ekskl. moms, vejl. udsalgspriser inkl. moms.",
+    product: "Produkt",
+    type: "Type",
+    wholesale: "Indkøb ekskl. moms",
+    retail: "Vejl. udsalg inkl. moms",
+    profitEyebrow: "Profit & markedsføring",
+    profitH: ["Sådan tjener ", "din butik penge."],
+    profit: "Fortjeneste pr. stk.*",
+    margin: "Dækningsgrad",
+    calcH: "Regneeksempel: opstartspakke",
+    calc1: ["38 pre-rolls, 12 × Sunday Cruise, 4 × Midnight Rider og 2 lightere for i alt ", "4.640 kr", " ekskl. moms."],
+    calc2: ["Solgt til vejl. udsalgspris giver det en omsætning på ", "10.934 kr", " inkl. moms (8.747 kr ekskl. moms)."],
+    gross: "BRUTTOFORTJENESTE",
+    grossValue: "≈ 4.100 kr",
+    grossNote: "ekskl. moms · +88 % på investeringen",
+    fineprint:
+      "* Fortjeneste er beregnet ekskl. moms ved salg til vejledende udsalgspris. Beregningerne er vejledende; den faktiske fortjeneste afhænger af butikkens salgspris og salg. Lightere er ikke medregnet i omsætningen.",
+    tips: [
+      { ico: "⌂", title: "Placér displayet ved kassen", text: "Synlighed sælger. Displayet fanger blikket, mens kunden betaler." },
+      { ico: "⚡", title: "Pre-rolls er impulskøb", text: "Lav pris og højeste avance (51 %). Hav altid fyldt op foran." },
+      { ico: "◎", title: "Del på sociale medier", text: `Tag ${company.instagram}, så deler vi gerne din butik videre.` },
+      { ico: "ID", title: "Sælg ansvarligt", text: "Kun til personer over 18 år. Spørg altid efter ID." },
+    ],
+    termsEyebrow: "Praktisk info",
+    termsH: ["Vilkår ", "& levering."],
+    orderH: "Bestilling & levering",
+    terms: [
+      ["Minimumsordre", "4.640 kr ekskl. moms"],
+      ["Leveringstid", "1–2 dage fra bestilling"],
+      ["Levering", "Personlig levering"],
+    ],
+    payment: "Betaling",
+    invoice: "Faktura",
+    paymentNote: ["Første ordre betales ved levering", "Herefter netto 7 dage"],
+    reorderH: "Genbestilling",
+    reorder: "Hold øje med lageret i displayet, og genbestil i god tid – så står hylderne aldrig tomme, når kunderne kommer igen.",
+    steps: ["Tæl op, hvad der mangler i displayet.", `Send antal pr. produkt til ${company.email} eller ring.`, "Vi bekræfter ordren og sender faktura."],
+    storageH: "Opbevaring",
+    storage: "Opbevar produkterne køligt, tørt og mørkt i lukket emballage. THC-A omdannes gradvist ved varme og lys, så undgå vinduer og varmekilder. Sælg efter først-ind-først-ud.",
+    responsibleH: "Ansvarligt salg",
+    responsible: "Salg kun til personer over 18 år – spørg altid efter legitimation. Opbevares utilgængeligt for børn.",
+    contactH: ["Kontakt ", "os."],
+    contact: "Vi hjælper gerne med at sammensætte den rette pakke til din butik. Skriv eller ring – vi svarer hurtigt.",
+    mailSubject: "Forhandlerforesp%C3%B8rgsel",
+    mail: "Mail",
+    call: "Ring",
+    marginLabels: ["Pre-roll · 1 g", "Sunday Cruise · 2 g", "Midnight Rider · 6 g"],
+  },
+  en: {
+    title: "For retailers – Mister Mellow",
+    description: "Become a Mister Mellow retailer. Starter pack incl. display, high margins, delivery in 1–2 days.",
+    eyebrow: "For retailers",
+    h1: ["A display that ", "sells for you."],
+    lead: "High margins, fast turnover and personal delivery. Put Mister Mellow by the till and let the range do the work.",
+    become: "Become a retailer",
+    getCatalog: "Download catalogue 2026 (PDF)",
+    subnavLabel: "Retailer sections",
+    subnav: ["Starter pack", "Prices", "Margins", "Terms", "Contact"],
+    startEyebrow: "Get started",
+    startH: ["Starter pack ", "for your store."],
+    exVat: "EXCL. VAT",
+    inclVatPrice: "DKK 5,800 incl. VAT",
+    starterTicks: ["Build your own pack freely from the whole collection.", "Mister Mellow display included.", "Recommended retail prices on all products."],
+    orderStarter: "Order starter pack",
+    displayAlt: "Mister Mellow display filled with pre-rolls and pouches",
+    pricesEyebrow: "Products & prices",
+    pricesH: ["The collection ", "& prices."],
+    pricesLead: "Wholesale prices exclude VAT; recommended retail prices include VAT.",
+    product: "Product",
+    type: "Type",
+    wholesale: "Wholesale excl. VAT",
+    retail: "Rec. retail incl. VAT",
+    profitEyebrow: "Profit & marketing",
+    profitH: ["How your store ", "makes money."],
+    profit: "Profit per unit*",
+    margin: "Margin",
+    calcH: "Example: starter pack",
+    calc1: ["38 pre-rolls, 12 × Sunday Cruise, 4 × Midnight Rider and 2 lighters for a total of ", "DKK 4,640", " excl. VAT."],
+    calc2: ["Sold at recommended retail price, that's revenue of ", "DKK 10,934", " incl. VAT (DKK 8,747 excl. VAT)."],
+    gross: "GROSS PROFIT",
+    grossValue: "≈ DKK 4,100",
+    grossNote: "excl. VAT · +88% on your investment",
+    fineprint:
+      "* Profit is calculated excl. VAT when selling at the recommended retail price. The figures are indicative; actual profit depends on the store's prices and sales. Lighters are not included in the revenue.",
+    tips: [
+      { ico: "⌂", title: "Put the display by the till", text: "Visibility sells. The display catches the eye while the customer pays." },
+      { ico: "⚡", title: "Pre-rolls are impulse buys", text: "Low price and the highest margin (51%). Always keep the front stocked." },
+      { ico: "◎", title: "Share on social media", text: `Tag ${company.instagram} and we'll happily share your store.` },
+      { ico: "ID", title: "Sell responsibly", text: "Adults 18+ only. Always ask for ID." },
+    ],
+    termsEyebrow: "Practical info",
+    termsH: ["Terms ", "& delivery."],
+    orderH: "Ordering & delivery",
+    terms: [
+      ["Minimum order", "DKK 4,640 excl. VAT"],
+      ["Delivery time", "1–2 days from order"],
+      ["Delivery", "Personal delivery"],
+    ],
+    payment: "Payment",
+    invoice: "Invoice",
+    paymentNote: ["First order is paid on delivery", "After that, net 7 days"],
+    reorderH: "Reordering",
+    reorder: "Keep an eye on stock in the display and reorder in good time – so the shelves are never empty when customers come back.",
+    steps: ["Count what's missing from the display.", `Send the quantity per product to ${company.email} or call us.`, "We confirm the order and send an invoice."],
+    storageH: "Storage",
+    storage: "Store the products cool, dry and dark in the sealed packaging. THC-A slowly converts with heat and light, so keep them away from windows and heat sources. Sell first-in, first-out.",
+    responsibleH: "Responsible sales",
+    responsible: "Sell to adults 18+ only – always ask for ID. Keep out of reach of children.",
+    contactH: ["Get in ", "touch."],
+    contact: "We're happy to help put together the right pack for your store. Email or call – we reply quickly.",
+    mailSubject: "Retailer%20enquiry",
+    mail: "Email",
+    call: "Call",
+    marginLabels: ["Pre-roll · 1 g", "Sunday Cruise · 2 g", "Midnight Rider · 6 g"],
+  },
+}[lang];
+
+// Profit excl. VAT when sold at the recommended retail price
+const marginRows = [byName("Daydream"), byName("Sunday Cruise"), byName("Midnight Rider")].map((product, i) => {
+  const net = product.retail! / VAT;
+  const profit = net - product.wholesale!;
+  return { label: copy.marginLabels[i], wholesale: product.wholesale!, retail: product.retail!, profit: Math.round(profit), pct: Math.round((profit / net) * 100) };
+});
+
+const priceRows = products
+  .filter((p) => p.wholesale !== undefined)
+  .map((p) => ({
+    name: p.size ? `${p.name} · ${p.size}` : p.name,
+    type: [p.format[lang], p.strain].filter(Boolean).join(" · "),
+    wholesale: p.wholesale!,
+    retail: p.retail,
+  }));
+
+const subnavIds = ["#opstart", "#priser", "#avance", "#vilkaar", "#kontakt"];
+const pctSuffix = lang === "en" ? "%" : " %";
+---
+
+<BaseLayout title={copy.title} description={copy.description}>
+  <section class="page-hero">
+    <img class="page-hero-sun" src="/img/logo-navy.png" alt="" aria-hidden="true" />
+    <div class="wrap">
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h1 class="h2">{copy.h1[0]}<em>{copy.h1[1]}</em></h1>
+      <p class="lead">{copy.lead}</p>
+      <div class="hero-actions">
+        <a class="btn btn-orange" href="#kontakt">{copy.become}</a>
+        <a class="btn btn-ghost" href={company.catalog} target="_blank" rel="noopener">{copy.getCatalog}</a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="subnav" aria-label={copy.subnavLabel}>
+    <div class="wrap">
+      {copy.subnav.map((label, i) => <a href={subnavIds[i]}>{label}</a>)}
+    </div>
+  </nav>
+
+  <section id="opstart">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">{copy.startEyebrow}</p>
+        <h2 class="h2">{copy.startH[0]}<em>{copy.startH[1]}</em></h2>
+      </div>
+      <div class="starter reveal">
+        <div>
+          <div class="big-price">{money(4640)}<small>{copy.exVat}</small></div>
+          <p class="sub">{copy.inclVatPrice}</p>
+          <ul class="ticks">
+            {copy.starterTicks.map((tick) => <li>{tick}</li>)}
+          </ul>
+          <a class="btn btn-orange" href="#kontakt">{copy.orderStarter}</a>
+        </div>
+        <img src="/img/display.jpg" alt={copy.displayAlt} loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section id="priser" style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">{copy.pricesEyebrow}</p>
+        <h2 class="h2">{copy.pricesH[0]}<em>{copy.pricesH[1]}</em></h2>
+        <p class="lead" style="margin-top: 16px">{copy.pricesLead}</p>
+      </div>
+      <div class="table-card reveal">
+        <table class="margin-table">
+          <thead><tr><th>{copy.product}</th><th>{copy.type}</th><th>{copy.wholesale}</th><th>{copy.retail}</th></tr></thead>
+          <tbody>
+            {priceRows.map((r) => (
+              <tr><td>{r.name}</td><td>{r.type}</td><td>{money(r.wholesale)}</td><td>{r.retail ? money(r.retail) : "–"}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="avance" style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">{copy.profitEyebrow}</p>
+        <h2 class="h2">{copy.profitH[0]}<em>{copy.profitH[1]}</em></h2>
+      </div>
+      <div class="table-card reveal">
+        <table class="margin-table">
+          <thead><tr><th>{copy.product}</th><th>{copy.wholesale}</th><th>{copy.retail}</th><th>{copy.profit}</th><th>{copy.margin}</th></tr></thead>
+          <tbody>
+            {marginRows.map((r) => (
+              <tr><td>{r.label}</td><td>{money(r.wholesale)}</td><td>{money(r.retail)}</td><td><b>{money(r.profit)}</b></td><td class="pct">{r.pct}{pctSuffix}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="calc reveal">
+        <div>
+          <h3>{copy.calcH}</h3>
+          <p>{copy.calc1[0]}<b>{copy.calc1[1]}</b>{copy.calc1[2]}</p>
+          <p>{copy.calc2[0]}<b>{copy.calc2[1]}</b>{copy.calc2[2]}</p>
+        </div>
+        <div class="calc-result">
+          <span class="tag">{copy.gross}</span>
+          <b>{copy.grossValue}</b>
+          <span>{copy.grossNote}</span>
+        </div>
+      </div>
+      <p class="fineprint">{copy.fineprint}</p>
+
+      <div class="cards-4" style="margin-top: 40px">
+        {copy.tips.map((tip) => (
+          <div class="card tip reveal"><div class="ico">{tip.ico}</div><h3>{tip.title}</h3><p>{tip.text}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="vilkaar" style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">{copy.termsEyebrow}</p>
+        <h2 class="h2">{copy.termsH[0]}<em>{copy.termsH[1]}</em></h2>
+      </div>
+      <div class="cards-2">
+        <div class="card reveal">
+          <h3>{copy.orderH}</h3>
+          <table class="terms">
+            {copy.terms.map(([k, v]) => <tr><td>{k}</td><td>{v}</td></tr>)}
+            <tr><td>{copy.payment}</td><td>{copy.invoice}<small>{copy.paymentNote[0]}<br />{copy.paymentNote[1]}</small></td></tr>
+          </table>
+        </div>
+        <div class="card reveal">
+          <h3>{copy.reorderH}</h3>
+          <p>{copy.reorder}</p>
+          <ol class="steps">
+            {copy.steps.map((step) => <li>{step}</li>)}
+          </ol>
+        </div>
+        <div class="card lavender reveal">
+          <h3>{copy.storageH}</h3>
+          <p>{copy.storage}</p>
+        </div>
+        <div class="card peach reveal">
+          <h3>{copy.responsibleH}</h3>
+          <p>{copy.responsible}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt" style="padding-top: 0">
+    <div class="wrap">
+      <div class="contact reveal">
+        <div>
+          <h2 class="h2">{copy.contactH[0]}<em>{copy.contactH[1]}</em></h2>
+          <p>{copy.contact}</p>
+        </div>
+        <div class="contact-lines">
+          <a href={`mailto:${company.email}?subject=${copy.mailSubject}`}>{company.email} <span>{copy.mail}</span></a>
+          <a href={company.phoneHref}>{company.phone} <span>{copy.call}</span></a>
+          <a href={company.instagramUrl} target="_blank" rel="noopener">{company.instagram} <span>Instagram</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

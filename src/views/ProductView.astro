@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import ProductVisual from "../components/ProductVisual.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import ThcaInfo from "../components/ThcaInfo.astro";
+import { cartData, categoryLabel, categoryUrl, isBuyable, kr, metaLine, products, type Product } from "../data/products";
+import { labName } from "../data/lab";
+import { href, langFromUrl, ui } from "../i18n";
+
+interface Props {
+  product: Product;
+}
+
+const { product: p } = Astro.props;
+const lang = langFromUrl(Astro.url);
+const t = ui[lang];
+const copy = {
+  da: {
+    crumbs: "Brødkrumme",
+    inclVat: "inkl. moms",
+    size: "Størrelse",
+    qty: "Antal",
+    fewer: "Færre",
+    more: "Flere",
+    adults: "Kun til personer over 18 år.",
+    madeToOrder: "Fremstilles kun på bestilling og kan ikke købes i webshoppen.",
+    soon: "Produktet kommer snart i webshoppen. Spørg efter det i din butik.",
+    findInStore: "Find i butik",
+    usps: [`Lab-testet af ${labName.da}`, "Medical grade · høj styrke", "Gode vibes inkluderet"],
+    storage: "Opbevaring",
+    storageText: "Opbevar køligt, tørt og mørkt i lukket emballage. THC-A omdannes gradvist ved varme og lys, så undgå vinduer og varmekilder.",
+    labText: `Alt testes af ${labName.da}, før det kommer i posen.`,
+    seeReports: "Se rapporterne",
+    responsible: "Ansvarligt brug",
+    responsibleText: "Kun til personer over 18 år. Opbevares utilgængeligt for børn.",
+    related: "Du vil måske også kunne lide",
+  },
+  en: {
+    crumbs: "Breadcrumb",
+    inclVat: "incl. VAT",
+    size: "Size",
+    qty: "Quantity",
+    fewer: "Fewer",
+    more: "More",
+    adults: "For adults 18+ only.",
+    madeToOrder: "Made to order only and not available in the web shop.",
+    soon: "Coming soon to the web shop. Ask for it in your local store.",
+    findInStore: "Find in store",
+    usps: [`Lab-tested by ${labName.en}`, "Medical grade · high potency", "Good vibes included"],
+    storage: "Storage",
+    storageText: "Store cool, dry and dark in the sealed packaging. THC-A slowly converts with heat and light, so keep it away from windows and heat sources.",
+    labText: `Everything is tested by ${labName.en} before it goes in the pouch.`,
+    seeReports: "See the reports",
+    responsible: "Responsible use",
+    responsibleText: "For adults 18+ only. Keep out of reach of children.",
+    related: "You might also like",
+  },
+}[lang];
+const buyable = isBuyable(p);
+const sameCategory = products.filter((x) => x.slug !== p.slug && x.category === p.category);
+const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug && x.category !== p.category && x.featured)].slice(0, 4);
+---
+
+<BaseLayout title={`${p.name} – Mister Mellow`} description={`${p.name}: ${p.description[lang]}`}>
+  <section class="block page-top">
+    <div class="wrap">
+      <nav class="crumbs" aria-label={copy.crumbs}>
+        <a href={href(lang, "shop")}>Shop</a><span>/</span><a href={categoryUrl(p.category, lang)}>{categoryLabel(p.category, lang)}</a><span>/</span><span>{p.name}</span>
+      </nav>
+
+      <div class="pdp">
+        <div class={`pdp-media bg-${p.tint}`}>
+          {p.onRequest && <span class="pcard-flag">{t.onRequest}</span>}
+          <ProductVisual visual={p.visual} />
+        </div>
+
+        <div class="pdp-info">
+          <span class="pcard-brand">Mister Mellow</span>
+          <h1 class="pdp-title">{p.name}</h1>
+          <span class="pcard-meta">{metaLine(p, lang)}</span>
+          <p class="pdp-desc">{p.description[lang]}</p>
+
+          {buyable ? (
+            <div class="buy-box">
+              <div class="pdp-price">{kr(p.retail!, lang)} <small>{copy.inclVat}</small></div>
+              {p.size && <div class="pdp-size"><span>{copy.size}</span><span class="chip">{p.size}</span></div>}
+              <div class="buy-row">
+                <label class="qty">
+                  <span class="sr-only">{copy.qty}</span>
+                  <button type="button" data-step="-1" aria-label={copy.fewer}>−</button>
+                  <input type="number" min="1" max="20" value="1" inputmode="numeric" data-qty-input />
+                  <button type="button" data-step="1" aria-label={copy.more}>+</button>
+                </label>
+                <button class="btn btn-orange btn-lg" data-add={cartData(p)}>{t.addToCart}</button>
+              </div>
+              <p class="pdp-note">{copy.adults}</p>
+            </div>
+          ) : (
+            <div class="buy-box">
+              <div class="pdp-price muted">{p.onRequest ? t.priceOnRequest : t.priceSoon}</div>
+              <p class="pdp-note">{p.onRequest ? copy.madeToOrder : copy.soon}</p>
+              <a class="btn btn-navy" href={href(lang, "find")}>{copy.findInStore}</a>
+            </div>
+          )}
+
+          <ul class="pdp-usps">
+            {copy.usps.map((u) => <li>{u}</li>)}
+          </ul>
+
+          <div class="faq pdp-acc">
+            <details>
+              <summary>{copy.storage}<span class="faq-ico" aria-hidden="true">›</span></summary>
+              <p>{copy.storageText}</p>
+            </details>
+            <details>
+              <summary>{t.labReports}<span class="faq-ico" aria-hidden="true">›</span></summary>
+              <p>{copy.labText} <a href={href(lang, "lab")}>{copy.seeReports}</a>.</p>
+            </details>
+            <details>
+              <summary>{copy.responsible}<span class="faq-ico" aria-hidden="true">›</span></summary>
+              <p>{copy.responsibleText}</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {p.category !== "accessory" && <ThcaInfo />}
+
+  {related.length > 0 && (
+    <section class="block">
+      <div class="wrap">
+        <SectionTitle title={copy.related} link={{ href: href(lang, "shop"), label: t.seeAll }} />
+        <div class="rail product-rail" id="related">
+          {related.map((r) => <ProductCard product={r} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<script>
+  // Quantity stepper next to "Læg i kurv"
+  document.querySelectorAll<HTMLElement>(".qty").forEach((q) => {
+    const input = q.querySelector<HTMLInputElement>("input")!;
+    q.querySelectorAll<HTMLButtonElement>("[data-step]").forEach((b) =>
+      b.addEventListener("click", () => {
+        input.value = String(Math.min(20, Math.max(1, (Number(input.value) || 1) + Number(b.dataset.step))));
+      }),
+    );
+  });
+</script>

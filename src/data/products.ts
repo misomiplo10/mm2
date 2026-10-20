@@ -1,3 +1,5 @@
+import { categoryHref, kr as formatKr, productHref, type L, type Lang } from "../i18n";
+
 export type Category = "flower" | "preroll" | "hash" | "accessory";
 export type Tint = "lavender" | "peach" | "pink" | "butter";
 
@@ -13,10 +15,10 @@ export interface Product {
   slug: string;
   name: string;
   category: Category;
-  format: string;
+  format: L;
   strain?: "Indica" | "Sativa" | "Hybrid";
   size?: string;
-  description: string;
+  description: L;
   /** Indkøbspris ekskl. moms, kr */
   wholesale?: number;
   /** Vejledende udsalgspris inkl. moms, kr */
@@ -29,16 +31,16 @@ export interface Product {
 
 export interface CategoryInfo {
   id: Category;
-  label: string;
+  label: L;
   tint: Tint;
   visual: Visual;
 }
 
 export const categories: CategoryInfo[] = [
-  { id: "flower", label: "Flower", tint: "lavender", visual: { kind: "photo", src: "/img/flower-trio.jpg", alt: "" } },
-  { id: "preroll", label: "Pre-rolls", tint: "pink", visual: { kind: "packshot", src: "/img/tube-daydream.webp", alt: "" } },
-  { id: "hash", label: "Hash", tint: "peach", visual: { kind: "photo", src: "/img/fresh-frozen.jpg", alt: "" } },
-  { id: "accessory", label: "Tilbehør", tint: "peach", visual: { kind: "packshot", src: "/img/lighter.webp", alt: "" } },
+  { id: "flower", label: { da: "Flower", en: "Flower" }, tint: "lavender", visual: { kind: "photo", src: "/img/flower-trio.jpg", alt: "" } },
+  { id: "preroll", label: { da: "Pre-rolls", en: "Pre-rolls" }, tint: "pink", visual: { kind: "packshot", src: "/img/tube-daydream.webp", alt: "" } },
+  { id: "hash", label: { da: "Hash", en: "Hash" }, tint: "peach", visual: { kind: "photo", src: "/img/fresh-frozen.jpg", alt: "" } },
+  { id: "accessory", label: { da: "Tilbehør", en: "Accessories" }, tint: "peach", visual: { kind: "packshot", src: "/img/lighter.webp", alt: "" } },
 ];
 
 export const products: Product[] = [
@@ -46,10 +48,13 @@ export const products: Product[] = [
     slug: "midnight-rider",
     name: "Midnight Rider",
     category: "flower",
-    format: "Pose",
+    format: { da: "Pose", en: "Pouch" },
     strain: "Indica",
     size: "6 g",
-    description: "Vores signaturblanding til aftenen – blød og mellow til natteravnen i dig.",
+    description: {
+      da: "Vores signaturblanding til aftenen – blød og mellow til natteravnen i dig.",
+      en: "Our signature evening blend – smooth and mellow for the night owl in you.",
+    },
     wholesale: 345,
     retail: 769,
     featured: true,
@@ -60,10 +65,13 @@ export const products: Product[] = [
     slug: "sunday-cruise",
     name: "Sunday Cruise",
     category: "flower",
-    format: "Pose",
+    format: { da: "Pose", en: "Pouch" },
     strain: "Sativa",
     size: "2 g",
-    description: "En frisk og opløftende blanding til dovne eftermiddage og lange weekender.",
+    description: {
+      da: "En frisk og opløftende blanding til dovne eftermiddage og lange weekender.",
+      en: "A fresh, uplifting blend for lazy afternoons and long weekends.",
+    },
     wholesale: 115,
     retail: 259,
     featured: true,
@@ -74,10 +82,13 @@ export const products: Product[] = [
     slug: "daydream",
     name: "Daydream",
     category: "preroll",
-    format: "Pre-roll",
+    format: { da: "Pre-roll", en: "Pre-roll" },
     strain: "Hybrid",
     size: "1 g",
-    description: "Håndrullet med vores Daydream-blanding – blød og afslappende til et stille øjeblik.",
+    description: {
+      da: "Håndrullet med vores Daydream-blanding – blød og afslappende til et stille øjeblik.",
+      en: "Hand-rolled with our Daydream blend – smooth and relaxing for a quiet moment.",
+    },
     wholesale: 49,
     retail: 125,
     featured: true,
@@ -88,10 +99,13 @@ export const products: Product[] = [
     slug: "sunrise",
     name: "Sunrise",
     category: "preroll",
-    format: "Pre-roll",
+    format: { da: "Pre-roll", en: "Pre-roll" },
     strain: "Sativa",
     size: "1 g",
-    description: "Start dagen på den mellow måde. Frisk og opløftende – i dit eget tempo.",
+    description: {
+      da: "Start dagen på den mellow måde. Frisk og opløftende – i dit eget tempo.",
+      en: "Start the day the mellow way. Fresh and uplifting – at your own pace.",
+    },
     wholesale: 49,
     retail: 125,
     featured: true,
@@ -102,9 +116,12 @@ export const products: Product[] = [
     slug: "fresh-frozen",
     name: "Fresh Frozen",
     category: "hash",
-    format: "Hash",
+    format: { da: "Hash", en: "Hash" },
     size: "2 g",
-    description: "Fresh Frozen hash infused med THC-A – blød, aromatisk og fuld af karakter.",
+    description: {
+      da: "Fresh Frozen hash infused med THC-A – blød, aromatisk og fuld af karakter.",
+      en: "Fresh Frozen hash infused with THC-A – soft, aromatic and full of character.",
+    },
     wholesale: 119,
     featured: true,
     tint: "peach",
@@ -114,9 +131,12 @@ export const products: Product[] = [
     slug: "dry-sift",
     name: "Dry Sift",
     category: "hash",
-    format: "Hash",
+    format: { da: "Hash", en: "Hash" },
     size: "2 g",
-    description: "Klassisk Dry Sift hash med THC-A – ren, tør og aromatisk.",
+    description: {
+      da: "Klassisk Dry Sift hash med THC-A – ren, tør og aromatisk.",
+      en: "Classic Dry Sift hash with THC-A – clean, dry and aromatic.",
+    },
     wholesale: 112,
     featured: true,
     tint: "lavender",
@@ -126,8 +146,11 @@ export const products: Product[] = [
     slug: "mister-mellow-lighter",
     name: "Mister Mellow Lighter",
     category: "accessory",
-    format: "Tilbehør",
-    description: "Knaldorange BIC-lighter med Mister Mellow-logoet på begge sider.",
+    format: { da: "Tilbehør", en: "Accessory" },
+    description: {
+      da: "Knaldorange BIC-lighter med Mister Mellow-logoet på begge sider.",
+      en: "Bright orange BIC lighter with the Mister Mellow logo on both sides.",
+    },
     wholesale: 9,
     tint: "peach",
     visual: { kind: "packshot", src: "/img/lighter.webp", alt: "Mister Mellow lighter" },
@@ -137,14 +160,15 @@ export const products: Product[] = [
 /** A consumer can buy it online once it has a retail price and isn't made to order. */
 export const isBuyable = (p: Product) => p.retail !== undefined && !p.onRequest;
 
-export const metaLine = (p: Product) =>
-  [p.category === "accessory" ? null : "THC-A", p.format, p.strain, p.size].filter(Boolean).join(" · ");
+export const metaLine = (p: Product, lang: Lang) =>
+  [p.category === "accessory" ? null : "THC-A", p.format[lang], p.strain, p.size].filter(Boolean).join(" · ");
 
-export const kr = (n: number) => `${n.toLocaleString("da-DK")} kr`;
+export const kr = formatKr;
 
-export const productUrl = (p: Product) => `/shop/${p.slug}`;
+export const productUrl = (p: Product, lang: Lang) => productHref(lang, p.slug);
 
-export const categoryLabel = (c: Category) => categories.find((x) => x.id === c)?.label ?? c;
+export const categoryLabel = (c: Category, lang: Lang) => categories.find((x) => x.id === c)?.label[lang] ?? c;
+export const categoryUrl = (c: Category, lang: Lang) => categoryHref(lang, c);
 
 /** What the cart needs to show a line; serialised onto "Læg i kurv" buttons. */
 export const cartData = (p: Product) =>
@@ -154,5 +178,5 @@ export const cartData = (p: Product) =>
     price: p.retail,
     size: p.size,
     tint: p.tint,
-    thumb: p.visual.kind === "photo" ? p.visual.src : "/img/logo-navy.png",
+    thumb: p.visual.kind === "photo" || p.visual.kind === "packshot" ? p.visual.src : "/img/logo-navy.png",
   });

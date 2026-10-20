@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { labName, labResults } from "../data/lab";
+import { langFromUrl, pct, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const copy = {
+  da: {
+    description: `Se lab-resultaterne for Mister Mellow. Alt er testet af ${labName.da}, før det kommer i posen.`,
+    title: "Fuld gennemsigtighed.",
+    lead: "Alt, hvad der kommer i posen, er testet af et uafhængigt laboratorium først. Se tallene selv – eller hent de fulde rapporter.",
+    ema: "akkrediteret laboratorium",
+    gmp: "certificeret analyse",
+    strain: "Sort",
+    analysed: "Analyseret af",
+  },
+  en: {
+    description: `See the lab results for Mister Mellow. Everything is tested by ${labName.en} before it goes in the pouch.`,
+    title: "Full transparency.",
+    lead: "Everything that goes in the pouch is tested by an independent lab first. Check the numbers yourself – or download the full reports.",
+    ema: "accredited laboratory",
+    gmp: "certified analysis",
+    strain: "Strain",
+    analysed: "Analysed by",
+  },
+}[lang];
+const t = ui[lang];
+---
+
+<BaseLayout title={`${t.labReports} – Mister Mellow`} description={copy.description}>
+  <section class="block page-top">
+    <div class="wrap">
+      <SectionTitle title={t.labReports} />
+      <div class="lab-panel">
+        <div>
+          <h3 class="panel-title">{copy.title}</h3>
+          <p class="panel-lead">{copy.lead}</p>
+          <div class="lab-badges">
+            <div class="badge"><b>EMA</b><span>{copy.ema}</span></div>
+            <div class="badge"><b>GMP</b><span>{copy.gmp}</span></div>
+          </div>
+        </div>
+        <div class="lab-card">
+          <table class="lab-table">
+            <thead><tr><th>{copy.strain}</th><th>THC-A</th><th>Δ9-THC</th><th>CBD</th></tr></thead>
+            <tbody>
+              {labResults.map((r) => (
+                <tr><td>{r.strain}</td><td class="hi">{pct(r.thca, lang)}</td><td>{pct(r.d9thc, lang)}</td><td>{pct(r.cbd, lang)}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="lab-note">{copy.analysed} {labName[lang]}.</p>
+          <div class="lab-dl">
+            {labResults.map((r) => (
+              <a class="btn btn-orange btn-sm" href={r.coa} target="_blank" rel="noopener">{r.strain} COA ↓</a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

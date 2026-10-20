@@ -1445,3 +1445,23 @@ body.locked { overflow: hidden; }
 }
 @media (max-width: 900px) { .nav-pointer { display: none; } }
 @media (prefers-reduced-motion: reduce) { .nav-pointer { animation: none; } }
+
+/* DA/EN language switch in the header */
+.lang-switch {
+  display: flex;
+  border: 1px solid rgba(253, 243, 228, 0.45);
+  border-radius: 999px;
+  padding: 2px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.lang-switch a {
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.75;
+}
+.lang-switch a:hover { opacity: 1; }
+.lang-switch a[aria-current="true"] { background: var(--cream); color: var(--navy); opacity: 1; }

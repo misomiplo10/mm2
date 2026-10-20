@@ -1,5 +1,9 @@
 ---
 import { company } from "../data/company";
+import { href, langFromUrl, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const t = ui[lang];
 ---
 
 <footer class="site-footer">
@@ -7,28 +11,28 @@ import { company } from "../data/company";
     <div class="footer-grid">
       <div>
         <img src="/img/logo-orange.png" alt="Mister Mellow" />
-        <p>Medical grade Cali-flower og hash med THC-A. Lab-testet, høj styrke, gode vibes.</p>
+        <p>{t.footerTagline}</p>
       </div>
       <div>
-        <h4>Navigation</h4>
+        <h4>{t.navigation}</h4>
         <ul>
-          <li><a href="/shop">Shop</a></li>
-          <li><a href="/lab-rapporter">Lab-rapporter</a></li>
-          <li><a href="/om-os">Om os</a></li>
-          <li><a href="/faq">FAQ</a></li>
-          <li><a href="/find-os">Find os</a></li>
+          <li><a href={href(lang, "shop")}>Shop</a></li>
+          <li><a href={href(lang, "lab")}>{t.labReports}</a></li>
+          <li><a href={href(lang, "about")}>{t.about}</a></li>
+          <li><a href={href(lang, "faq")}>{t.faq}</a></li>
+          <li><a href={href(lang, "find")}>{t.findUs}</a></li>
         </ul>
       </div>
       <div>
-        <h4>Forhandlere</h4>
+        <h4>{t.retailers}</h4>
         <ul>
-          <li><a href="/forhandler">Bliv forhandler</a></li>
-          <li><a href="/forhandler#vilkaar">Vilkår & levering</a></li>
-          <li><a href={company.catalog} target="_blank" rel="noopener">Katalog 2026 (PDF)</a></li>
+          <li><a href={href(lang, "retail")}>{t.becomeRetailer}</a></li>
+          <li><a href={`${href(lang, "retail")}#vilkaar`}>{t.termsDelivery}</a></li>
+          <li><a href={company.catalog} target="_blank" rel="noopener">{t.catalog}</a></li>
         </ul>
       </div>
       <div>
-        <h4>Kontakt</h4>
+        <h4>{t.contact}</h4>
         <ul>
           <li><a href={company.phoneHref}>{company.phone}</a></li>
           <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
@@ -38,17 +42,17 @@ import { company } from "../data/company";
     </div>
     <div class="footer-disclaimer">
       <div>
-        <h4>Vores politik</h4>
-        <p>Hos Mister Mellow får du lab-testede produkter i høj kvalitet, ærlige tal på hver pakke og personlig service – fra os til dig.</p>
+        <h4>{t.ourPolicy}</h4>
+        <p>{t.ourPolicyText}</p>
       </div>
       <div>
-        <h4>Disclaimer</h4>
-        <p>Mister Mellows produkter er naturlige cannabisprodukter og skal håndteres med omtanke. De indeholder ikke tobak og er ikke beregnet til at forebygge, behandle eller helbrede sygdom. Kun til personer over 18 år. Opbevares utilgængeligt for børn.</p>
+        <h4>{t.disclaimer}</h4>
+        <p>{t.disclaimerText}</p>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© {new Date().getFullYear()} {company.legalName} · CVR {company.cvr} · <a href="/privatlivspolitik">Cookies og privatlivspolitik</a></span>
-      <span>Kun 18+ · Opbevares utilgængeligt for børn</span>
+      <span>© {new Date().getFullYear()} {company.legalName} · CVR {company.cvr} · <a href={href(lang, "privacy")}>{t.privacy}</a></span>
+      <span>{t.adultsOnly}</span>
     </div>
   </div>
 </footer>

@@ -1,0 +1,161 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SunPalette from "../components/SunPalette.astro";
+import ProductCard from "../components/ProductCard.astro";
+import ProductVisual from "../components/ProductVisual.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { categories, products } from "../data/products";
+import { company } from "../data/company";
+import { categoryHref, href, langFromUrl, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const featured = products.filter((p) => p.featured);
+
+const copy = {
+  da: {
+    title: "Mister Mellow – Not your average hash",
+    description: "Mister Mellow er et dansk brand med medical grade Cali-flower og hash med THC-A. Lab-testet, høj styrke, gode vibes. Kun 18+.",
+    sub: "Medical grade THC-A – lab-testet, høj styrke, gode vibes.",
+    shopNow: "Shop nu",
+    findMellow: "Find din mellow",
+    goodStuff: "Det gode stuff",
+    favourites: "Mister Mellows favoritter",
+    prev: "Forrige",
+    next: "Næste",
+    meet: "Mød Mister Mellow",
+    storyTitle: "Lidt highness i hver pakke.",
+    story: "Mister Mellow er et dansk brand med én mission: medical grade Cali-flower og hash – Fresh Frozen og Dry Sift – med THC-A.",
+    readMore: "Læs mere om os",
+    igKicker: "Mister Mellow på Instagram",
+    igTitle: "Få nye drops først.",
+    igText: "Følg med for nye sorter, butikker og events – og tag os, når du finder din mellow.",
+    follow: "Følg",
+    promos: [
+      { eyebrow: "Lab-testet", big: "25,12 %", small: "THC-A · Amnesia Haze", cta: "Se rapporterne" },
+      { eyebrow: "Pre-rolls", big: "1 g", small: "Daydream & Sunrise · håndrullet", cta: "Se pre-rolls" },
+      { eyebrow: "For butikker", big: "51 %", small: "dækningsgrad på pre-rolls", cta: "Bliv forhandler" },
+    ],
+  },
+  en: {
+    title: "Mister Mellow – Not your average hash",
+    description: "Mister Mellow is a Danish brand of medical grade Cali flower and hash with THC-A. Lab-tested, high potency, good vibes. 18+ only.",
+    sub: "Medical grade THC-A – lab-tested, high potency, good vibes.",
+    shopNow: "Shop now",
+    findMellow: "Find your mellow",
+    goodStuff: "The good stuff",
+    favourites: "Mister Mellow's favourites",
+    prev: "Previous",
+    next: "Next",
+    meet: "Meet Mister Mellow",
+    storyTitle: "A little high in every pack.",
+    story: "Mister Mellow is a Danish brand on one mission: medical grade Cali flower and hash – Fresh Frozen and Dry Sift – with THC-A.",
+    readMore: "More about us",
+    igKicker: "Mister Mellow on Instagram",
+    igTitle: "Get new drops first.",
+    igText: "Follow along for new strains, stores and events – and tag us when you find your mellow.",
+    follow: "Follow",
+    promos: [
+      { eyebrow: "Lab-tested", big: "25.12%", small: "THC-A · Amnesia Haze", cta: "See the reports" },
+      { eyebrow: "Pre-rolls", big: "1 g", small: "Daydream & Sunrise · hand-rolled", cta: "See pre-rolls" },
+      { eyebrow: "For stores", big: "51%", small: "margin on pre-rolls", cta: "Become a retailer" },
+    ],
+  },
+}[lang];
+const t = ui[lang];
+
+const promoLinks = [href(lang, "lab"), categoryHref(lang, "preroll"), href(lang, "retail")];
+const promoTones = ["navy", "pink", "orange"];
+---
+
+<BaseLayout title={copy.title} description={copy.description}>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">Mister Mellow · Cali flower & hash</p>
+        <h1 class="hero-title">Not your <span class="o">average</span> hash.</h1>
+        <p class="hero-sub">{copy.sub}</p>
+        <div class="hero-actions">
+          <a class="btn btn-navy peekaboo" href={href(lang, "shop")}>{copy.shopNow}<span class="peekaboo-clip" aria-hidden="true"><img src="/img/mascot-peeking.webp" alt="" width="480" height="293" /></span></a>
+          <a class="btn btn-ghost" href={href(lang, "find")}>{t.findUs}</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-ring"></div>
+        <img class="hero-bud" src="/img/bud-hero.webp" alt="" width="490" height="811" />
+        <div class="float float-l"><img class="hero-tube" src="/img/tube-daydream.webp" alt="" /></div>
+        <div class="float float-r"><img class="hero-tube" src="/img/tube-sunrise.webp" alt="" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <SectionTitle title={copy.findMellow} link={{ href: href(lang, "shop"), label: t.seeAll }} mascot="lounging" />
+      <div class="rail cat-rail">
+        {categories.map((c) => (
+          <a class="cat-tile" href={categoryHref(lang, c.id)}>
+            <div class={`cat-media bg-${c.tint}`}><ProductVisual visual={c.visual} /></div>
+            <span>{c.label[lang]}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <SectionTitle title={copy.goodStuff} mascot="peeking" />
+      <div class="promos">
+        {copy.promos.map((p, i) => (
+          <a class={`promo promo-${promoTones[i]}`} href={promoLinks[i]}>
+            <span class="promo-eyebrow">{p.eyebrow}</span>
+            <span class="promo-big">{p.big}</span>
+            <span class="promo-small">{p.small}</span>
+            <span class="promo-cta">{p.cta} →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <SectionTitle title={copy.favourites} link={{ href: href(lang, "shop"), label: t.seeAll }} />
+      <div class="rail-wrap">
+        <div class="rail product-rail" id="picks">
+          {featured.map((p) => <ProductCard product={p} />)}
+        </div>
+        <div class="rail-nav">
+          <button class="rail-btn" data-rail="picks" data-dir="-1" aria-label={copy.prev}>‹</button>
+          <button class="rail-btn" data-rail="picks" data-dir="1" aria-label={copy.next}>›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="wrap story-inner">
+      <div class="story-copy">
+        <p class="kicker">{copy.meet}</p>
+        <h2 class="story-title">{copy.storyTitle}</h2>
+        <p>{copy.story}</p>
+        <div class="hero-actions">
+          <a class="btn btn-orange" href={href(lang, "about")}>{copy.readMore}</a>
+          <a class="btn btn-ghost-light" href={href(lang, "shop")}>{t.toShop}</a>
+        </div>
+      </div>
+      <SunPalette />
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap cta-inner">
+      <div>
+        <p class="kicker">{copy.igKicker}</p>
+        <h2>{copy.igTitle}</h2>
+        <p>{copy.igText}</p>
+      </div>
+      <a class="btn btn-navy btn-lg" href={company.instagramUrl} target="_blank" rel="noopener">{copy.follow} {company.instagram}</a>
+    </div>
+  </section>
+</BaseLayout>

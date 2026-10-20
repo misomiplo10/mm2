@@ -1,30 +1,34 @@
 ---
 import { categories } from "../data/products";
 import { company } from "../data/company";
+import { categoryHref, href, langFromUrl, langs, translatePath, ui, type Route } from "../i18n";
 
-const links = [
-  { href: "/lab-rapporter", label: "Lab-rapporter" },
-  { href: "/om-os", label: "Om os" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/find-os", label: "Find os" },
+const lang = langFromUrl(Astro.url);
+const t = ui[lang];
+const links: { route: Route; label: string }[] = [
+  { route: "lab", label: t.labReports },
+  { route: "about", label: t.about },
+  { route: "faq", label: t.faq },
+  { route: "find", label: t.findUs },
 ];
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
-const current = (href: string) => (path === href ? "page" : undefined);
+const current = (route: Route) => (path === (href(lang, route).replace(/\/$/, "") || "/") ? "page" : undefined);
+const shopPath = href(lang, "shop");
 ---
 
 <header class="site-header">
-  <nav class="nav wrap" aria-label="Hovedmenu">
-    <a class="brand" href="/" aria-label="Mister Mellow forside"><img src="/img/logo-orange.png" alt="Mister Mellow" /></a>
+  <nav class="nav wrap" aria-label={t.mainMenu}>
+    <a class="brand" href={href(lang, "home")} aria-label={t.skipHome}><img src="/img/logo-orange.png" alt="Mister Mellow" /></a>
     <ul class="nav-links">
       <li class="has-menu">
-        <a href="/shop" aria-current={path.startsWith("/shop") ? "page" : undefined}>Shop <span class="caret" aria-hidden="true">▾</span></a>
+        <a href={shopPath} aria-current={path.startsWith(shopPath) ? "page" : undefined}>Shop <span class="caret" aria-hidden="true">▾</span></a>
         <ul class="submenu">
-          {categories.map((c) => <li><a href={`/shop?kategori=${c.id}`}>{c.label}</a></li>)}
-          <li><a href="/shop">Se alle</a></li>
+          {categories.map((c) => <li><a href={categoryHref(lang, c.id)}>{c.label[lang]}</a></li>)}
+          <li><a href={shopPath}>{t.seeAll}</a></li>
         </ul>
       </li>
-      {links.map((l) => <li><a href={l.href} aria-current={current(l.href)}>{l.label}</a></li>)}
-      <li class="show-md"><a href="/forhandler" aria-current={current("/forhandler")}>For forhandlere</a></li>
+      {links.map((l) => <li><a href={href(lang, l.route)} aria-current={current(l.route)}>{l.label}</a></li>)}
+      <li class="show-md"><a href={href(lang, "retail")} aria-current={current("retail")}>{t.forRetailers}</a></li>
     </ul>
     <div class="nav-actions">
       <img class="nav-pointer" src="/img/mascot-pointing.webp" alt="" aria-hidden="true" width="320" height="249" />
@@ -33,14 +37,19 @@ const current = (href: string) => (path === href ? "page" : undefined);
           <rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle>
         </svg>
       </a>
-      <a class="btn btn-ghost-light btn-sm hide-md" href="/forhandler">Forhandler</a>
-      <button class="cart-btn" data-cart-open aria-label="Åbn kurv">
+      <div class="lang-switch" role="group" aria-label={t.language}>
+        {langs.map((l) => (
+          <a href={translatePath(Astro.url.pathname, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined}>{l.toUpperCase()}</a>
+        ))}
+      </div>
+      <a class="btn btn-ghost-light btn-sm hide-md" href={href(lang, "retail")}>{t.retailer}</a>
+      <button class="cart-btn" data-cart-open aria-label={t.openCart}>
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M6 7h12l-1 13H7L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path>
         </svg>
         <span class="cart-count" data-cart-count hidden>0</span>
       </button>
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="nav-toggle" aria-label={t.menu} aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </nav>
 </header>

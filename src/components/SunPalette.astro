@@ -1,7 +1,10 @@
 ---
+import { langFromUrl } from "../i18n";
+
 const suns = ["brown", "pink", "green", "navy"];
+const label = langFromUrl(Astro.url) === "en" ? "The Mister Mellow sun in four colours" : "Mister Mellow-solen i fire farver";
 ---
 
-<div class="sun-palette" role="img" aria-label="Mister Mellow-solen i fire farver">
+<div class="sun-palette" role="img" aria-label={label}>
   {suns.map((c) => <img src={`/img/sun-${c}.webp`} alt="" width="318" height="264" loading="lazy" />)}
 </div>
