@@ -1,0 +1,7 @@
+---
+const suns = ["brown", "pink", "green", "navy"];
+---
+
+<div class="sun-palette" role="img" aria-label="Mister Mellow-solen i fire farver">
+  {suns.map((c) => <img src={`/img/sun-${c}.webp`} alt="" width="318" height="264" loading="lazy" />)}
+</div>

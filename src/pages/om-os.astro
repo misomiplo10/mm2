@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SunPalette from "../components/SunPalette.astro";
 ---
 
 <BaseLayout
@@ -7,7 +8,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="Mister Mellow er et dansk brand med medical grade Cali-flower og hash med THC-A. Lab-testet, høj styrke, gode vibes."
 >
   <section class="story">
-    <div class="story-img" role="img" aria-label="Mister Mellow THCA premium flower"></div>
     <div class="wrap story-inner">
       <div class="story-copy">
         <p class="kicker">Mød Mister Mellow</p>
@@ -20,6 +20,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <a class="btn btn-ghost-light" href="/lab-rapporter">Se lab-rapporter</a>
         </div>
       </div>
+      <SunPalette />
     </div>
   </section>
 </BaseLayout>

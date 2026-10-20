@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SunPalette from "../components/SunPalette.astro";
 import ProductCard from "../components/ProductCard.astro";
 import ProductVisual from "../components/ProductVisual.astro";
 import SectionTitle from "../components/SectionTitle.astro";
@@ -85,7 +86,6 @@ const promos = [
   </section>
 
   <section class="story">
-    <div class="story-img" role="img" aria-label="Mister Mellow THCA premium flower"></div>
     <div class="wrap story-inner">
       <div class="story-copy">
         <p class="kicker">Mød Mister Mellow</p>
@@ -96,6 +96,7 @@ const promos = [
           <a class="btn btn-ghost-light" href="/shop">Gå til shoppen</a>
         </div>
       </div>
+      <SunPalette />
     </div>
   </section>
 
