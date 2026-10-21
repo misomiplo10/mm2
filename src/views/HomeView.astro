@@ -6,7 +6,7 @@ import ProductVisual from "../components/ProductVisual.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import { categories, products } from "../data/products";
 import { company } from "../data/company";
-import { categoryHref, href, langFromUrl, ui } from "../i18n";
+import { categoryHref, href, kr, langFromUrl, ui } from "../i18n";
 
 const lang = langFromUrl(Astro.url);
 const featured = products.filter((p) => p.featured);
@@ -16,6 +16,7 @@ const copy = {
     title: "Mister Mellow – Not your average hash",
     description: "Mister Mellow er et dansk brand med medical grade Cali-flower og hash med THC-A. Lab-testet, høj styrke, gode vibes. Kun 18+.",
     sub: "Medical grade THC-A – lab-testet, høj styrke, gode vibes.",
+    freeShipping: "Fri fragt ved køb over",
     shopNow: "Shop nu",
     findMellow: "Find din mellow",
     goodStuff: "Det gode stuff",
@@ -40,6 +41,7 @@ const copy = {
     title: "Mister Mellow – Not your average hash",
     description: "Mister Mellow is a Danish brand of medical grade Cali flower and hash with THC-A. Lab-tested, high potency, good vibes. 18+ only.",
     sub: "Medical grade THC-A – lab-tested, high potency, good vibes.",
+    freeShipping: "Free shipping on orders over",
     shopNow: "Shop now",
     findMellow: "Find your mellow",
     goodStuff: "The good stuff",
@@ -78,6 +80,12 @@ const promoTones = ["navy", "pink", "orange"];
           <a class="btn btn-navy peekaboo" href={href(lang, "shop")}>{copy.shopNow}<span class="peekaboo-clip" aria-hidden="true"><img src="/img/mascot-peeking.webp" alt="" width="480" height="293" /></span></a>
           <a class="btn btn-ghost" href={href(lang, "find")}>{t.findUs}</a>
         </div>
+        <p class="free-ship">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 6h11v10H3zM14 9h4l3 3v4h-7z"></path><circle cx="7" cy="17.5" r="1.8" fill="currentColor"></circle><circle cx="17" cy="17.5" r="1.8" fill="currentColor"></circle>
+          </svg>
+          <span>{copy.freeShipping} <strong>{kr(company.freeShippingOver, lang)}</strong></span>
+        </p>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="hero-ring"></div>

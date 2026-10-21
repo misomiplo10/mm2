@@ -279,6 +279,21 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   margin: 20px 0 48px; /* room for the Shop nu peekaboo mascot */
 }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.free-ship {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 9px 16px 9px 12px;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 8px 22px rgba(15, 33, 103, 0.12);
+}
+.free-ship svg { flex: none; color: var(--orange); }
+.free-ship strong { font-weight: 800; color: var(--orange); }
 .hero-art { position: relative; display: grid; place-items: center; min-height: 480px; }
 .hero-ring {
   position: absolute;

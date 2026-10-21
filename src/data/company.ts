@@ -9,4 +9,6 @@ export const company = {
   instagramUrl: "https://instagram.com/mistermellow.dk",
   tagline: "Not your average hash.",
   catalog: "/docs/mister-mellow-katalog-2026.pdf",
+  /** Webshop orders over this amount (kr incl. moms) ship free */
+  freeShippingOver: 499,
 };
