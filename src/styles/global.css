@@ -773,6 +773,8 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 /* the navy story section runs straight into the orange band, no cream gap */
 .story:has(+ .cta-band) { margin-bottom: 0; }
 .story + .cta-band { margin-top: 0; }
+/* ...and when it is the last section (About page), straight into the footer */
+main > .story:last-child { margin-bottom: 0; }
 .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
 .cta-band .kicker { color: var(--navy); opacity: 0.8; }
 .cta-band h2 { font-family: var(--display); font-size: clamp(36px, 5vw, 60px); text-transform: uppercase; line-height: 1; }
