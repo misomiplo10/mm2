@@ -1447,6 +1447,9 @@ body.locked { overflow: hidden; }
 /* peeking: edge at 56.1% of width; only his fingertips come over the top of the sticker */
 .mascot-peeking { margin-top: 2.2em; }
 .mascot-peeking .sticker-mascot { width: 3.8em; right: 0.9em; top: calc(-0.561 * 3.8em + 1px); }
+/* Scientist: sits on the sticker's top edge (74.7% down the image), legs over the front, shoes below it */
+.mascot-scientist { margin-top: 5.6em; padding-right: 5.2em; }
+.mascot-scientist .sticker-mascot { width: 5.2em; right: 0.1em; top: calc(-0.747 * 5.2em * 797 / 600 + 3px); }
 
 /* Peekaboo: the peeking mascot hides behind a button and pops up over its top edge on hover.
    The clip box sits on the button's top edge (reaching 5% of the image width down, so his fingers
