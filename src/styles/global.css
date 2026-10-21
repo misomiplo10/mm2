@@ -1306,6 +1306,7 @@ body.locked { overflow: hidden; }
 
 @media (max-width: 980px) {
   .hero-grid, .lab-panel, .find-grid, .starter, .contact, .calc, .pdp, .checkout { grid-template-columns: 1fr; }
+  .lab-panel { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .summary { position: static; }
   .hide-md { display: none; }
   .show-md { display: list-item; }
@@ -1373,9 +1374,18 @@ body.locked { overflow: hidden; }
   .cards-2, .cards-4, .footer-grid, .fields { grid-template-columns: 1fr; }
   .field.span-2 { grid-column: auto; }
   .special.wide { grid-template-columns: 1fr; }
-  .lab-card { padding: 20px; }
+  .lab-panel { padding: 22px 18px; }
+  /* sized so "GENNEMSIGTIGHED." fits the panel; breaks the word only on very narrow phones */
+  .panel-title { font-size: clamp(20px, 6.6vw, 32px); overflow-wrap: break-word; }
+  .lab-badges { gap: 10px; }
+  .badge { padding: 14px; }
+  .lab-card { padding: 16px; overflow-x: auto; }
   .lab-table { font-size: 14px; }
-  .lab-table td:first-child { font-size: 15px; }
+  .lab-table th { font-size: 10px; letter-spacing: 0.12em; }
+  .lab-table td { padding: 14px 0 14px 8px; }
+  .lab-table td + td { white-space: nowrap; font-size: 13px; }
+  .lab-table td:first-child { font-size: 15px; padding-left: 0; }
+  .lab-dl .btn { flex: 1 1 100%; }
   .faq summary { font-size: 15px; padding: 16px 18px; }
   .section-bar { flex-wrap: wrap; }
 }
