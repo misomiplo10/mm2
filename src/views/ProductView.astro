@@ -4,7 +4,7 @@ import ProductCard from "../components/ProductCard.astro";
 import ProductVisual from "../components/ProductVisual.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import ThcaInfo from "../components/ThcaInfo.astro";
-import { cartData, categoryLabel, categoryUrl, isBuyable, kr, metaLine, products, type Product } from "../data/products";
+import { cartData, categoryLabel, categoryUrl, hasSizeChoice, isBuyable, kr, metaLine, products, shopVariants, type Product } from "../data/products";
 import { labName } from "../data/lab";
 import { href, langFromUrl, ui } from "../i18n";
 
@@ -58,6 +58,8 @@ const copy = {
   },
 }[lang];
 const buyable = isBuyable(p);
+const variants = shopVariants(p);
+const sizes = hasSizeChoice(p);
 const sameCategory = products.filter((x) => x.slug !== p.slug && x.category === p.category);
 const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug && x.category !== p.category && x.featured)].slice(0, 4);
 ---
@@ -83,8 +85,28 @@ const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug &&
 
           {buyable ? (
             <div class="buy-box">
-              <div class="pdp-price">{kr(p.retail!, lang)} <small>{copy.inclVat}</small></div>
-              {p.size && <div class="pdp-size"><span>{copy.size}</span><span class="chip">{p.size}</span></div>}
+              <div class="pdp-price"><span data-price>{kr(variants[0].retail, lang)}</span> <small>{copy.inclVat}</small></div>
+              {sizes ? (
+                <div class="pdp-size">
+                  <span id="size-label">{copy.size}</span>
+                  <div class="size-picker" role="radiogroup" aria-labelledby="size-label">
+                    {variants.map((v, i) => (
+                      <button
+                        type="button"
+                        class="size-opt"
+                        role="radio"
+                        aria-checked={i === 0 ? "true" : "false"}
+                        data-variant={cartData(p, v)}
+                        data-price-label={kr(v.retail, lang)}
+                      >
+                        {v.size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                p.size && <div class="pdp-size"><span>{copy.size}</span><span class="chip">{p.size}</span></div>
+              )}
               <div class="buy-row">
                 <label class="qty">
                   <span class="sr-only">{copy.qty}</span>
@@ -92,7 +114,7 @@ const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug &&
                   <input type="number" min="1" max="20" value="1" inputmode="numeric" data-qty-input />
                   <button type="button" data-step="1" aria-label={copy.more}>+</button>
                 </label>
-                <button class="btn btn-orange btn-lg" data-add={cartData(p)}>{t.addToCart}</button>
+                <button class="btn btn-orange btn-lg" data-add={cartData(p, variants[0])}>{t.addToCart}</button>
               </div>
               <p class="pdp-note">{copy.adults}</p>
             </div>
@@ -142,6 +164,30 @@ const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug &&
 </BaseLayout>
 
 <script>
+  // Size picker: the chosen size drives the shown price and what "Læg i kurv" adds
+  document.querySelectorAll<HTMLElement>(".size-picker").forEach((picker) => {
+    const box = picker.closest(".buy-box")!;
+    const price = box.querySelector<HTMLElement>("[data-price]")!;
+    const add = box.querySelector<HTMLElement>("[data-add]")!;
+    const opts = [...picker.querySelectorAll<HTMLButtonElement>(".size-opt")];
+    const select = (opt: HTMLButtonElement) => {
+      opts.forEach((o) => o.setAttribute("aria-checked", String(o === opt)));
+      price.textContent = opt.dataset.priceLabel!;
+      add.dataset.add = opt.dataset.variant!;
+    };
+    opts.forEach((opt, i) => {
+      opt.addEventListener("click", () => select(opt));
+      opt.addEventListener("keydown", (e) => {
+        const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const next = opts[(i + step + opts.length) % opts.length];
+        select(next);
+        next.focus();
+      });
+    });
+  });
+
   // Quantity stepper next to "Læg i kurv"
   document.querySelectorAll<HTMLElement>(".qty").forEach((q) => {
     const input = q.querySelector<HTMLInputElement>("input")!;

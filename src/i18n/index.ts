@@ -95,6 +95,8 @@ export const ui = {
     priceSoon: "Pris kommer snart",
     addToCart: "Læg i kurv",
     viewProduct: "Se produkt",
+    chooseSize: "Vælg størrelse",
+    from: "Fra",
   },
   en: {
     skipHome: "Mister Mellow home",
@@ -144,5 +146,7 @@ export const ui = {
     priceSoon: "Price coming soon",
     addToCart: "Add to cart",
     viewProduct: "View product",
+    chooseSize: "Choose size",
+    from: "From",
   },
 } satisfies Record<Lang, Record<string, string>>;

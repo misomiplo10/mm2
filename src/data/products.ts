@@ -11,6 +11,16 @@ export type Visual =
   | { kind: "photo"; src: string; alt: string }
   | { kind: "packshot"; src: string; alt: string };
 
+/** A size the consumer shop sells; price incl. moms, kr. */
+export interface Variant {
+  size: string;
+  retail: number;
+}
+
+/** Shop price for loose flower pouches. */
+export const PRICE_PER_GRAM = 109;
+const byGram = (...grams: number[]): Variant[] => grams.map((g) => ({ size: `${g} g`, retail: g * PRICE_PER_GRAM }));
+
 export interface Product {
   slug: string;
   name: string;
@@ -21,8 +31,10 @@ export interface Product {
   description: L;
   /** Indkøbspris ekskl. moms, kr */
   wholesale?: number;
-  /** Vejledende udsalgspris inkl. moms, kr */
+  /** Vejledende udsalgspris inkl. moms, kr (forhandlersiden) */
   retail?: number;
+  /** Sizes the consumer shop sells; when set, these replace size/retail in the shop */
+  variants?: Variant[];
   onRequest?: boolean;
   featured?: boolean;
   tint: Tint;
@@ -57,6 +69,7 @@ export const products: Product[] = [
     },
     wholesale: 345,
     retail: 769,
+    variants: byGram(2, 5, 10),
     featured: true,
     tint: "lavender",
     visual: { kind: "packshot", src: "/img/pouch-midnight-rider.webp", alt: "Midnight Rider pose" },
@@ -74,6 +87,7 @@ export const products: Product[] = [
     },
     wholesale: 115,
     retail: 259,
+    variants: byGram(2, 5, 10),
     featured: true,
     tint: "peach",
     visual: { kind: "packshot", src: "/img/pouch-sunday-cruise.webp", alt: "Sunday Cruise pose" },
@@ -157,11 +171,22 @@ export const products: Product[] = [
   },
 ];
 
-/** A consumer can buy it online once it has a retail price and isn't made to order. */
-export const isBuyable = (p: Product) => p.retail !== undefined && !p.onRequest;
+/** What the shop sells: the variants, or the single size/retail price. */
+export const shopVariants = (p: Product): Variant[] =>
+  p.variants ?? (p.retail !== undefined ? [{ size: p.size ?? "", retail: p.retail }] : []);
+
+/** A consumer can buy it online once it has a shop price and isn't made to order. */
+export const isBuyable = (p: Product) => shopVariants(p).length > 0 && !p.onRequest;
+
+export const hasSizeChoice = (p: Product) => (p.variants?.length ?? 0) > 1;
+
+/** Lowest shop price, for "fra 218 kr" on cards. */
+export const fromPrice = (p: Product) => Math.min(...shopVariants(p).map((v) => v.retail));
 
 export const metaLine = (p: Product, lang: Lang) =>
-  [p.category === "accessory" ? null : "THC-A", p.format[lang], p.strain, p.size].filter(Boolean).join(" · ");
+  [p.category === "accessory" ? null : "THC-A", p.format[lang], p.strain, p.variants ? p.variants.map((v) => v.size).join(" / ") : p.size]
+    .filter(Boolean)
+    .join(" · ");
 
 export const kr = formatKr;
 
@@ -170,13 +195,14 @@ export const productUrl = (p: Product, lang: Lang) => productHref(lang, p.slug);
 export const categoryLabel = (c: Category, lang: Lang) => categories.find((x) => x.id === c)?.label[lang] ?? c;
 export const categoryUrl = (c: Category, lang: Lang) => categoryHref(lang, c);
 
-/** What the cart needs to show a line; serialised onto "Læg i kurv" buttons. */
-export const cartData = (p: Product) =>
+/** What the cart needs to show a line; serialised onto "Læg i kurv" buttons. One cart line per product and size. */
+export const cartData = (p: Product, v: Variant = shopVariants(p)[0]) =>
   JSON.stringify({
+    key: p.variants ? `${p.slug}:${v.size}` : p.slug,
     slug: p.slug,
     name: p.name,
-    price: p.retail,
-    size: p.size,
+    price: v.retail,
+    size: v.size || undefined,
     tint: p.tint,
     thumb: p.visual.kind === "photo" || p.visual.kind === "packshot" ? p.visual.src : "/img/logo-navy.png",
   });
