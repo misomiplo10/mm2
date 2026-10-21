@@ -17,6 +17,10 @@ const t = ui[lang];
   </div>
   <div class="cart-lines" data-cart-lines></div>
   <div class="cart-foot" data-cart-filled hidden>
+    <div class="ship-meter" data-ship-meter>
+      <p data-ship-text></p>
+      <div class="ship-bar" aria-hidden="true"><span data-ship-fill></span></div>
+    </div>
     <div class="cart-total"><span>{t.subtotal}</span><strong data-cart-subtotal>{lang === "en" ? "DKK 0" : "0 kr"}</strong></div>
     <p class="cart-note">{t.cartNote}</p>
     <a class="btn btn-orange btn-block" href={href(lang, "cart")}>{t.checkout}</a>

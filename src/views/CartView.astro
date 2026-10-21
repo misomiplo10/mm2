@@ -23,6 +23,7 @@ const copy = {
     summary: "Oversigt",
     shipping: "Fragt",
     shippingLater: "Beregnes ved betaling",
+    free: "Gratis",
     total: "I alt",
     vat: "Alle priser er inkl. 25 % moms.",
     pay: "Gå til betaling",
@@ -45,6 +46,7 @@ const copy = {
     summary: "Summary",
     shipping: "Shipping",
     shippingLater: "Calculated at payment",
+    free: "Free",
     total: "Total",
     vat: "All prices include 25% Danish VAT.",
     pay: "Go to payment",
@@ -92,8 +94,12 @@ const copy = {
 
         <aside class="panel summary">
           <h2 class="panel-h">{copy.summary}</h2>
+          <div class="ship-meter" data-ship-meter>
+            <p data-ship-text></p>
+            <div class="ship-bar" aria-hidden="true"><span data-ship-fill></span></div>
+          </div>
           <div class="sum-row"><span>{t.subtotal}</span><span data-cart-subtotal>{copy.zero}</span></div>
-          <div class="sum-row"><span>{copy.shipping}</span><span>{copy.shippingLater}</span></div>
+          <div class="sum-row"><span>{copy.shipping}</span><span data-ship-cost data-later={copy.shippingLater} data-free={copy.free}>{copy.shippingLater}</span></div>
           <div class="sum-row total"><span>{copy.total}</span><strong data-cart-subtotal>{copy.zero}</strong></div>
           <p class="cart-note">{copy.vat}</p>
           <button class="btn btn-orange btn-block btn-lg" type="submit" form="checkout-form">{copy.pay}</button>

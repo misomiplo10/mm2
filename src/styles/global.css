@@ -1097,6 +1097,14 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 .cart-right { display: grid; justify-items: end; gap: 8px; color: var(--navy); }
 .cart-remove { background: none; border: 0; padding: 0; font: inherit; font-size: 12px; color: var(--muted); text-decoration: underline; cursor: pointer; }
 
+.ship-meter { margin: 0 0 14px; padding: 12px 14px; border-radius: 8px; background: var(--lavender); color: var(--navy); }
+.ship-meter p { margin: 0 0 8px; font-size: 14px; }
+.ship-meter strong { font-weight: 800; }
+.ship-bar { height: 8px; border-radius: 4px; background: rgba(15, 33, 103, 0.12); overflow: hidden; }
+.ship-bar span { display: block; height: 100%; width: 0; border-radius: 4px; background: var(--orange); transition: width 0.4s ease; }
+.ship-meter.done { background: var(--butter); }
+.ship-meter.done .ship-bar span { background: #2f9e5b; }
+
 /* ---------- product page ---------- */
 .crumbs { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 22px; }
 .crumbs a { color: var(--navy); }
