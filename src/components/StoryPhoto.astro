@@ -1,6 +1,13 @@
 ---
 import { langFromUrl } from "../i18n";
 
+interface Props {
+  /** Set when the photo is at the top of the page, so it loads right away */
+  eager?: boolean;
+}
+
+const { eager = false } = Astro.props;
+
 const alt =
   langFromUrl(Astro.url) === "en"
     ? "Open Sunday Cruise pouch with Cali flower spilling out"
@@ -15,7 +22,8 @@ const alt =
     width="2800"
     height="1170"
     alt={alt}
-    loading="lazy"
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : "auto"}
     decoding="async"
   />
 </figure>
