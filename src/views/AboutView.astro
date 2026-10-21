@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SunPalette from "../components/SunPalette.astro";
+import StoryPhoto from "../components/StoryPhoto.astro";
 import { href, langFromUrl, ui } from "../i18n";
 
 const lang = langFromUrl(Astro.url);
@@ -43,7 +43,7 @@ const t = ui[lang];
           <a class="btn btn-ghost-light" href={href(lang, "lab")}>{copy.seeLab}</a>
         </div>
       </div>
-      <SunPalette />
+      <StoryPhoto />
     </div>
   </section>
 </BaseLayout>

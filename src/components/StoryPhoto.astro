@@ -1,0 +1,21 @@
+---
+import { langFromUrl } from "../i18n";
+
+const alt =
+  langFromUrl(Astro.url) === "en"
+    ? "Open Sunday Cruise pouch with Cali flower spilling out"
+    : "Åben Sunday Cruise-pose med Cali-flower, der vælter ud";
+---
+
+<figure class="story-photo">
+  <img
+    src="/img/story-sunday-cruise-1096.webp"
+    srcset="/img/story-sunday-cruise-720.webp 720w, /img/story-sunday-cruise-1096.webp 1096w"
+    sizes="(max-width: 980px) 92vw, 560px"
+    width="1096"
+    height="822"
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+  />
+</figure>
