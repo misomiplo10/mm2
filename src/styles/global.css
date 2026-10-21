@@ -617,15 +617,23 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
 }
-/* The photo fills the whole right half of the section, edge to edge (absolute to .story) */
+/* With the photo, the whole section is the photo: text sits on the plain wall on the left, the pouch on the right.
+   Background is the wall colour, so phones (text above the photo) carry on seamlessly. */
+.story:has(.story-photo) { background: #c8b7a0; color: var(--navy); }
 .story-inner:has(.story-photo) { position: static; }
 .story-copy { position: relative; z-index: 1; }
-.story-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 50%; margin: 0; }
-.story-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+.story-photo { position: absolute; inset: 0; margin: 0; }
+/* wide screens crop top and bottom: favour the pouch over the crumbs above it */
+.story-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 70% 72%; }
+.story:has(.story-photo) .kicker { color: var(--navy); }
+.story:has(.story-photo) .story-copy p { color: var(--navy); }
+.story:has(.story-photo) .btn-ghost-light { border-color: var(--navy); color: var(--navy); }
+.story:has(.story-photo) .btn-ghost-light:hover { background: var(--navy); color: var(--cream); }
 @media (max-width: 980px) {
   .story-inner:has(.story-photo) { padding-bottom: 0; }
-  /* full-bleed under the text, down to the section's bottom edge */
+  /* full-bleed under the text, down to the section's bottom edge, cropped to the pouch */
   .story-photo { position: static; width: 100vw; margin-left: calc(50% - 50vw); aspect-ratio: 4 / 3; }
+  .story-photo img { object-position: 85% 50%; }
 }
 .story-copy { max-width: 520px; }
 .story-copy .kicker { color: var(--orange); }
