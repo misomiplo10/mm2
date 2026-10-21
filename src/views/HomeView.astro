@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SunPalette from "../components/SunPalette.astro";
 import ProductCard from "../components/ProductCard.astro";
 import ProductVisual from "../components/ProductVisual.astro";
 import SectionTitle from "../components/SectionTitle.astro";
@@ -25,6 +24,7 @@ const copy = {
     next: "Næste",
     meet: "Mød Mister Mellow",
     storyTitle: "Lidt highness i hver pakke.",
+    storyPhoto: "Åben Sunday Cruise-pose med Cali-flower, der vælter ud",
     story: "Mister Mellow er et dansk brand med én mission: medical grade Cali-flower og hash – Fresh Frozen og Dry Sift – med THC-A.",
     readMore: "Læs mere om os",
     igKicker: "Mister Mellow på Instagram",
@@ -50,6 +50,7 @@ const copy = {
     next: "Next",
     meet: "Meet Mister Mellow",
     storyTitle: "A little high in every pack.",
+    storyPhoto: "Open Sunday Cruise pouch with Cali flower spilling out",
     story: "Mister Mellow is a Danish brand on one mission: medical grade Cali flower and hash – Fresh Frozen and Dry Sift – with THC-A.",
     readMore: "More about us",
     igKicker: "Mister Mellow on Instagram",
@@ -152,7 +153,18 @@ const promoTones = ["navy", "pink", "orange"];
           <a class="btn btn-ghost-light" href={href(lang, "shop")}>{t.toShop}</a>
         </div>
       </div>
-      <SunPalette />
+      <figure class="story-photo">
+        <img
+          src="/img/story-sunday-cruise-1096.webp"
+          srcset="/img/story-sunday-cruise-720.webp 720w, /img/story-sunday-cruise-1096.webp 1096w"
+          sizes="(max-width: 980px) 92vw, 560px"
+          width="1096"
+          height="822"
+          alt={copy.storyPhoto}
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
     </div>
   </section>
 
