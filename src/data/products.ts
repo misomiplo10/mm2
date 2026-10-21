@@ -35,6 +35,8 @@ export interface Product {
   retail?: number;
   /** Sizes the consumer shop sells; when set, these replace size/retail in the shop */
   variants?: Variant[];
+  /** Webshop price incl. moms, kr, for products without a vejl. udsalgspris (keeps the retailer page unchanged) */
+  shopPrice?: number;
   onRequest?: boolean;
   featured?: boolean;
   tint: Tint;
@@ -166,6 +168,7 @@ export const products: Product[] = [
       en: "Bright orange BIC lighter with the Mister Mellow logo on both sides.",
     },
     wholesale: 9,
+    shopPrice: 15,
     tint: "peach",
     visual: { kind: "packshot", src: "/img/lighter.webp", alt: "Mister Mellow lighter" },
   },
@@ -173,7 +176,7 @@ export const products: Product[] = [
 
 /** What the shop sells: the variants, or the single size/retail price. */
 export const shopVariants = (p: Product): Variant[] =>
-  p.variants ?? (p.retail !== undefined ? [{ size: p.size ?? "", retail: p.retail }] : []);
+  p.variants ?? ((p.shopPrice ?? p.retail) !== undefined ? [{ size: p.size ?? "", retail: (p.shopPrice ?? p.retail)! }] : []);
 
 /** A consumer can buy it online once it has a shop price and isn't made to order. */
 export const isBuyable = (p: Product) => shopVariants(p).length > 0 && !p.onRequest;
