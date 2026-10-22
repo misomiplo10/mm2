@@ -22,7 +22,7 @@ const lang = langFromUrl(Astro.url);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0f2167" />
+    <meta name="theme-color" content="#347845" />
     <link rel="icon" href="/favicon.png" />
     {langs.map((l) => <link rel="alternate" hreflang={l} href={new URL(translatePath(Astro.url.pathname, l), Astro.site ?? Astro.url).href} />)}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
