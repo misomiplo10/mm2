@@ -43,19 +43,14 @@ const t = ui[lang];
         </div>
         <div class="lab-card">
           <table class="lab-table">
-            <thead><tr><th>{copy.strain}</th><th>THC-A</th><th>Δ9-THC</th><th>CBD</th></tr></thead>
+            <thead><tr><th>{copy.strain}</th><th>THC-A</th><th>Δ9-THC</th><th>CBD</th><th><span class="sr-only">COA</span></th></tr></thead>
             <tbody>
               {labResults.map((r) => (
-                <tr><td>{r.strain}</td><td class="hi">{pct(r.thca, lang)}</td><td>{pct(r.d9thc, lang)}</td><td>{pct(r.cbd, lang)}</td></tr>
+                <tr><td>{r.strain}</td><td class="hi">{pct(r.thca, lang)}</td><td>{pct(r.d9thc, lang)}</td><td>{pct(r.cbd, lang)}</td><td class="coa"><a href={r.coa} target="_blank" rel="noopener" aria-label={`${r.strain} COA (PDF)`}>COA ↓</a></td></tr>
               ))}
             </tbody>
           </table>
           <p class="lab-note">{copy.analysed} {labName[lang]}.</p>
-          <div class="lab-dl">
-            {labResults.map((r) => (
-              <a class="btn btn-orange btn-sm" href={r.coa} target="_blank" rel="noopener">{r.strain} COA ↓</a>
-            ))}
-          </div>
         </div>
       </div>
     </div>

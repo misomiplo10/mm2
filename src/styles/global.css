@@ -704,6 +704,8 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
 }
 .lab-table td:first-child { font-weight: 700; font-size: 18px; }
 .lab-table .hi { color: var(--orange); font-weight: 800; }
+.lab-table td.coa a { color: var(--orange); font-weight: 800; white-space: nowrap; text-decoration: none; }
+.lab-table td.coa a:hover { text-decoration: underline; }
 .lab-note { font-size: 13px; color: rgba(253, 243, 228, 0.6); margin: 16px 0 0; }
 .lab-dl { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .lab-badges { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }

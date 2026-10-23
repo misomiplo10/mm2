@@ -5,8 +5,8 @@ import ProductVisual from "../components/ProductVisual.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import ThcaInfo from "../components/ThcaInfo.astro";
 import { cartData, categoryLabel, categoryUrl, hasSizeChoice, isBuyable, kr, metaLine, products, shopVariants, type Product } from "../data/products";
-import { labName } from "../data/lab";
-import { href, langFromUrl, ui } from "../i18n";
+import { labFor, labName } from "../data/lab";
+import { href, langFromUrl, pct, ui } from "../i18n";
 
 interface Props {
   product: Product;
@@ -32,6 +32,8 @@ const copy = {
     storageText: "Opbevar køligt, tørt og mørkt i lukket emballage. THC-A omdannes gradvist ved varme og lys, så undgå vinduer og varmekilder.",
     labText: `Alt testes af ${labName.da}, før det kommer i posen.`,
     seeReports: "Se rapporterne",
+    coa: "Hent lab-rapport (PDF)",
+    thisBatch: "Denne batch:",
     responsible: "Ansvarligt brug",
     responsibleText: "Kun til personer over 18 år. Opbevares utilgængeligt for børn.",
     related: "Du vil måske også kunne lide",
@@ -52,12 +54,15 @@ const copy = {
     storageText: "Store cool, dry and dark in the sealed packaging. THC-A slowly converts with heat and light, so keep it away from windows and heat sources.",
     labText: `Everything is tested by ${labName.en} before it goes in the pouch.`,
     seeReports: "See the reports",
+    coa: "Download lab report (PDF)",
+    thisBatch: "This batch:",
     responsible: "Responsible use",
     responsibleText: "For adults 18+ only. Keep out of reach of children.",
     related: "You might also like",
   },
 }[lang];
 const buyable = isBuyable(p);
+const lab = labFor(p.slug);
 const variants = shopVariants(p);
 const sizes = hasSizeChoice(p);
 const sameCategory = products.filter((x) => x.slug !== p.slug && x.category === p.category);
@@ -137,7 +142,14 @@ const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug &&
             </details>
             <details>
               <summary>{t.labReports}<span class="faq-ico" aria-hidden="true">›</span></summary>
-              <p>{copy.labText} <a href={href(lang, "lab")}>{copy.seeReports}</a>.</p>
+              {lab ? (
+                <p>
+                  {copy.labText} {copy.thisBatch} <strong>THC-A {pct(lab.thca, lang)}</strong> · Δ9-THC {pct(lab.d9thc, lang)} · CBD {pct(lab.cbd, lang)}.
+                  <br /><a href={lab.coa} target="_blank" rel="noopener">{copy.coa} ↓</a>
+                </p>
+              ) : (
+                <p>{copy.labText} <a href={href(lang, "lab")}>{copy.seeReports}</a>.</p>
+              )}
             </details>
             <details>
               <summary>{copy.responsible}<span class="faq-ico" aria-hidden="true">›</span></summary>
