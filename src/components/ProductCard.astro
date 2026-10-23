@@ -1,6 +1,6 @@
 ---
 import ProductVisual from "./ProductVisual.astro";
-import { cartData, fromPrice, hasSizeChoice, isBuyable, kr, metaLine, productUrl, shopVariants, type Product } from "../data/products";
+import { cartData, fromPrice, hasSizeChoice, isBuyable, kr, metaLine, productUrl, sizeRange, type Product } from "../data/products";
 import { langFromUrl, ui } from "../i18n";
 
 interface Props {
@@ -33,7 +33,7 @@ const url = productUrl(p, lang);
         <span class="muted">{p.onRequest ? t.priceOnRequest : t.priceSoon}</span>
       )}
       {sizes ? (
-        <span class="chips">{shopVariants(p).map((v) => <span class="chip">{v.size}</span>)}</span>
+        <span class="chip">{sizeRange(p)}</span>
       ) : (
         p.size && <span class="chip">{p.size}</span>
       )}

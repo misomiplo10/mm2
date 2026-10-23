@@ -71,7 +71,7 @@ export const products: Product[] = [
     },
     wholesale: 345,
     retail: 769,
-    variants: byGram(2, 5, 10),
+    variants: byGram(2, 5, 10, 20, 50, 100),
     featured: true,
     tint: "lavender",
     visual: { kind: "packshot", src: "/img/pouch-midnight-rider.webp", alt: "Midnight Rider pose" },
@@ -89,7 +89,7 @@ export const products: Product[] = [
     },
     wholesale: 115,
     retail: 259,
-    variants: byGram(2, 5, 10),
+    variants: byGram(2, 5, 10, 20, 50, 100),
     featured: true,
     tint: "peach",
     visual: { kind: "packshot", src: "/img/pouch-sunday-cruise.webp", alt: "Sunday Cruise pose" },
@@ -186,8 +186,16 @@ export const hasSizeChoice = (p: Product) => (p.variants?.length ?? 0) > 1;
 /** Lowest shop price, for "fra 218 kr" on cards. */
 export const fromPrice = (p: Product) => Math.min(...shopVariants(p).map((v) => v.retail));
 
+/** "2–100 g" for products sold in several sizes, otherwise the single size. */
+export const sizeRange = (p: Product) => {
+  const v = p.variants;
+  if (!v || v.length < 2) return p.size;
+  const n = (x: Variant) => parseFloat(x.size);
+  return `${n(v[0])}–${n(v[v.length - 1])} g`;
+};
+
 export const metaLine = (p: Product, lang: Lang) =>
-  [p.category === "accessory" ? null : "THC-A", p.format[lang], p.strain, p.variants ? p.variants.map((v) => v.size).join(" / ") : p.size]
+  [p.category === "accessory" ? null : "THC-A", p.format[lang], p.strain, sizeRange(p)]
     .filter(Boolean)
     .join(" · ");
 
