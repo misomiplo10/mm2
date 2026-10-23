@@ -15,6 +15,7 @@ const routes = {
   retail: { da: "/forhandler", en: "/en/retailers" },
   cart: { da: "/kurv", en: "/en/cart" },
   privacy: { da: "/privatlivspolitik", en: "/en/privacy" },
+  terms: { da: "/handelsbetingelser", en: "/en/terms" },
 } satisfies Record<string, L>;
 
 export type Route = keyof typeof routes;
@@ -73,6 +74,7 @@ export const ui = {
     disclaimerText:
       "Mister Mellows produkter er naturlige cannabisprodukter og skal håndteres med omtanke. De indeholder ikke tobak og er ikke beregnet til at forebygge, behandle eller helbrede sygdom. Kun til personer over 18 år. Opbevares utilgængeligt for børn.",
     privacy: "Cookies og privatlivspolitik",
+    terms: "Handelsbetingelser",
     adultsOnly: "Kun 18+ · Opbevares utilgængeligt for børn",
     ageTitle: "Er du fyldt",
     ageYears: "18 år?",
@@ -124,6 +126,7 @@ export const ui = {
     disclaimerText:
       "Mister Mellow products are natural cannabis products and should be handled with care. They contain no tobacco and are not intended to prevent, treat or cure any disease. For adults 18+ only. Keep out of reach of children.",
     privacy: "Cookies and privacy policy",
+    terms: "Terms and conditions",
     adultsOnly: "18+ only · Keep out of reach of children",
     ageTitle: "Are you",
     ageYears: "18 or older?",

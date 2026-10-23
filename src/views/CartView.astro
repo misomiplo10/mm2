@@ -3,8 +3,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import { href, langFromUrl, ui } from "../i18n";
 
+/** We ship to every EU country (see the terms). Denmark first, the rest alphabetically in the page language. */
+const EU = ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE"];
+
 const lang = langFromUrl(Astro.url);
 const t = ui[lang];
+const countryName = new Intl.DisplayNames([lang], { type: "region" });
+const countries = EU.map((code) => ({ code, name: countryName.of(code)! }))
+  .sort((a, b) => (a.code === "DK" ? -1 : b.code === "DK" ? 1 : a.name.localeCompare(b.name, lang)));
 const copy = {
   da: {
     title: "Kurv & kasse",
@@ -16,8 +22,11 @@ const copy = {
     address: "Adresse",
     zip: "Postnr.",
     city: "By",
+    country: "Land",
     age: "Jeg bekræfter, at jeg er fyldt 18 år.",
-    error: "Udfyld venligst alle felter og bekræft din alder.",
+    termsBefore: "Jeg har læst og accepterer ",
+    termsAfter: ".",
+    error: "Udfyld venligst alle felter, bekræft din alder og accepter handelsbetingelserne.",
     thanks: "Tak – du er klar!",
     notice: "Webshoppen åbner snart. Betaling er ikke sat op endnu, så der er ikke sendt en ordre, og du er ikke blevet opkrævet.",
     summary: "Oversigt",
@@ -39,8 +48,11 @@ const copy = {
     address: "Address",
     zip: "Postcode",
     city: "City",
+    country: "Country",
     age: "I confirm that I am 18 or older.",
-    error: "Please fill in all fields and confirm your age.",
+    termsBefore: "I have read and accept the ",
+    termsAfter: ".",
+    error: "Please fill in all fields, confirm your age and accept the terms and conditions.",
     thanks: "Thanks – you're all set!",
     notice: "The web shop opens soon. Payment isn't set up yet, so no order has been placed and you have not been charged.",
     summary: "Summary",
@@ -80,10 +92,16 @@ const copy = {
               <label class="field">{copy.email}<input name="email" type="email" autocomplete="email" required /></label>
               <label class="field">{copy.phone}<input name="phone" type="tel" autocomplete="tel" required /></label>
               <label class="field span-2">{copy.address}<input name="address" autocomplete="street-address" required /></label>
-              <label class="field">{copy.zip}<input name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{4}" required /></label>
+              <label class="field">{copy.zip}<input name="zip" autocomplete="postal-code" required /></label>
               <label class="field">{copy.city}<input name="city" autocomplete="address-level2" required /></label>
+              <label class="field span-2">{copy.country}
+                <select name="country" autocomplete="country" required>
+                  {countries.map((c) => <option value={c.code} selected={c.code === "DK"}>{c.name}</option>)}
+                </select>
+              </label>
             </div>
             <label class="check"><input type="checkbox" name="age" required /> {copy.age}</label>
+            <label class="check"><input type="checkbox" name="terms" required /> <span>{copy.termsBefore}<a href={href(lang, "terms")} target="_blank" rel="noopener">{t.terms.toLowerCase()}</a>{copy.termsAfter}</span></label>
             <p class="form-error" id="form-error" hidden>{copy.error}</p>
             <div class="notice" id="checkout-notice" hidden>
               <strong>{copy.thanks}</strong>

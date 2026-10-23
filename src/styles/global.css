@@ -1207,7 +1207,8 @@ main > .story:first-child { margin-top: 0; }
 .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .field { display: grid; gap: 6px; font-size: 13px; font-weight: 800; letter-spacing: 0.06em; color: var(--navy); }
 .field.span-2 { grid-column: span 2; }
-.field input {
+.field input,
+.field select {
   font: inherit;
   font-size: 16px;
   font-weight: 500;
@@ -1218,9 +1219,10 @@ main > .story:first-child { margin-top: 0; }
   background: #fff;
   color: var(--ink);
 }
-.field input:focus { outline: 2px solid var(--deep-yellow); outline-offset: 1px; border-color: var(--navy); }
+.field select { appearance: auto; }
+.field input:focus, .field select:focus { outline: 2px solid var(--deep-yellow); outline-offset: 1px; border-color: var(--navy); }
 .tried input:invalid { border-color: #d0342c; }
-.check { display: flex; gap: 10px; align-items: center; margin-top: 18px; font-weight: 700; color: var(--navy); }
+.check { display: flex; gap: 10px; align-items: center; margin-top: 14px; font-weight: 700; color: var(--navy); }
 .check input { width: 20px; height: 20px; accent-color: var(--navy); }
 .form-error { color: #d0342c; font-weight: 700; margin: 12px 0 0; }
 .notice { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--butter); color: var(--navy); }
@@ -1411,6 +1413,7 @@ body.locked { overflow: hidden; }
 .legal p, .legal li { line-height: 1.6; }
 .legal ul { padding-left: 22px; display: grid; gap: 6px; }
 .legal a { color: var(--navy); }
+.check a { color: var(--navy); font-weight: 800; }
 
 /* ---------- THC-A info on product pages ---------- */
 .thca-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: start; }
