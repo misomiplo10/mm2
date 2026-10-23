@@ -313,17 +313,14 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   border: 1.5px dashed rgba(31, 74, 41, 0.2);
   animation: spin 80s linear infinite;
 }
-.hero-bud {
+.hero-mascot {
   position: relative;
-  width: min(290px, 60%);
+  width: min(360px, 74%);
   height: auto;
-  filter: drop-shadow(0 30px 50px rgba(31, 74, 41, 0.4));
+  filter: drop-shadow(0 22px 30px rgba(31, 74, 41, 0.22));
   animation: float 7s ease-in-out infinite;
+  transform-origin: 50% 100%;
 }
-.float { position: absolute; width: 22%; display: flex; justify-content: center; }
-.float .hero-tube { width: 46%; filter: drop-shadow(0 18px 22px rgba(31, 74, 41, 0.28)); }
-.float-l { left: 4%; top: 28%; rotate: -14deg; animation: float 8s ease-in-out infinite reverse; }
-.float-r { right: 4%; top: 18%; rotate: 12deg; animation: float 9s ease-in-out infinite; }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
