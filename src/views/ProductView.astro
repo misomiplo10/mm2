@@ -84,25 +84,6 @@ const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug &&
             {p.onRequest && <span class="pcard-flag">{t.onRequest}</span>}
             <ProductVisual visual={p.visual} />
           </div>
-          {p.videos && (
-            <div class="pdp-videos">
-              <p class="pdp-videos-title">{copy.videos}</p>
-              <div class="pdp-video-row">
-                {p.videos.map((src, i) => (
-                  <video
-                    src={src}
-                    poster={src.replace(/\.mp4$/, ".webp")}
-                    controls
-                    playsinline
-                    muted
-                    loop
-                    preload="none"
-                    aria-label={`${p.name} – video ${i + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         <div class="pdp-info">
@@ -183,6 +164,28 @@ const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug &&
       </div>
     </div>
   </section>
+
+  {p.videos && (
+    <section class="block strain-videos">
+      <div class="wrap">
+        <SectionTitle title={copy.videos} />
+        <div class:list={["strain-video-row", `n-${p.videos.length}`]}>
+          {p.videos.map((src, i) => (
+            <video
+              src={src}
+              poster={src.replace(/\.mp4$/, ".webp")}
+              controls
+              playsinline
+              muted
+              loop
+              preload="none"
+              aria-label={`${p.name} – video ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   {p.category !== "accessory" && <ThcaInfo />}
 
