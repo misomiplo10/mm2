@@ -9,7 +9,9 @@ export type Visual =
   | { kind: "tubes"; color: "pink" | "yellow"; label: string }
   | { kind: "lighter" }
   | { kind: "photo"; src: string; alt: string }
-  | { kind: "packshot"; src: string; alt: string };
+  | { kind: "packshot"; src: string; alt: string }
+  /** A photo that fills the whole tile (used when there's no white-background product shot) */
+  | { kind: "cover"; src: string; alt: string };
 
 /** A size the consumer shop sells; price incl. moms, kr. */
 export interface Variant {
@@ -45,6 +47,8 @@ export interface Product {
   retail?: number;
   /** Sizes the consumer shop sells; when set, these replace size/retail in the shop */
   variants?: Variant[];
+  /** Short clips of the strain, shown on the product page (first one is the main video) */
+  videos?: string[];
   /** Webshop price incl. moms, kr, for products without a vejl. udsalgspris (keeps the retailer page unchanged) */
   shopPrice?: number;
   onRequest?: boolean;
@@ -103,6 +107,115 @@ export const products: Product[] = [
     featured: true,
     tint: "peach",
     visual: { kind: "packshot", src: "/img/pouch-sunday-cruise.webp", alt: "Sunday Cruise pose" },
+  },
+  {
+    slug: "king-louie",
+    name: "King Louie",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "King Louie – Cali-flower med THC-A. Se sorten tæt på i videoen.",
+      en: "King Louie – Cali flower with THC-A. See the strain up close in the video.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    videos: ["/video/king-louie-1.mp4"],
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/flower/king-louie.webp", alt: "King Louie" },
+  },
+  {
+    slug: "pornstar",
+    name: "Pornstar",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "Pornstar – Cali-flower med THC-A. Se sorten tæt på i videoen.",
+      en: "Pornstar – Cali flower with THC-A. See the strain up close in the video.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    videos: ["/video/pornstar-1.mp4", "/video/pornstar-2.mp4"],
+    tint: "peach",
+    visual: { kind: "photo", src: "/img/flower/pornstar.webp", alt: "Pornstar" },
+  },
+  {
+    slug: "pink-castle",
+    name: "Pink Castle",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "Pink Castle – Cali-flower med THC-A. Se sorten tæt på i videoen.",
+      en: "Pink Castle – Cali flower with THC-A. See the strain up close in the video.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    videos: ["/video/pink-castle-1.mp4"],
+    tint: "pink",
+    visual: { kind: "photo", src: "/img/flower/pink-castle.webp", alt: "Pink Castle" },
+  },
+  {
+    slug: "milkshake-zeethos",
+    name: "Milkshake Zeethos",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "Milkshake Zeethos – Cali-flower med THC-A. Se sorten tæt på i videoen.",
+      en: "Milkshake Zeethos – Cali flower with THC-A. See the strain up close in the video.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    videos: ["/video/milkshake-zeethos-1.mp4"],
+    tint: "butter",
+    visual: { kind: "photo", src: "/img/flower/milkshake-zeethos.webp", alt: "Milkshake Zeethos" },
+  },
+  {
+    slug: "flying-dutchman",
+    name: "Flying Dutchman",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "Flying Dutchman – Cali-flower med THC-A. Se sorten tæt på i videoen.",
+      en: "Flying Dutchman – Cali flower with THC-A. See the strain up close in the video.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    videos: ["/video/flying-dutchman-1.mp4", "/video/flying-dutchman-2.mp4", "/video/flying-dutchman-3.mp4"],
+    tint: "lavender",
+    visual: { kind: "cover", src: "/img/flower/flying-dutchman.webp", alt: "Flying Dutchman" },
+  },
+  {
+    slug: "obama-runtz",
+    name: "Obama Runtz",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "Obama Runtz – Cali-flower med THC-A.",
+      en: "Obama Runtz – Cali flower with THC-A.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    tint: "peach",
+    visual: { kind: "photo", src: "/img/flower/obama-runtz.webp", alt: "Obama Runtz" },
+  },
+  {
+    slug: "rainbow-sherbet",
+    name: "Rainbow Sherbet",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "Rainbow Sherbet – Cali-flower med THC-A.",
+      en: "Rainbow Sherbet – Cali flower with THC-A.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    tint: "pink",
+    visual: { kind: "photo", src: "/img/flower/rainbow-sherbet.webp", alt: "Rainbow Sherbet" },
+  },
+  {
+    slug: "turbobacon",
+    name: "TurboBacon",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: {
+      da: "TurboBacon – Cali-flower med THC-A.",
+      en: "TurboBacon – Cali flower with THC-A.",
+    },
+    variants: byGram(2, 6, 10, 20, 50, 100),
+    tint: "butter",
+    visual: { kind: "photo", src: "/img/flower/turbobacon.webp", alt: "TurboBacon" },
   },
   {
     slug: "daydream",

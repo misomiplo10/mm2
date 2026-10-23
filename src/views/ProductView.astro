@@ -37,6 +37,7 @@ const copy = {
     responsible: "Ansvarligt brug",
     responsibleText: "Kun til personer over 18 år. Opbevares utilgængeligt for børn.",
     related: "Du vil måske også kunne lide",
+    videos: "Se sorten tæt på",
   },
   en: {
     crumbs: "Breadcrumb",
@@ -59,6 +60,7 @@ const copy = {
     responsible: "Responsible use",
     responsibleText: "For adults 18+ only. Keep out of reach of children.",
     related: "You might also like",
+    videos: "See the strain up close",
   },
 }[lang];
 const buyable = isBuyable(p);
@@ -77,9 +79,30 @@ const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug &&
       </nav>
 
       <div class="pdp">
-        <div class={`pdp-media bg-${p.tint}`}>
-          {p.onRequest && <span class="pcard-flag">{t.onRequest}</span>}
-          <ProductVisual visual={p.visual} />
+        <div class="pdp-gallery">
+          <div class={`pdp-media bg-${p.tint}`}>
+            {p.onRequest && <span class="pcard-flag">{t.onRequest}</span>}
+            <ProductVisual visual={p.visual} />
+          </div>
+          {p.videos && (
+            <div class="pdp-videos">
+              <p class="pdp-videos-title">{copy.videos}</p>
+              <div class="pdp-video-row">
+                {p.videos.map((src, i) => (
+                  <video
+                    src={src}
+                    poster={src.replace(/\.mp4$/, ".webp")}
+                    controls
+                    playsinline
+                    muted
+                    loop
+                    preload="none"
+                    aria-label={`${p.name} – video ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div class="pdp-info">

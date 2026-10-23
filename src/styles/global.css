@@ -1141,6 +1141,11 @@ main > .story:first-child { margin-top: 0; }
   overflow: hidden;
 }
 .pdp-media .photo { width: 80%; mix-blend-mode: multiply; }
+.pdp-gallery { display: grid; gap: 18px; align-content: start; }
+.pdp-videos-title { margin: 0 0 10px; font-weight: 800; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy); }
+.pdp-video-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.pdp-video-row video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; background: var(--navy); display: block; }
+@media (max-width: 640px) { .pdp-video-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .pdp-media .pouch { width: 44%; }
 .pdp-media .tube { width: 12%; }
 .pdp-media .tube-duo { height: 80%; }
@@ -1443,6 +1448,8 @@ body.locked { overflow: hidden; }
 
 /* ---------- packshots (transparent cut-outs of the real packaging) ---------- */
 .cat-media { position: relative; }
+/* fills the whole tile; for strain photos that aren't on white */
+.cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .packshot {
   position: absolute;
   inset: 10%;
