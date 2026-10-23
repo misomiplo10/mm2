@@ -21,6 +21,16 @@ export interface Variant {
 export const PRICE_PER_GRAM = 109;
 const byGram = (...grams: number[]): Variant[] => grams.map((g) => ({ size: `${g} g`, retail: g * PRICE_PER_GRAM }));
 
+/** Hash is price-matched to senseshop.dk (THCa Hash 60 % – Stronk Stuff), incl. their volume discount. */
+const HASH_PRICES: Variant[] = [
+  { size: "2 g", retail: 199 },
+  { size: "6 g", retail: 549 },
+  { size: "10 g", retail: 949 },
+  { size: "20 g", retail: 1849 },
+  { size: "50 g", retail: 2799 },
+  { size: "100 g", retail: 4499 },
+];
+
 export interface Product {
   slug: string;
   name: string;
@@ -71,7 +81,7 @@ export const products: Product[] = [
     },
     wholesale: 345,
     retail: 769,
-    variants: byGram(2, 5, 10, 20, 50, 100),
+    variants: byGram(2, 6, 10, 20, 50, 100),
     featured: true,
     tint: "lavender",
     visual: { kind: "packshot", src: "/img/pouch-midnight-rider.webp", alt: "Midnight Rider pose" },
@@ -89,7 +99,7 @@ export const products: Product[] = [
     },
     wholesale: 115,
     retail: 259,
-    variants: byGram(2, 5, 10, 20, 50, 100),
+    variants: byGram(2, 6, 10, 20, 50, 100),
     featured: true,
     tint: "peach",
     visual: { kind: "packshot", src: "/img/pouch-sunday-cruise.webp", alt: "Sunday Cruise pose" },
@@ -139,6 +149,7 @@ export const products: Product[] = [
       en: "Fresh Frozen hash infused with THC-A – soft, aromatic and full of character.",
     },
     wholesale: 119,
+    variants: HASH_PRICES,
     featured: true,
     tint: "peach",
     visual: { kind: "photo", src: "/img/fresh-frozen.jpg", alt: "Fresh Frozen hash" },
@@ -154,6 +165,7 @@ export const products: Product[] = [
       en: "Classic Dry Sift hash with THC-A – clean, dry and aromatic.",
     },
     wholesale: 112,
+    variants: HASH_PRICES,
     featured: true,
     tint: "lavender",
     visual: { kind: "photo", src: "/img/dry-sift.jpg", alt: "Dry Sift hash" },
