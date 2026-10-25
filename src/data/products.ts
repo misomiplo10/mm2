@@ -340,5 +340,5 @@ export const cartData = (p: Product, v: Variant = shopVariants(p)[0]) =>
     price: v.retail,
     size: v.size || undefined,
     tint: p.tint,
-    thumb: p.visual.kind === "photo" || p.visual.kind === "packshot" ? p.visual.src : "/img/logo-green.png",
+    thumb: p.visual.kind === "photo" || p.visual.kind === "packshot" ? p.visual.src : "/img/logo-navy.png",
   });

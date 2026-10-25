@@ -18,14 +18,14 @@ const { visual: v } = Astro.props;
   <div class="tube-duo">
     {[0, 1].map(() => (
       <div class={`tube tube-${v.color}`}>
-        <img src="/img/logo-green.png" alt="" />
+        <img src="/img/logo-navy.png" alt="" />
         {v.label && <span class="label">{v.label}</span>}
       </div>
     ))}
   </div>
 )}
 {v.kind === "lighter" && (
-  <div class="lighter"><img src="/img/logo-green.png" alt="" /></div>
+  <div class="lighter"><img src="/img/logo-navy.png" alt="" /></div>
 )}
 {v.kind === "photo" && <img class="photo" src={v.src} alt={v.alt} loading="lazy" />}
 {v.kind === "packshot" && <img class="packshot" src={v.src} alt={v.alt} loading="lazy" />}
