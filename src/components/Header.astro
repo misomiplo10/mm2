@@ -42,7 +42,7 @@ const shopPath = href(lang, "shop");
           <a href={translatePath(Astro.url.pathname, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined}>{l.toUpperCase()}</a>
         ))}
       </div>
-      <a class="btn btn-ghost-light btn-sm hide-md" href={href(lang, "retail")}>{t.retailer}</a>
+      <a class="btn btn-ghost-light btn-sm hide-md" href="/konto" data-account-link>{lang === "en" ? "Customer login" : "Kundelogin"}</a>
       <button class="cart-btn" data-cart-open aria-label={t.openCart}>
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M6 7h12l-1 13H7L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path>

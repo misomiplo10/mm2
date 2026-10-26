@@ -175,7 +175,8 @@ const pctSuffix = lang === "en" ? "%" : " %";
       <p class="lead">{copy.lead}</p>
       <div class="hero-actions">
         <a class="btn btn-orange" href="#kontakt">{copy.become}</a>
-        <a class="btn btn-ghost" href={company.catalog} target="_blank" rel="noopener">{copy.getCatalog}</a>
+        <a class="btn btn-ghost" href={company.catalog} target="_blank" rel="noopener" data-retail-only hidden>{copy.getCatalog}</a>
+        <a class="btn btn-ghost" href="/konto" data-retail-lock>{lang === "en" ? "Log in for prices & catalogue" : "Log ind for priser & katalog"}</a>
       </div>
     </div>
   </section>
@@ -186,6 +187,26 @@ const pctSuffix = lang === "en" ? "%" : " %";
     </div>
   </nav>
 
+  <!-- PROTOTYPE: in the static build the prices below are still in the HTML, only hidden. The real
+       version renders them on the server and only sends them to approved retailers. -->
+  <section class="retail-lock" data-retail-lock>
+    <div class="wrap">
+      <div class="lock-card">
+        <img src="/img/mascot-peeking.webp" alt="" width="480" height="293" />
+        <h2 class="h2">{lang === "en" ? "Prices are for " : "Priserne er for "}<em>{lang === "en" ? "retailers." : "forhandlere."}</em></h2>
+        <p>{lang === "en"
+          ? "Wholesale prices, margins, the starter pack and the catalogue are only shown to approved retailers. Create a retailer profile with your CVR number – we approve it within one working day."
+          : "Indkøbspriser, avance, opstartspakke og katalog vises kun for godkendte forhandlere. Opret en forhandlerprofil med dit CVR-nummer – vi godkender den inden for 1 hverdag."}</p>
+        <div class="hero-actions">
+          <a class="btn btn-navy" href="/konto">{lang === "en" ? "Create retailer profile" : "Opret forhandlerprofil"}</a>
+          <a class="btn btn-ghost" href="/konto">{lang === "en" ? "Log in" : "Log ind"}</a>
+        </div>
+        <p class="account-small" data-retail-pending hidden>{lang === "en" ? "Your retailer profile is waiting for approval." : "Din forhandlerprofil afventer godkendelse."}</p>
+      </div>
+    </div>
+  </section>
+
+  <div data-retail-only hidden>
   <section id="opstart">
     <div class="wrap">
       <div class="section-head reveal">
@@ -264,6 +285,8 @@ const pctSuffix = lang === "en" ? "%" : " %";
       </div>
     </div>
   </section>
+
+  </div>
 
   <section id="vilkaar" style="padding-top: 0">
     <div class="wrap">

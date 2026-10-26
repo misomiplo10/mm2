@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+---
+
+<BaseLayout title="Min konto – Mister Mellow" description="Opret en profil hos Mister Mellow, saml stempler og få medlemstilbud.">
+  <section class="block page-top">
+    <div class="wrap account">
+      <p class="proto-note">Prototype – kontoen gemmes kun i din browser. Der oprettes ingen rigtige konti.</p>
+      <SectionTitle title="Min konto" />
+
+      <div class="account-tabs" role="tablist">
+        <button role="tab" class="account-tab active" data-tab="signup" aria-selected="true">Opret profil</button>
+        <button role="tab" class="account-tab" data-tab="login" aria-selected="false">Log ind</button>
+      </div>
+
+      <!-- Opret profil: trin 1 vælger profiltype, trin 2 viser felterne for den type -->
+      <div class="account-panel" data-panel="signup">
+        <div class="type-step" data-step="type">
+          <h2 class="account-h">Hvem er du?</h2>
+          <p class="account-lead">Vælg den profil, der passer til dig. Det bestemmer, hvad du får adgang til.</p>
+          <div class="type-choices">
+            <button type="button" class="type-card" data-choose="kunde">
+              <img src="/img/mascot-lounging.webp" alt="" width="600" height="377" />
+              <strong>Kunde</strong>
+              <span>Saml stempler på dine ordrer, få gratis 2 g for hver 10. ordre og eksklusive medlemstilbud.</span>
+            </button>
+            <button type="button" class="type-card" data-choose="forhandler">
+              <img src="/img/mascot-scientist.webp" alt="" width="600" height="797" />
+              <strong>Forhandler</strong>
+              <span>Butik eller webshop med CVR. Se indkøbspriser, avance og katalog, når vi har godkendt din profil.</span>
+            </button>
+          </div>
+        </div>
+
+        <form class="panel account-form" data-step="form" data-form="signup" hidden novalidate>
+          <button type="button" class="link-back" data-back>← Skift profiltype</button>
+          <h2 class="account-h" data-form-title>Opret kundeprofil</h2>
+          <div class="fields">
+            <label class="field span-2 only-forhandler">Firmanavn<input name="company" autocomplete="organization" /></label>
+            <label class="field only-forhandler">CVR-nummer<input name="cvr" inputmode="numeric" pattern="[0-9]{8}" /></label>
+            <label class="field only-forhandler">Telefon<input name="phone" type="tel" autocomplete="tel" /></label>
+            <label class="field span-2"><span data-name-label>Fulde navn</span><input name="name" autocomplete="name" required /></label>
+            <label class="field">E-mail<input name="email" type="email" autocomplete="email" required /></label>
+            <label class="field">Adgangskode<input name="password" type="password" autocomplete="new-password" minlength="8" required /></label>
+          </div>
+          <label class="check"><input type="checkbox" name="age" required /> Jeg bekræfter, at jeg er fyldt 18 år.</label>
+          <label class="check only-kunde"><input type="checkbox" name="marketing" /> Ja tak til medlemstilbud og nye drops på e-mail (kan altid afmeldes).</label>
+          <p class="account-small only-forhandler">Vi tjekker dit CVR-nummer og godkender profilen, typisk inden for 1 hverdag. Indtil da kan du ikke se forhandlerpriser.</p>
+          <p class="form-error" data-error hidden>Udfyld venligst alle felter og bekræft din alder.</p>
+          <button class="btn btn-navy btn-lg" type="submit">Opret profil</button>
+        </form>
+      </div>
+
+      <form class="panel account-form" data-panel="login" data-form="login" hidden novalidate>
+        <h2 class="account-h">Log ind</h2>
+        <div class="fields">
+          <label class="field">E-mail<input name="email" type="email" autocomplete="email" required /></label>
+          <label class="field">Adgangskode<input name="password" type="password" autocomplete="current-password" required /></label>
+        </div>
+        <p class="form-error" data-error hidden>Ingen profil med den e-mail i denne browser. Opret en profil først.</p>
+        <button class="btn btn-navy btn-lg" type="submit">Log ind</button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { getAccount, saveAccount, type AccountType } from "../../scripts/account";
+
+  if (getAccount()) location.replace("/konto/profil");
+
+  // Tabs
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".account-tab");
+  const panels = document.querySelectorAll<HTMLElement>("[data-panel]");
+  tabs.forEach((tab) =>
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => {
+        t.classList.toggle("active", t === tab);
+        t.setAttribute("aria-selected", String(t === tab));
+      });
+      panels.forEach((p) => (p.hidden = p.dataset.panel !== tab.dataset.tab));
+    }),
+  );
+
+  // Step 1: choose profile type, step 2: the form for that type
+  const typeStep = document.querySelector<HTMLElement>('[data-step="type"]')!;
+  const form = document.querySelector<HTMLFormElement>('[data-form="signup"]')!;
+  let chosen: AccountType = "kunde";
+  const showForm = (type: AccountType) => {
+    chosen = type;
+    form.dataset.type = type;
+    form.querySelector("[data-form-title]")!.textContent = type === "kunde" ? "Opret kundeprofil" : "Opret forhandlerprofil";
+    form.querySelector("[data-name-label]")!.textContent = type === "kunde" ? "Fulde navn" : "Kontaktperson";
+    form.querySelectorAll<HTMLInputElement>(".only-forhandler input").forEach((i) => (i.required = type === "forhandler"));
+    typeStep.hidden = true;
+    form.hidden = false;
+  };
+  document.querySelectorAll<HTMLButtonElement>("[data-choose]").forEach((b) => b.addEventListener("click", () => showForm(b.dataset.choose as AccountType)));
+  form.querySelector("[data-back]")!.addEventListener("click", () => {
+    form.hidden = true;
+    typeStep.hidden = false;
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const ok = form.checkValidity();
+    form.querySelector<HTMLElement>("[data-error]")!.hidden = ok;
+    form.classList.toggle("tried", !ok);
+    if (!ok) return;
+    const f = new FormData(form);
+    saveAccount({
+      type: chosen,
+      name: String(f.get("name")),
+      email: String(f.get("email")),
+      company: chosen === "forhandler" ? String(f.get("company")) : undefined,
+      cvr: chosen === "forhandler" ? String(f.get("cvr")) : undefined,
+      phone: chosen === "forhandler" ? String(f.get("phone")) : undefined,
+      approved: chosen === "forhandler" ? false : undefined,
+      marketing: f.get("marketing") === "on",
+      orders: 0,
+      rewards: 0,
+      createdAt: new Date().toISOString(),
+    });
+    location.href = "/konto/profil";
+  });
+
+  // Login (prototype): only finds a profile created in this browser
+  const login = document.querySelector<HTMLFormElement>('[data-form="login"]')!;
+  login.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = String(new FormData(login).get("email")).trim().toLowerCase();
+    const known = getAccount();
+    const found = known && known.email.toLowerCase() === email;
+    login.querySelector<HTMLElement>("[data-error]")!.hidden = !!found;
+    if (found) location.href = "/konto/profil";
+  });
+</script>

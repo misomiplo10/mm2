@@ -1,3 +1,5 @@
+import { canSeeRetailerPrices, getAccount } from "./account";
+
 // Age gate: remembered per browser; storage may be unavailable (private mode)
 const AGE_KEY = "mm-age-ok";
 const gate = document.getElementById("age-gate");
@@ -93,3 +95,15 @@ const io = new IntersectionObserver(
   { threshold: 0.12 },
 );
 document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+// PROTOTYPE accounts: header link and retailer-only content (see scripts/account.ts)
+const account = getAccount();
+document.querySelectorAll<HTMLAnchorElement>("[data-account-link]").forEach((a) => {
+  if (!account) return;
+  a.href = "/konto/profil";
+  a.textContent = document.documentElement.lang === "en" ? "My profile" : "Min profil";
+});
+const retailer = canSeeRetailerPrices(account);
+document.querySelectorAll<HTMLElement>("[data-retail-only]").forEach((el) => (el.hidden = !retailer));
+document.querySelectorAll<HTMLElement>("[data-retail-lock]").forEach((el) => (el.hidden = retailer));
+document.querySelectorAll<HTMLElement>("[data-retail-pending]").forEach((el) => (el.hidden = !(account?.type === "forhandler" && !account.approved)));

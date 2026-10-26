@@ -1,0 +1,153 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import { company } from "../../data/company";
+import { MIN_ORDER_FOR_STAMP, STAMPS_PER_REWARD } from "../../scripts/account";
+
+// Example member offers; in the real version these come from the admin and can target customers
+// (all members, birthday month, people who buy a certain product, etc.).
+const offers = [
+  { tag: "Kun for medlemmer", title: "10 % på Sunday Cruise", text: "Hele weekenden – rabatten trækkes automatisk i kurven.", until: "Gælder til søndag" },
+  { tag: "Dobbelt stempel", title: "2 stempler på pre-rolls", text: "Køb Daydream eller Sunrise i denne uge og få dobbelt stempel på kortet.", until: "Gælder i 7 dage" },
+  { tag: "Fødselsdag", title: "Gratis lighter i din fødselsmåned", text: "Vi lægger en Mister Mellow-lighter i posen, når du handler i din fødselsmåned.", until: "Fast medlemsfordel" },
+];
+---
+
+<BaseLayout title="Min profil – Mister Mellow" description="Din Mister Mellow-profil: stempelkort, medlemstilbud og ordrer.">
+  <section class="block page-top">
+    <div class="wrap account">
+      <p class="proto-note">
+        Prototype – kontoen gemmes kun i din browser.
+        <button type="button" class="link-back" data-demo-order>+ Simulér en ordre</button>
+        <button type="button" class="link-back" data-demo-approve hidden>✓ Godkend forhandler (kun i prototype)</button>
+      </p>
+
+      <div class="profile-head">
+        <SectionTitle title="Min profil" />
+        <button type="button" class="btn btn-ghost btn-sm" data-signout>Log ud</button>
+      </div>
+      <p class="account-lead" data-greeting></p>
+
+      <!-- Kunde -->
+      <div class="profile-grid" data-view="kunde" hidden>
+        <div class="panel stamp-card">
+          <div class="stamp-head">
+            <div>
+              <h2 class="account-h">Dit stempelkort</h2>
+              <p class="account-small">Få et stempel for hver ordre over {MIN_ORDER_FOR_STAMP} kr. Ved {STAMPS_PER_REWARD} stempler får du <b>2 g gratis</b> med i næste ordre.</p>
+            </div>
+            <div class="stamp-count"><b data-stamps>0</b>/{STAMPS_PER_REWARD}</div>
+          </div>
+          <ol class="stamps" data-stamp-row>
+            {Array.from({ length: STAMPS_PER_REWARD }, (_, i) => (
+              <li class:list={["stamp", { "stamp-gift": i === STAMPS_PER_REWARD - 1 }]}>
+                <img src="/img/logo-navy.png" alt="" />
+                {i === STAMPS_PER_REWARD - 1 && <span>2 g</span>}
+              </li>
+            ))}
+          </ol>
+          <p class="stamp-left" data-left></p>
+          <div class="reward" data-reward hidden>
+            <strong>🎁 Du har <span data-reward-count>1</span> × gratis 2 g klar!</strong>
+            Den lægges automatisk i din næste ordre.
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="account-h">Medlemstilbud</h2>
+          <ul class="offers">
+            {offers.map((o) => (
+              <li class="offer">
+                <span class="offer-tag">{o.tag}</span>
+                <strong>{o.title}</strong>
+                <span>{o.text}</span>
+                <small>{o.until}</small>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h2 class="account-h">Dine ordrer</h2>
+          <p class="account-small" data-orders-text>Du har ingen ordrer endnu.</p>
+          <a class="btn btn-navy" href="/shop">Gå til shoppen</a>
+        </div>
+      </div>
+
+      <!-- Forhandler -->
+      <div class="profile-grid" data-view="forhandler" hidden>
+        <div class="panel">
+          <h2 class="account-h" data-company></h2>
+          <p class="account-small" data-cvr></p>
+          <div class="status status-pending" data-status-pending>
+            <strong>Afventer godkendelse</strong>
+            Vi tjekker dit CVR-nummer og vender tilbage, typisk inden for 1 hverdag. Når profilen er godkendt, kan du se forhandlerpriser, avance og katalog.
+          </div>
+          <div class="status status-ok" data-status-ok hidden>
+            <strong>Godkendt forhandler</strong>
+            Du kan nu se indkøbspriser, avanceberegning og hente kataloget.
+          </div>
+        </div>
+
+        <div class="panel" data-retail-tools hidden>
+          <h2 class="account-h">Forhandlerområde</h2>
+          <div class="hero-actions">
+            <a class="btn btn-navy" href="/forhandler#priser">Se forhandlerpriser</a>
+            <a class="btn btn-ghost" href={company.catalog} target="_blank" rel="noopener">Hent katalog 2026 (PDF)</a>
+          </div>
+          <p class="account-small">Genbestilling: send antal pr. produkt til <a href={`mailto:${company.email}`}>{company.email}</a> eller ring på {company.phone}.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { STAMPS_PER_REWARD, addDemoOrder, getAccount, saveAccount, signOut, stampsOnCard, type Account } from "../../scripts/account";
+
+  let account = getAccount();
+  if (!account) location.replace("/konto");
+
+  const $ = <T extends HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
+
+  function render(a: Account) {
+    const first = a.name.split(" ")[0];
+    $("[data-greeting]").textContent = a.type === "kunde" ? `Hej ${first} – godt at se dig igen.` : `Hej ${first} – velkommen til forhandlerområdet.`;
+    document.querySelectorAll<HTMLElement>("[data-view]").forEach((v) => (v.hidden = v.dataset.view !== a.type));
+    $("[data-demo-order]").hidden = a.type !== "kunde";
+    $("[data-demo-approve]").hidden = a.type !== "forhandler" || !!a.approved;
+
+    if (a.type === "kunde") {
+      const stamps = stampsOnCard(a);
+      $("[data-stamps]").textContent = String(stamps);
+      document.querySelectorAll<HTMLElement>("[data-stamp-row] .stamp").forEach((s, i) => s.classList.toggle("on", i < stamps));
+      const left = STAMPS_PER_REWARD - stamps;
+      $("[data-left]").textContent = left === 1 ? "Kun 1 ordre mere til gratis 2 g!" : `${left} ordrer til gratis 2 g.`;
+      $("[data-reward]").hidden = a.rewards === 0;
+      $("[data-reward-count]").textContent = String(a.rewards);
+      $("[data-orders-text]").textContent = a.orders === 0 ? "Du har ingen ordrer endnu." : `Du har lagt ${a.orders} ${a.orders === 1 ? "ordre" : "ordrer"} hos os.`;
+    } else {
+      $("[data-company]").textContent = a.company ?? "";
+      $("[data-cvr]").textContent = `CVR ${a.cvr} · ${a.email}`;
+      $("[data-status-pending]").hidden = !!a.approved;
+      $("[data-status-ok]").hidden = !a.approved;
+      $("[data-retail-tools]").hidden = !a.approved;
+    }
+  }
+
+  if (account) render(account);
+
+  $("[data-demo-order]").addEventListener("click", () => {
+    if (account) render((account = addDemoOrder(account)));
+  });
+  $("[data-demo-approve]").addEventListener("click", () => {
+    if (!account) return;
+    account = { ...account, approved: true };
+    saveAccount(account);
+    render(account);
+  });
+  $("[data-signout]").addEventListener("click", () => {
+    signOut();
+    location.href = "/konto";
+  });
+</script>

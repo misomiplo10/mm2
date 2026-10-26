@@ -28,7 +28,7 @@ const t = ui[lang];
         <ul>
           <li><a href={href(lang, "retail")}>{t.becomeRetailer}</a></li>
           <li><a href={`${href(lang, "retail")}#vilkaar`}>{t.termsDelivery}</a></li>
-          <li><a href={company.catalog} target="_blank" rel="noopener">{t.catalog}</a></li>
+          <li><a href="/konto">{t.catalog} · {lang === "en" ? "retailers only" : "kun forhandlere"}</a></li>
         </ul>
       </div>
       <div>
