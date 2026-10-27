@@ -153,3 +153,18 @@ export const ui = {
     from: "From",
   },
 } satisfies Record<Lang, Record<string, string>>;
+
+const UK_NATIONS: Record<string, L> = {
+  "GB-ENG": { da: "Storbritannien – England", en: "UK – England" },
+  "GB-NIR": { da: "Storbritannien – Nordirland", en: "UK – Northern Ireland" },
+  "GB-SCT": { da: "Storbritannien – Skotland", en: "UK – Scotland" },
+  "GB-WLS": { da: "Storbritannien – Wales", en: "UK – Wales" },
+};
+
+/** Country names in the page language, Denmark first and the rest alphabetically. */
+export function countryList(codes: readonly string[], lang: Lang) {
+  const names = new Intl.DisplayNames([lang], { type: "region" });
+  return codes
+    .map((code) => ({ code, name: UK_NATIONS[code]?.[lang] ?? names.of(code)! }))
+    .sort((a, b) => (a.code === "DK" ? -1 : b.code === "DK" ? 1 : a.name.localeCompare(b.name, lang)));
+}

@@ -1,9 +1,11 @@
 ---
 import { company } from "../../data/company";
-import { href } from "../../i18n";
+import { countryList, href } from "../../i18n";
 
 const carriers = company.carriers.join(", ").replace(/, ([^,]*)$/, " and $1");
 const days = company.withdrawalDays;
+const names = countryList(company.shippingCountries, "en").map((c) => c.name);
+const countries = `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
 ---
 
 <h2>1. General information</h2>
@@ -37,7 +39,8 @@ const days = company.withdrawalDays;
 <h2>5. Delivery</h2>
 <p>Orders placed before 5:00 PM on a business day are dispatched the same day; orders placed after this time are sent the following business day.</p>
 <ul>
-  <li><strong>Shipping area:</strong> We ship to all countries in the EU. We do not deliver outside the EU.</li>
+  <li><strong>Shipping area:</strong> We ship to {countries}. We do not deliver to other countries.</li>
+  <li><strong>Outside the EU</strong> (Iceland, Switzerland and the UK), customs duties and local taxes may apply and are paid by the recipient on delivery.</li>
   <li><strong>Carriers:</strong> Your goods are shipped with {carriers}.</li>
   <li><strong>Estimated delivery:</strong> Typically {company.deliveryDays} business days after ordering.</li>
   <li>

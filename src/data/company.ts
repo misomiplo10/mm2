@@ -16,6 +16,11 @@ export const company = {
   /** Webshop orders over this amount (kr incl. moms) ship free */
   freeShippingOver: 499,
   carriers: ["DAO", "PostNord", "GLS", "Bring"],
+  /** Countries we ship to (ISO codes; UK split into its four nations). Order doesn't matter, the pages sort by name. */
+  shippingCountries: [
+    "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IS", "IE", "IT",
+    "LV", "LU", "MT", "NL", "PL", "SI", "ES", "CH", "GB-ENG", "GB-NIR", "GB-SCT", "GB-WLS",
+  ],
   /** Business days from order to delivery */
   deliveryDays: "1–2",
   withdrawalDays: 14,
