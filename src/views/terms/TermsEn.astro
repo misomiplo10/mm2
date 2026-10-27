@@ -4,8 +4,7 @@ import { countryList, href } from "../../i18n";
 
 const carriers = company.carriers.join(", ").replace(/, ([^,]*)$/, " and $1");
 const days = company.withdrawalDays;
-const names = countryList(company.shippingCountries, "en").map((c) => c.name);
-const countries = `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+const countries = countryList(company.shippingCountries, "en");
 ---
 
 <h2>1. General information</h2>
@@ -39,7 +38,7 @@ const countries = `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
 <h2>5. Delivery</h2>
 <p>Orders placed before 5:00 PM on a business day are dispatched the same day; orders placed after this time are sent the following business day.</p>
 <ul>
-  <li><strong>Shipping area:</strong> We ship to {countries}. We do not deliver to other countries.</li>
+  <li><strong>Shipping area:</strong> We ship to the {countries.length} countries listed below. We do not deliver to other countries.</li>
   <li><strong>Outside the EU</strong> (Iceland, Switzerland and the UK), customs duties and local taxes may apply and are paid by the recipient on delivery.</li>
   <li><strong>Carriers:</strong> Your goods are shipped with {carriers}.</li>
   <li><strong>Estimated delivery:</strong> Typically {company.deliveryDays} business days after ordering.</li>
@@ -47,6 +46,10 @@ const countries = `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
     <strong>Shipping rates:</strong> The shipping price depends on the country and carrier and is shown at checkout before you pay.
     Shipping is free on orders over DKK {company.freeShippingOver}.
   </li>
+</ul>
+<h3 id="countries">Countries we deliver to</h3>
+<ul class="country-list">
+  {countries.map((c) => <li>{c.name}</li>)}
 </ul>
 <p>Special delivery terms may apply to certain goods. These terms will be clearly stated before you buy.</p>
 

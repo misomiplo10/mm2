@@ -1434,6 +1434,7 @@ body.locked { overflow: hidden; }
 .legal p, .legal li { line-height: 1.6; }
 .legal ul { padding-left: 22px; display: grid; gap: 6px; }
 .legal a { color: var(--navy); }
+.legal .country-list { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 4px 24px; }
 .check a { color: var(--navy); font-weight: 800; }
 
 /* ---------- THC-A info on product pages ---------- */

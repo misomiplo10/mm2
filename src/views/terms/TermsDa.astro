@@ -4,8 +4,7 @@ import { countryList, href } from "../../i18n";
 
 const carriers = company.carriers.join(", ").replace(/, ([^,]*)$/, " og $1");
 const days = company.withdrawalDays;
-const names = countryList(company.shippingCountries, "da").map((c) => c.name);
-const countries = `${names.slice(0, -1).join(", ")} og ${names.at(-1)}`;
+const countries = countryList(company.shippingCountries, "da");
 ---
 
 <h2>1. Generelle oplysninger</h2>
@@ -41,7 +40,7 @@ const countries = `${names.slice(0, -1).join(", ")} og ${names.at(-1)}`;
   Bestiller du før kl. 17.00 på en hverdag, sender vi ordren samme dag. Ordrer afgivet efter kl. 17.00 sendes den følgende hverdag.
 </p>
 <ul>
-  <li><strong>Leveringsområde:</strong> Vi sender til {countries}. Vi leverer ikke til andre lande.</li>
+  <li><strong>Leveringsområde:</strong> Vi sender til de {countries.length} lande herunder. Vi leverer ikke til andre lande.</li>
   <li><strong>Uden for EU</strong> (Island, Schweiz og Storbritannien) kan der komme told og lokale afgifter, som modtageren betaler ved levering.</li>
   <li><strong>Fragtfirmaer:</strong> Din pakke sendes med {carriers}.</li>
   <li><strong>Leveringstid:</strong> Normalt {company.deliveryDays} hverdage, efter at du har bestilt.</li>
@@ -49,6 +48,10 @@ const countries = `${names.slice(0, -1).join(", ")} og ${names.at(-1)}`;
     <strong>Fragtpris:</strong> Fragtprisen afhænger af land og fragtfirma og vises i kassen, før du betaler. Der er fri fragt ved køb
     over {company.freeShippingOver} kr.
   </li>
+</ul>
+<h3 id="lande">Lande vi leverer til</h3>
+<ul class="country-list">
+  {countries.map((c) => <li>{c.name}</li>)}
 </ul>
 <p>Særlige leveringsvilkår kan gælde for enkelte varer. I så fald står de tydeligt, før du køber.</p>
 
