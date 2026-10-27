@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/((?!lukket\\.html$).*)", "destination": "/lukket.html", "permanent": false }
+  ],
+  "headers": [
+    { "source": "/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
+  ]
+}
