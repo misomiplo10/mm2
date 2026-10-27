@@ -1,5 +1,106 @@
 ---
-import TermsView from "../views/TermsView.astro";
+import PlainLayout from "../layouts/PlainLayout.astro";
+import { company } from "../data/company";
+
+const carriers = company.carriers.join(", ").replace(/, ([^,]*)$/, " og $1");
+const days = company.withdrawalDays;
+const mail = company.serviceEmail;
 ---
 
-<TermsView />
+<PlainLayout title="Handelsbetingelser – Mister Mellow ApS" description="Handelsbetingelser for køb hos Mister Mellow ApS.">
+  <h1>Handelsbetingelser</h1>
+
+  <h2>1. Sælger</h2>
+  <p>
+    {company.legalName}<br />
+    {company.address.map((l) => <>{l}<br /></>)}
+    CVR: {company.cvr} · Moms-nr.: {company.vat}<br />
+    E-mail: <a href={`mailto:${mail}`}>{mail}</a> · Telefon: <a href={company.phoneHref}>{company.phone}</a><br />
+    Tilsynsmyndighed for urtebaserede rygeprodukter: Erhvervsstyrelsen
+  </p>
+
+  <h2>2. Aldersgrænse</h2>
+  <p>
+    Vi sælger kun til personer over 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres. Fragtfirmaet kan bede om
+    legitimation ved levering. Er vi i tvivl om din alder, annullerer vi ordren og tilbagebetaler beløbet.
+  </p>
+
+  <h2>3. Priser</h2>
+  <p>
+    Alle priser er i danske kroner (DKK) inkl. 25 % moms. Fragt kommer oveni og vises i kurven, før du betaler. Vi forbeholder os ret
+    til at rette åbenlyse prisfejl.
+  </p>
+
+  <h2>4. Bestilling og betaling</h2>
+  <p>
+    Du bestiller ved at lægge varer i kurven, udfylde dine oplysninger, gennemføre alderskontrollen og trykke på "Ordre med
+    betalingsforpligtelse". Du kan rette indtastningsfejl i kurven, indtil du trykker på knappen. Aftalen indgås på dansk.
+  </p>
+  <p>
+    Vi tager imod VISA og Mastercard. Beløbet trækkes først, når ordren sendes. Du får en ordrebekræftelse på e-mail med disse
+    betingelser, og vi gemmer aftalen.
+  </p>
+
+  <h2>5. Levering</h2>
+  <p>
+    Vi leverer kun til adresser i Danmark. Din pakke sendes med {carriers}. Leveringstiden er normalt {company.deliveryDays} hverdage.
+    Fragtprisen afhænger af vægt og fragtfirma og vises, før du betaler.
+  </p>
+
+  <h2>6. Reklamationsret</h2>
+  <p>
+    Købelovens regler om mangler gælder. Du kan reklamere i 2 år fra leveringen. Er varen mangelfuld, kan du vælge mellem reparation
+    og omlevering, medmindre det er umuligt eller uforholdsmæssigt dyrt for os. Ellers kan du få et afslag i prisen eller hæve købet,
+    hvis manglen ikke er uvæsentlig. Repareres varen, forlænges reklamationsfristen én gang med 12 måneder.
+  </p>
+  <p>
+    Du skal give os besked inden for rimelig tid, efter at du har opdaget manglen. Ved en berettiget reklamation dækker vi rimelige
+    omkostninger til returfragt. Returadresse: {company.legalName}, {company.address.slice(0, 2).join(", ")}.
+  </p>
+
+  <h2>7. Fortrydelsesret</h2>
+  <p>
+    Du har {days} dages fortrydelsesret fra den dag, du modtager varen. Du fortryder ved at bruge siden
+    <a href="/fortryd">Fortryd aftale</a>, ved at sende standardfortrydelsesformularen herunder, eller ved at skrive en tydelig
+    besked til <a href={`mailto:${mail}`}>{mail}</a>. Når du har fortrudt, skal du sende varen retur senest {days} dage efter.
+  </p>
+  <p>
+    Varerne leveres i forseglet emballage. Af sundheds- og hygiejnemæssige årsager bortfalder fortrydelsesretten for en vare, hvis
+    forseglingen er brudt efter leveringen (forbrugeraftaleloven § 18, stk. 2, nr. 5). Uåbnede varer kan altid returneres inden for
+    fristen.
+  </p>
+  <p>
+    Du betaler selv de direkte omkostninger ved at returnere varen. Du hæfter kun for et eventuelt værditab, der skyldes anden
+    håndtering, end hvad der er nødvendigt for at fastslå varens art og egenskaber.
+  </p>
+
+  <h3 id="formular">Standardfortrydelsesformular</h3>
+  <div class="box">
+    <p>Til {company.legalName}, {company.address.slice(0, 2).join(", ")}, {mail}:</p>
+    <p>
+      Jeg meddeler herved, at jeg ønsker at gøre min fortrydelsesret gældende i forbindelse med min købsaftale om følgende varer: ____<br />
+      Bestilt den ____ / modtaget den ____<br />
+      Forbrugerens navn: ____<br />
+      Forbrugerens adresse: ____<br />
+      Dato og underskrift (kun hvis formularen sendes på papir): ____
+    </p>
+  </div>
+
+  <h2>8. Tilbagebetaling</h2>
+  <p>
+    Fortryder du, tilbagebetaler vi alle betalinger, inkl. standardfragt, uden unødig forsinkelse og senest 14 dage efter, at vi har
+    modtaget din besked, med samme betalingsmiddel. Vi kan vente med tilbagebetalingen, til vi har modtaget varen eller dokumentation
+    for, at den er sendt.
+  </p>
+
+  <h2>9. Persondata</h2>
+  <p>Læs om, hvordan vi behandler dine oplysninger, i vores <a href="/privatlivspolitik">privatlivspolitik</a>.</p>
+
+  <h2>10. Klager</h2>
+  <p>
+    Har du en klage, så kontakt os på <a href={`mailto:${mail}`}>{mail}</a>. Finder vi ikke en løsning, kan du klage til Center for
+    Klageløsning, Nævnenes Hus, Toldboden 2, 8800 Viborg, via
+    <a href="https://naevneneshus.dk" target="_blank" rel="noopener">naevneneshus.dk</a>.
+  </p>
+  <p>Aftalen er underlagt dansk ret.</p>
+</PlainLayout>

@@ -1,5 +1,49 @@
 ---
-import PrivacyView from "../views/PrivacyView.astro";
+import PlainLayout from "../layouts/PlainLayout.astro";
+import { company } from "../data/company";
+const mail = company.serviceEmail;
 ---
 
-<PrivacyView />
+<PlainLayout title="Privatlivspolitik – Mister Mellow ApS" description="Sådan behandler Mister Mellow ApS dine personoplysninger.">
+  <h1>Privatlivspolitik</h1>
+
+  <h2>Dataansvarlig</h2>
+  <p>
+    {company.legalName}, {company.address.slice(0, 2).join(", ")}, CVR {company.cvr}.<br />
+    Kontakt: <a href={`mailto:${mail}`}>{mail}</a>, {company.phone}.
+  </p>
+
+  <h2>Cookies og lokal lagring</h2>
+  <p>
+    Vi bruger ikke cookies til statistik eller markedsføring. Siden gemmer kun indholdet af din kurv i din browser (localStorage), så
+    kurven husker dine varer. Det er nødvendigt for den funktion, du selv bruger, og kræver derfor ikke samtykke. Du kan slette det ved
+    at tømme kurven eller slette data for siden i din browser.
+  </p>
+
+  <h2>Hvilke oplysninger behandler vi, og hvorfor?</h2>
+  <ul>
+    <li>Når du bestiller: navn, adresse, e-mail, telefonnummer og ordreoplysninger, så vi kan levere varen og opfylde aftalen (GDPR art. 6, stk. 1, litra b).</li>
+    <li>Alderskontrol: resultatet af MitID-kontrollen af, at du er over 18 år, fordi loven kræver det (art. 6, stk. 1, litra c).</li>
+    <li>Regnskab: ordre- og betalingsoplysninger, fordi bogføringsloven kræver det (art. 6, stk. 1, litra c).</li>
+    <li>Henvendelser: det, du skriver til os, så vi kan svare (art. 6, stk. 1, litra f).</li>
+  </ul>
+  <p>Vi sender ikke nyhedsbreve eller markedsføring.</p>
+
+  <h2>Hvem deler vi oplysninger med?</h2>
+  <p>
+    Vores databehandlere: hosting (Vercel), betalingsudbyder, MitID-udbyder og fragtfirma ({company.carriers.join(", ")}). De må kun
+    bruge oplysningerne på vores vegne. Vi sælger aldrig dine oplysninger.
+  </p>
+
+  <h2>Hvor længe gemmer vi dem?</h2>
+  <p>
+    Ordre- og regnskabsoplysninger gemmes i 5 år efter regnskabsårets udløb, som bogføringsloven kræver. Henvendelser slettes, når
+    sagen er afsluttet og ikke længere er relevant.
+  </p>
+
+  <h2>Dine rettigheder</h2>
+  <p>
+    Du har ret til indsigt, berigtigelse, sletning, begrænsning, dataportabilitet og indsigelse. Skriv til
+    <a href={`mailto:${mail}`}>{mail}</a>. Du kan klage til Datatilsynet, <a href="https://www.datatilsynet.dk" target="_blank" rel="noopener">datatilsynet.dk</a>.
+  </p>
+</PlainLayout>

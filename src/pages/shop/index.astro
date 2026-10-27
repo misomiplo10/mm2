@@ -1,5 +1,48 @@
 ---
-import ShopView from "../../views/ShopView.astro";
+import PlainLayout from "../../layouts/PlainLayout.astro";
+import { kr, perKg, shopLines } from "../../data/shop";
 ---
 
-<ShopView />
+<PlainLayout title={`Urtebaserede rygeprodukter – Mister Mellow ApS`} description="Liste over urtebaserede rygeprodukter med vægt og pris. Salg kun til personer over 18 år.">
+  <div class="box">
+    <p><strong>Aldersgrænse 18 år.</strong> Det er forbudt at sælge urtebaserede rygeprodukter til personer under 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.</p>
+  </div>
+  <h1>Urtebaserede rygeprodukter</h1>
+  <p>Alle priser er i danske kroner inkl. 25 % moms. Fragt vises i kurven, før du betaler.</p>
+  <div class="table-box">
+    <table>
+      <thead>
+        <tr><th>Produkt</th><th>Type</th><th class="num">Vægt</th><th class="num">Pris</th><th class="num">Kilopris</th><th><span class="sr">Kurv</span></th></tr>
+      </thead>
+      <tbody>
+        {shopLines.map((l) => (
+          <tr>
+            <td>{l.name}</td>
+            <td>{l.type}</td>
+            <td class="num">{l.size}</td>
+            <td class="num">{kr(l.price)}</td>
+            <td class="num">{perKg(l)}</td>
+            <td><button type="button" data-add={JSON.stringify({ key: l.key, name: l.name, size: l.size, price: l.price })} aria-label={`Læg ${l.name} ${l.size} i kurv`}>Læg i kurv</button></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p id="added" role="status" aria-live="polite"></p>
+</PlainLayout>
+
+<style>
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+
+<script>
+  import { add } from "../../scripts/cart";
+  const status = document.getElementById("added")!;
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-add]");
+    if (!btn) return;
+    const item = JSON.parse(btn.dataset.add!);
+    add(item);
+    status.textContent = `${item.name} ${item.size} er lagt i kurven.`;
+  });
+</script>

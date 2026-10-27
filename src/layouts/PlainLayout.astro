@@ -1,0 +1,90 @@
+---
+import { company } from "../data/company";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const nav = [
+  { href: "/", label: "Forside" },
+  { href: "/shop", label: "Produkter" },
+  { href: "/faq", label: "Spørgsmål og svar" },
+  { href: "/handelsbetingelser", label: "Handelsbetingelser" },
+  { href: "/kurv", label: "Kurv" },
+];
+---
+
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <style is:global>
+      /* One standard font, size and colour for everything (BEK 570/2021 § 4, stk. 6). */
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #fff; color: #111; font: 16px/1.6 Helvetica, Arial, sans-serif; }
+      .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+      header, footer { border-color: #ccc; border-style: solid; border-width: 0; }
+      header { border-bottom-width: 1px; padding: 14px 0; }
+      header .wrap { display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: baseline; }
+      header nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+      a { color: inherit; }
+      a[aria-current="page"] { font-weight: bold; text-decoration: none; }
+      main { padding: 24px 0 48px; }
+      h1 { font-size: 24px; margin: 0 0 16px; }
+      h2 { font-size: 19px; margin: 28px 0 8px; }
+      h3 { font-size: 16px; margin: 18px 0 6px; }
+      p, li { max-width: 70ch; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid #ddd; vertical-align: top; }
+      .num { text-align: right; white-space: nowrap; }
+      .table-box { overflow-x: auto; }
+      button { font: inherit; padding: 6px 12px; border: 1px solid #111; background: #fff; color: #111; border-radius: 3px; cursor: pointer; }
+      button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+      label { display: block; margin: 10px 0; }
+      input, select { font: inherit; display: block; width: 100%; max-width: 420px; padding: 6px 8px; border: 1px solid #999; border-radius: 3px; }
+      input[type="checkbox"] { display: inline; width: auto; margin-right: 6px; }
+      .box { border: 1px solid #111; padding: 12px 14px; margin: 16px 0; }
+      footer { border-top-width: 1px; padding: 18px 0 40px; font-size: 14px; }
+      footer p { margin: 0 0 8px; }
+      [hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <strong>{company.legalName}</strong>
+        <nav aria-label="Hovedmenu">
+          {nav.map((n) => <a href={n.href} aria-current={path === n.href ? "page" : undefined}>{n.label}{n.href === "/kurv" && <> (<span data-cart-count>0</span>)</>}</a>)}
+        </nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer>
+      <div class="wrap">
+        <p>
+          {company.legalName} · {company.address.slice(0, 2).join(", ")} · CVR {company.cvr}<br />
+          E-mail: <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a> · Telefon: <a href={company.phoneHref}>{company.phone}</a><br />
+          Tilsynsmyndighed for urtebaserede rygeprodukter: Erhvervsstyrelsen
+        </p>
+        <p>Salg kun til personer over 18 år. Alderen kontrolleres med MitID ved køb. Rygning af dette produkt er sundhedsskadeligt.</p>
+        <p>
+          <a href="/handelsbetingelser">Handelsbetingelser</a> · <a href="/fortryd">Fortryd aftale</a> · <a href="/privatlivspolitik">Privatlivspolitik</a>
+        </p>
+      </div>
+    </footer>
+    <script>
+      import { count } from "../scripts/cart";
+      const render = () => document.querySelectorAll("[data-cart-count]").forEach((el) => (el.textContent = String(count())));
+      render();
+      window.addEventListener("cart-change", render);
+    </script>
+  </body>
+</html>

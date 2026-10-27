@@ -1,5 +1,22 @@
 ---
-import HomeView from "../views/HomeView.astro";
+import PlainLayout from "../layouts/PlainLayout.astro";
+import { company } from "../data/company";
 ---
 
-<HomeView />
+<PlainLayout title={company.legalName} description={`${company.legalName}, CVR ${company.cvr}. Urtebaserede rygeprodukter. Salg kun til personer over 18 år.`}>
+  <h1>{company.legalName}</h1>
+  <p>Vi sælger urtebaserede rygeprodukter. Vi leverer kun til adresser i Danmark.</p>
+  <h2>Kategorier</h2>
+  <ul>
+    <li><a href="/shop">Urtebaserede rygeprodukter</a></li>
+  </ul>
+  <div class="box">
+    <p><strong>Aldersgrænse 18 år.</strong> Vi sælger ikke til personer under 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.</p>
+  </div>
+  <h2>Kontakt</h2>
+  <p>
+    {company.address.map((l) => <>{l}<br /></>)}
+    E-mail: <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a><br />
+    Telefon: <a href={company.phoneHref}>{company.phone}</a>
+  </p>
+</PlainLayout>

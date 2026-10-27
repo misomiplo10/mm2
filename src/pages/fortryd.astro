@@ -1,0 +1,40 @@
+---
+import PlainLayout from "../layouts/PlainLayout.astro";
+import { company } from "../data/company";
+---
+
+<PlainLayout title="Fortryd aftale – Mister Mellow ApS" description="Fortryd dit køb hos Mister Mellow ApS.">
+  <h1>Fortryd aftale</h1>
+  <p>Her kan du fortryde et køb inden for fortrydelsesfristen på 14 dage. Udfyld felterne, og tryk på "Bekræft fortrydelse".</p>
+  <form id="withdraw" novalidate>
+    <label>Fulde navn<input name="name" autocomplete="name" required /></label>
+    <label>Ordrenummer<input name="order" required /></label>
+    <label>E-mail til kvittering<input name="email" type="email" autocomplete="email" required /></label>
+    <p id="error" role="alert" hidden>Udfyld alle felter.</p>
+    <p><button type="submit">Bekræft fortrydelse</button></p>
+  </form>
+  <div class="box" id="done" role="status" hidden>
+    Dit e-mailprogram åbner nu en besked med din fortrydelse til {company.serviceEmail}. Send beskeden for at fortryde. Vi sender en
+    kvittering med dato og tidspunkt til din e-mail, når vi har modtaget den.
+  </div>
+  <h2>Andre måder at fortryde</h2>
+  <p>
+    Du kan også sende standardfortrydelsesformularen fra <a href="/handelsbetingelser#formular">handelsbetingelserne</a> eller skrive en
+    tydelig besked til <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a>.
+  </p>
+</PlainLayout>
+
+<script>
+  // No order system yet, so the confirmation goes out as an email the customer sends themselves.
+  const form = document.getElementById("withdraw") as HTMLFormElement;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const ok = form.checkValidity();
+    document.getElementById("error")!.hidden = ok;
+    if (!ok) return;
+    const d = new FormData(form);
+    const body = `Jeg fortryder min aftale.\n\nNavn: ${d.get("name")}\nOrdrenummer: ${d.get("order")}\nE-mail til kvittering: ${d.get("email")}\nTidspunkt: ${new Date().toLocaleString("da-DK")}`;
+    document.getElementById("done")!.hidden = false;
+    location.href = `mailto:M@mistermellow.dk?subject=${encodeURIComponent(`Fortrydelse af ordre ${d.get("order")}`)}&body=${encodeURIComponent(body)}`;
+  });
+</script>

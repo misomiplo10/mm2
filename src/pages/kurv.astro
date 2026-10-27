@@ -1,5 +1,88 @@
 ---
-import CartView from "../views/CartView.astro";
+import PlainLayout from "../layouts/PlainLayout.astro";
+import { company } from "../data/company";
 ---
 
-<CartView />
+<PlainLayout title="Kurv – Mister Mellow ApS" description="Din kurv hos Mister Mellow ApS.">
+  <h1>Kurv</h1>
+  <p data-empty>Kurven er tom. <a href="/shop">Se produkterne</a>.</p>
+
+  <div data-filled hidden>
+    <div class="table-box">
+      <table>
+        <thead><tr><th>Produkt</th><th class="num">Vægt</th><th class="num">Pris</th><th>Antal</th><th class="num">I alt</th></tr></thead>
+        <tbody id="lines"></tbody>
+      </table>
+    </div>
+
+    <form id="checkout" novalidate>
+      <h2>Levering</h2>
+      <label>Fulde navn<input name="name" autocomplete="name" required /></label>
+      <label>E-mail<input name="email" type="email" autocomplete="email" required /></label>
+      <label>Telefon<input name="phone" type="tel" autocomplete="tel" required /></label>
+      <label>Adresse<input name="address" autocomplete="street-address" required /></label>
+      <label>Postnr.<input name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{4}" required /></label>
+      <label>By<input name="city" autocomplete="address-level2" required /></label>
+      <p>Land: Danmark. Vi leverer kun til adresser i Danmark.</p>
+
+      <h2>Oversigt</h2>
+      <p>
+        Varer: <span data-subtotal>0 kr.</span><br />
+        Fragt: beregnes efter vægt og fragtfirma og vises, før du betaler.<br />
+        Alle priser er inkl. 25 % moms. Betaling med VISA eller Mastercard.
+      </p>
+      <p>
+        Du har 14 dages fortrydelsesret på uåbnede varer. Fortrydelsesretten bortfalder for en vare, hvis forseglingen er brudt
+        efter leveringen. Læs mere i <a href="/handelsbetingelser" target="_blank" rel="noopener">handelsbetingelserne</a>.
+      </p>
+      <p>Før købet gennemføres, kontrollerer vi din alder med MitID. Vi sælger ikke til personer under 18 år.</p>
+      <label><input type="checkbox" name="terms" required />Jeg har læst og accepterer handelsbetingelserne.</label>
+      <p id="error" role="alert" hidden>Udfyld alle felter og accepter handelsbetingelserne.</p>
+      <div class="box" id="closed" role="status" hidden>
+        <strong>Webshoppen er ikke åben endnu.</strong> Betaling og MitID-alderskontrol er ikke sat op, så der er ikke afgivet nogen ordre, og du er ikke blevet opkrævet.
+        Kontakt os på <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a>.
+      </div>
+      <p><button type="submit">Ordre med betalingsforpligtelse</button></p>
+    </form>
+  </div>
+</PlainLayout>
+
+<script>
+  import { getItems, kr, setQty, subtotal } from "../scripts/cart";
+
+  const lines = document.getElementById("lines")!;
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
+  function render() {
+    const items = getItems();
+    document.querySelector<HTMLElement>("[data-empty]")!.hidden = items.length > 0;
+    document.querySelector<HTMLElement>("[data-filled]")!.hidden = items.length === 0;
+    document.querySelector("[data-subtotal]")!.textContent = kr(subtotal());
+    lines.innerHTML = items
+      .map(
+        (i) => `<tr data-key="${esc(i.key)}">
+          <td>${esc(i.name)}</td><td class="num">${esc(i.size)}</td><td class="num">${kr(i.price)}</td>
+          <td><button type="button" data-step="-1" aria-label="Færre">−</button> ${i.qty} <button type="button" data-step="1" aria-label="Flere">+</button>
+            <button type="button" data-step="remove">Fjern</button></td>
+          <td class="num">${kr(i.qty * i.price)}</td></tr>`,
+      )
+      .join("");
+  }
+  lines.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-step]");
+    const key = btn?.closest<HTMLElement>("tr")?.dataset.key;
+    const item = getItems().find((i) => i.key === key);
+    if (!btn || !item) return;
+    setQty(item.key, btn.dataset.step === "remove" ? 0 : item.qty + Number(btn.dataset.step));
+  });
+  window.addEventListener("cart-change", render);
+  render();
+
+  // Payment and MitID aren't connected yet: validate, then say plainly that no order was placed.
+  const form = document.getElementById("checkout") as HTMLFormElement;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const ok = form.checkValidity();
+    document.getElementById("error")!.hidden = ok;
+    document.getElementById("closed")!.hidden = !ok;
+  });
+</script>

@@ -1,5 +1,26 @@
 ---
-import FaqView from "../views/FaqView.astro";
+import PlainLayout from "../layouts/PlainLayout.astro";
+import { company } from "../data/company";
+
+const faq = [
+  ["Hvem kan købe?", "Kun personer over 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres. Fragtfirmaet kan også bede om legitimation ved levering."],
+  ["Hvor leverer I?", "Kun til adresser i Danmark."],
+  ["Hvad koster fragt?", "Fragtprisen afhænger af vægt og fragtfirma og vises i kurven, før du betaler."],
+  ["Hvor lang er leveringstiden?", `Normalt ${company.deliveryDays} hverdage fra bestilling.`],
+  ["Hvordan betaler jeg?", "Med VISA eller Mastercard. Beløbet trækkes, når ordren sendes."],
+  ["Kan jeg fortryde?", "Ja, uåbnede varer kan returneres inden for 14 dage. Fortrydelsesretten bortfalder for en vare, hvis forseglingen er brudt efter leveringen. Brug siden Fortryd aftale."],
+  ["Hvad gør jeg, hvis en vare er mangelfuld?", "Kontakt os. Du har 2 års reklamationsret efter købeloven. Se handelsbetingelserne."],
+  ["Kan jeg få analyseresultater for en vare?", `Ja. Skriv til ${company.serviceEmail} med produktnavn og batchnummer, så sender vi analysecertifikatet for den pågældende batch.`],
+  ["Hvordan kontakter jeg jer?", `På ${company.serviceEmail} eller ${company.phone}.`],
+];
 ---
 
-<FaqView />
+<PlainLayout title="Spørgsmål og svar – Mister Mellow ApS" description="Svar om bestilling, levering, betaling, fortrydelse og alderskontrol hos Mister Mellow ApS.">
+  <h1>Spørgsmål og svar</h1>
+  {faq.map(([q, a]) => (
+    <>
+      <h2>{q}</h2>
+      <p>{a}</p>
+    </>
+  ))}
+</PlainLayout>
