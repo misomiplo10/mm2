@@ -1,25 +1,25 @@
 :root {
-  /* Neutral black, white and greys only: herbal smoking products may not be shown with
-     colours that highlight them (BEK 570/2021 § 4, stk. 6). Token names are kept from the
-     earlier palettes so every rule picks the colours up. */
-  --navy: #1b1b1b;      /* header, footer, panels, buttons, headings */
-  --navy-2: #2a2a2a;
-  --orange: #f2f2f2;    /* light accent on dark */
-  --orange-2: #ffffff;
-  --deep-yellow: #8a8a8a; /* focus rings and outlines */
-  --cream: #ffffff;
-  --paper: #ffffff;
-  --purple: #1b1b1b;
-  --lavender: #f3f3f3;
-  --peach: #f3f3f3;
-  --pink: #f3f3f3;
-  --butter: #f3f3f3;
-  --ink: #1b1b1b;
-  --muted: #5c5c5c;
-  --sky: #f3f3f3;
-  --bg: #ffffff;
-  --line: rgba(0, 0, 0, 0.12);
-  --radius: 14px;
+  /* Navy on cream: navy #111E5A and cream #FEF4E3 as the site's standard colours. Products are
+     not highlighted with any extra colour (BEK 570/2021 § 4, stk. 6): names and prices use the
+     ordinary text colour. Token names are kept from the first palette so every rule picks them up. */
+  --navy: #111e5a;      /* header, footer, panels, buttons, headings */
+  --navy-2: #1c2b72;
+  --orange: #fef4e3;    /* light accent on navy */
+  --orange-2: #fffaf0;
+  --deep-yellow: #6f7bb5; /* focus rings and outlines */
+  --cream: #fef4e3;
+  --paper: #fffaf1;
+  --purple: #111e5a;
+  --lavender: #fffaf1;  /* boxes: plain paper, no product tints */
+  --peach: #fffaf1;
+  --pink: #fffaf1;
+  --butter: #fffaf1;
+  --ink: #111e5a;
+  --muted: #3e4874;
+  --sky: #fffaf1;
+  --bg: #fef4e3;        /* cream page background */
+  --line: rgba(17, 30, 90, 0.14);
+  --radius: 22px;
   --display: "Archivo Black", "Arial Black", sans-serif;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Archivo", system-ui, sans-serif;
@@ -1050,7 +1050,7 @@ main > .story:first-child { margin-top: 0; }
   transition: transform 0.35s ease;
   box-shadow: none;
 }
-.cart-drawer.open { transform: none; box-shadow: -20px 0 50px rgba(0, 0, 0, 0.25); }
+.cart-drawer.open { transform: none; box-shadow: -20px 0 50px rgba(17, 30, 90, 0.25); }
 .cart-head {
   display: flex;
   align-items: center;
