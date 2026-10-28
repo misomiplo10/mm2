@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { cartData, categoryLabel, categoryUrl, hasSizeChoice, kr, shopVariants, type Product } from "../data/products";
+import { cartData, categoryLabel, categoryUrl, hasSizeChoice, kr, pouchImage, shopVariants, type Product } from "../data/products";
 import { company } from "../data/company";
 import { href, langFromUrl, ui } from "../i18n";
 
@@ -56,6 +56,7 @@ const copy = {
   },
 }[lang];
 const variants = shopVariants(p);
+const img = pouchImage(p);
 const sizes = hasSizeChoice(p);
 const type = { flower: t.typeFlower, preroll: t.typePreroll, hash: t.typeHash, accessory: "" }[p.category];
 const maker = `${company.legalName}, ${company.address.slice(0, 2).join(", ")}, ${company.serviceEmail}`;
@@ -72,6 +73,7 @@ const perKg = (size: string, price: number) => (parseFloat(size) >= 50 ? `${kr(M
       </nav>
       <div class="pdp pdp-text">
         <div class="pdp-info">
+          {img && <img class="pdp-pouch" src={`${img}-lg.webp`} alt={`${p.name} pose`} width="1200" height="1500" />}
           <h1 class="pdp-title">{p.name}</h1>
           <span class="pcard-meta">{type}</span>
           <div class="buy-box">

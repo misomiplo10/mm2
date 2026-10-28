@@ -1606,3 +1606,7 @@ body.locked { overflow: hidden; }
 .store-list li { display: grid; gap: 4px; padding: 18px 0; border-bottom: 1px solid var(--line); }
 .store-list strong { font-weight: 500; }
 .store-list span { font-family: ui-monospace, "SF Mono", Menlo, "Courier New", monospace; font-size: 13px; line-height: 1.5; color: var(--muted); }
+/* Pouch photos (draft branch) */
+.pcard-pouch { display: block; background: #fdf8ee; border-bottom: 1px solid var(--line); }
+.pcard-pouch img { width: 100%; height: auto; display: block; }
+.pdp-pouch { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 0 20px; border-radius: 14px; background: #fdf8ee; }
