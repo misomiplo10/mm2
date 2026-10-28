@@ -15,8 +15,7 @@ const addr = company.address.slice(0, 2).join(", ");
   {company.legalName}<br />
   {company.address.map((l) => <>{l === "Danmark" ? "Denmark" : l}<br /></>)}
   CVR: {company.cvr} · VAT no.: {company.vat}<br />
-  Email: <a href={`mailto:${mail}`}>{mail}</a> · Phone: <a href={company.phoneHref}>{company.phone}</a><br />
-  Supervisory authority for herbal products for smoking: the Danish Business Authority (Erhvervsstyrelsen)
+  Email: <a href={`mailto:${mail}`}>{mail}</a> · Phone: <a href={company.phoneHref}>{company.phone}</a>
 </p>
 
 <h2>2. Age limit</h2>

@@ -13,8 +13,7 @@ const addr = company.address.slice(0, 2).join(", ");
   {company.legalName}<br />
   {company.address.map((l) => <>{l}<br /></>)}
   CVR: {company.cvr} · Moms-nr.: {company.vat}<br />
-  E-mail: <a href={`mailto:${mail}`}>{mail}</a> · Telefon: <a href={company.phoneHref}>{company.phone}</a><br />
-  Tilsynsmyndighed for urtebaserede rygeprodukter: Erhvervsstyrelsen
+  E-mail: <a href={`mailto:${mail}`}>{mail}</a> · Telefon: <a href={company.phoneHref}>{company.phone}</a>
 </p>
 
 <h2>2. Aldersgrænse</h2>

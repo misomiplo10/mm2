@@ -27,8 +27,6 @@ const copy = {
     details: "Oplysninger",
     type: "Produkttype",
     maker: "Fabrikant",
-    warning: "Advarsel",
-    warningText: "Rygning af dette produkt er sundhedsskadeligt",
     ageLimit: "Aldersgrænse",
     ageLimitText: "18 år",
     coa: "Analysecertifikat",
@@ -48,8 +46,6 @@ const copy = {
     details: "Details",
     type: "Product type",
     maker: "Manufacturer",
-    warning: "Warning",
-    warningText: "Smoking this product damages your health",
     ageLimit: "Age limit",
     ageLimitText: "18",
     coa: "Certificate of analysis",
@@ -110,7 +106,6 @@ const perKg = (size: string, price: number) => (parseFloat(size) >= 50 ? `${kr(M
           <dl class="facts">
             <dt>{copy.type}</dt><dd>{type}</dd>
             <dt>{copy.maker}</dt><dd>{maker}</dd>
-            <dt>{copy.warning}</dt><dd>{copy.warningText}</dd>
             <dt>{copy.ageLimit}</dt><dd>{copy.ageLimitText}</dd>
             <dt>{copy.coa}</dt><dd>{copy.coaText}</dd>
           </dl>
