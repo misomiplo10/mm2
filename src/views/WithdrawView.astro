@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { company } from "../data/company";
+import { href, langFromUrl, ui } from "../i18n";
+
+/** "Fortryd aftale" function (forbrugeraftaleloven § 20 a). Until there is an order system, the confirmation goes out as an email. */
+const lang = langFromUrl(Astro.url);
+const t = ui[lang];
+const copy = {
+  da: {
+    description: "Fortryd dit køb hos Mister Mellow ApS.",
+    lead: `Her kan du fortryde et køb inden for fortrydelsesfristen på ${company.withdrawalDays} dage. Udfyld felterne, og tryk på "Bekræft fortrydelse".`,
+    name: "Fulde navn",
+    order: "Ordrenummer",
+    email: "E-mail til kvittering",
+    error: "Udfyld alle felter.",
+    confirm: "Bekræft fortrydelse",
+    done: `Dit e-mailprogram åbner nu en besked med din fortrydelse til ${company.serviceEmail}. Send beskeden for at fortryde. Vi sender en kvittering med dato og tidspunkt til din e-mail, når vi har modtaget den.`,
+    other: "Du kan også sende standardfortrydelsesformularen fra handelsbetingelserne eller skrive en tydelig besked til",
+    subject: "Fortrydelse af ordre",
+    body: "Jeg fortryder min aftale.",
+  },
+  en: {
+    description: "Cancel your purchase from Mister Mellow ApS.",
+    lead: `Here you can cancel a purchase within the ${company.withdrawalDays}-day cancellation period. Fill in the fields and press "Confirm cancellation".`,
+    name: "Full name",
+    order: "Order number",
+    email: "Email for the receipt",
+    error: "Please fill in all fields.",
+    confirm: "Confirm cancellation",
+    done: `Your email program now opens a message with your cancellation to ${company.serviceEmail}. Send it to cancel. We will email you a receipt with the date and time once we have received it.`,
+    other: "You can also send the standard cancellation form from the terms and conditions or a clear message to",
+    subject: "Cancellation of order",
+    body: "I cancel my contract.",
+  },
+}[lang];
+---
+
+<BaseLayout title={`${t.withdraw} – Mister Mellow ApS`} description={copy.description}>
+  <section class="block page-top">
+    <div class="wrap legal">
+      <SectionTitle title={t.withdraw} />
+      <p>{copy.lead}</p>
+      <form class="panel checkout-form" id="withdraw" novalidate data-mail={company.serviceEmail} data-subject={copy.subject} data-body={copy.body} data-labels={JSON.stringify([copy.name, copy.order, copy.email])}>
+        <div class="fields">
+          <label class="field span-2">{copy.name}<input name="name" autocomplete="name" required /></label>
+          <label class="field">{copy.order}<input name="order" required /></label>
+          <label class="field">{copy.email}<input name="email" type="email" autocomplete="email" required /></label>
+        </div>
+        <p class="form-error" id="w-error" hidden>{copy.error}</p>
+        <div class="notice" id="w-done" hidden>{copy.done}</div>
+        <button class="btn btn-navy" type="submit">{copy.confirm}</button>
+      </form>
+      <p>{copy.other} <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a>. <a href={`${href(lang, "terms")}#formular`}>{t.terms}</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("withdraw") as HTMLFormElement;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const ok = form.checkValidity();
+    document.getElementById("w-error")!.hidden = ok;
+    if (!ok) return;
+    const d = new FormData(form);
+    const [name, order, email] = JSON.parse(form.dataset.labels!);
+    const body = `${form.dataset.body}\n\n${name}: ${d.get("name")}\n${order}: ${d.get("order")}\n${email}: ${d.get("email")}\n${new Date().toLocaleString()}`;
+    document.getElementById("w-done")!.hidden = false;
+    location.href = `mailto:${form.dataset.mail}?subject=${encodeURIComponent(`${form.dataset.subject} ${d.get("order")}`)}&body=${encodeURIComponent(body)}`;
+  });
+</script>

@@ -65,13 +65,12 @@ export interface CategoryInfo {
 }
 
 export const categories: CategoryInfo[] = [
-  { id: "flower", label: { da: "Flower", en: "Flower" }, tint: "lavender", visual: { kind: "photo", src: "/img/flower-trio.jpg", alt: "" } },
-  { id: "preroll", label: { da: "Pre-rolls", en: "Pre-rolls" }, tint: "pink", visual: { kind: "packshot", src: "/img/tube-daydream.webp", alt: "" } },
+  { id: "flower", label: { da: "Blomster", en: "Flower" }, tint: "lavender", visual: { kind: "photo", src: "/img/flower-trio.jpg", alt: "" } },
+  { id: "preroll", label: { da: "Forrullede", en: "Pre-rolled" }, tint: "pink", visual: { kind: "packshot", src: "/img/tube-daydream.webp", alt: "" } },
   { id: "hash", label: { da: "Hash", en: "Hash" }, tint: "peach", visual: { kind: "photo", src: "/img/fresh-frozen.jpg", alt: "" } },
-  { id: "accessory", label: { da: "Tilbehør", en: "Accessories" }, tint: "peach", visual: { kind: "packshot", src: "/img/lighter.webp", alt: "" } },
 ];
 
-export const products: Product[] = [
+const allProducts: Product[] = [
   {
     slug: "midnight-rider",
     name: "Midnight Rider",
@@ -299,6 +298,14 @@ export const products: Product[] = [
   },
 ];
 
+/**
+ * Held back until a lawyer has cleared them: names that refer to a taste or a real person, and the
+ * lighter, whose logo makes it brand-sharing (tobaksreklameloven § 2, stk. 2).
+ */
+const HELD_BACK = ["milkshake-zeethos", "rainbow-sherbet", "turbobacon", "obama-runtz", "mister-mellow-lighter"];
+
+export const products = allProducts.filter((p) => !HELD_BACK.includes(p.slug));
+
 /** What the shop sells: the variants, or the single size/retail price. */
 export const shopVariants = (p: Product): Variant[] =>
   p.variants ?? ((p.shopPrice ?? p.retail) !== undefined ? [{ size: p.size ?? "", retail: (p.shopPrice ?? p.retail)! }] : []);
@@ -340,5 +347,5 @@ export const cartData = (p: Product, v: Variant = shopVariants(p)[0]) =>
     price: v.retail,
     size: v.size || undefined,
     tint: p.tint,
-    thumb: p.visual.kind === "photo" || p.visual.kind === "packshot" ? p.visual.src : "/img/logo-navy.png",
+    thumb: "",
   });

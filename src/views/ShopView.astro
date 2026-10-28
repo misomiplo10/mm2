@@ -3,22 +3,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProductCard from "../components/ProductCard.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import { categories, products } from "../data/products";
-import { langFromUrl } from "../i18n";
+import { langFromUrl, ui } from "../i18n";
 
 const lang = langFromUrl(Astro.url);
 const copy = {
   da: {
-    description: "Køb Mister Mellow online: Cali-flower, pre-rolls og hash med THC-A. Lab-testet, høj styrke, gode vibes. Kun 18+.",
-    lead: "Håndplukket Cali-flower, pre-rolls og hash med THC-A fra potente sorter – udvalgt for aroma, smag og styrke, og testet af et uafhængigt laboratorium, før det kommer i posen. Find din mellow og få den sendt hjem.",
-    note: "Alle priser er inkl. moms – kun til dig over 18 år.",
+    description: "Urtebaserede rygeprodukter med vægt og pris. Salg kun til personer over 18 år.",
+    lead: "Urtebaserede rygeprodukter. Priser i danske kroner inkl. 25 % moms. Fragt vises i kurven, før du betaler.",
+    note: "Aldersgrænse 18 år. Det er forbudt at sælge urtebaserede rygeprodukter til personer under 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.",
     all: "Alle",
     filter: "Filtrér produkter",
     products: "produkter",
   },
   en: {
-    description: "Buy Mister Mellow online: Cali flower, pre-rolls and hash with THC-A. Lab-tested, high potency, good vibes. 18+ only.",
-    lead: "Hand-picked Cali flower, pre-rolls and hash with THC-A from potent strains – chosen for aroma, flavour and strength, and tested by an independent lab before it goes in the pouch. Find your mellow and have it delivered.",
-    note: "All prices include VAT – for adults 18+ only.",
+    description: "Herbal products for smoking with weight and price. Sold only to people aged 18 or over.",
+    lead: "Herbal products for smoking. Prices in Danish kroner including 25% VAT. Shipping is shown in the cart before you pay.",
+    note: "Age limit 18. Selling herbal products for smoking to anyone under 18 is prohibited. Your age is checked with MitID before a purchase can be completed.",
     all: "All",
     filter: "Filter products",
     products: "products",
@@ -27,12 +27,12 @@ const copy = {
 const filters = [{ id: "all", label: copy.all }, ...categories.map((c) => ({ id: c.id, label: c.label[lang] }))];
 ---
 
-<BaseLayout title="Shop – Mister Mellow" description={copy.description}>
+<BaseLayout title={`${ui[lang].allProducts} – Mister Mellow ApS`} description={copy.description}>
   <section class="block page-top">
     <div class="wrap">
-      <SectionTitle title="Shop" />
+      <div class="notice-box">{copy.note}</div>
+      <SectionTitle title={ui[lang].allProducts} />
       <p class="page-lead">{copy.lead}</p>
-      <p class="page-note">{copy.note}</p>
       <div class="filters" role="group" aria-label={copy.filter}>
         {filters.map((f, i) => (
           <button class:list={["filter", { active: i === 0 }]} data-filter={f.id}>{f.label}</button>

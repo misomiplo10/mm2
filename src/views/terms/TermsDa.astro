@@ -1,132 +1,80 @@
 ---
 import { company } from "../../data/company";
-import { countryList, href } from "../../i18n";
+import { href } from "../../i18n";
 
 const carriers = company.carriers.join(", ").replace(/, ([^,]*)$/, " og $1");
 const days = company.withdrawalDays;
-const countries = countryList(company.shippingCountries, "da");
+const mail = company.serviceEmail;
+const addr = company.address.slice(0, 2).join(", ");
 ---
 
-<h2>1. Generelle oplysninger</h2>
+<h2>1. Sælger</h2>
 <p>
   {company.legalName}<br />
   {company.address.map((l) => <>{l}<br /></>)}
-  CVR/VAT: {company.vat}<br />
-  Telefon: <a href={company.phoneHref}>{company.phone}</a><br />
-  E-mail: <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a>
+  CVR: {company.cvr} · Moms-nr.: {company.vat}<br />
+  E-mail: <a href={`mailto:${mail}`}>{mail}</a> · Telefon: <a href={company.phoneHref}>{company.phone}</a><br />
+  Tilsynsmyndighed for urtebaserede rygeprodukter: Erhvervsstyrelsen
 </p>
 
 <h2>2. Aldersgrænse</h2>
 <p>
-  Vi sælger kun til personer, der er fyldt 18 år. Når du bestiller, bekræfter du, at du er fyldt 18 år. Er vi i tvivl om din alder,
-  kan vi annullere ordren og tilbagebetale beløbet.
+  Vi sælger kun til personer over 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres. Fragtfirmaet kan bede om
+  legitimation ved levering. Er vi i tvivl om din alder, annullerer vi ordren og tilbagebetaler beløbet.
 </p>
 
 <h2>3. Priser</h2>
-<p>
-  Alle priser hos {company.legalName} er angivet i danske kroner (DKK) og er inkl. moms og afgifter, hvor det gælder. Vi forbeholder
-  os retten til at ændre priserne fra dag til dag uden varsel. Alle ordrer er med forbehold for, at varen er på lager.
-</p>
+<p>Alle priser er i danske kroner (DKK) inkl. 25 % moms. Fragt kommer oveni og vises i kurven, før du betaler. Vi forbeholder os ret til at rette åbenlyse prisfejl.</p>
 
-<h2>4. Betaling</h2>
-<p>Vi tager imod følgende betalingskort: VISA og Mastercard.</p>
+<h2>4. Bestilling og betaling</h2>
 <p>
-  Beløbet trækkes først fra din konto, når ordren bliver sendt, og det trækkes altid i DKK. Vi forbeholder os retten til at rette
-  prisfejl og annullere ordrer på varer, der er udsolgt eller udgået.
+  Du bestiller ved at lægge varer i kurven, udfylde dine oplysninger, gennemføre alderskontrollen og trykke på "Ordre med
+  betalingsforpligtelse". Du kan rette indtastningsfejl i kurven, indtil du trykker på knappen. Aftalen indgås på dansk.
 </p>
+<p>Vi tager imod VISA og Mastercard. Beløbet trækkes først, når ordren sendes. Du får en ordrebekræftelse på e-mail med disse betingelser, og vi gemmer aftalen.</p>
 
-<h2>5. Levering</h2>
-<p>
-  Bestiller du før kl. 17.00 på en hverdag, sender vi ordren samme dag. Ordrer afgivet efter kl. 17.00 sendes den følgende hverdag.
-</p>
-<ul>
-  <li><strong>Leveringsområde:</strong> Vi sender til de {countries.length} lande herunder. Vi leverer ikke til andre lande.</li>
-  <li><strong>Uden for EU</strong> (Island, Schweiz og Storbritannien) kan der komme told og lokale afgifter, som modtageren betaler ved levering.</li>
-  <li><strong>Fragtfirmaer:</strong> Din pakke sendes med {carriers}.</li>
-  <li><strong>Leveringstid:</strong> Normalt {company.deliveryDays} hverdage, efter at du har bestilt.</li>
-  <li>
-    <strong>Fragtpris:</strong> Fragtprisen afhænger af land og fragtfirma og vises i kassen, før du betaler. Der er fri fragt ved køb
-    over {company.freeShippingOver} kr.
-  </li>
-</ul>
-<h3 id="lande">Lande vi leverer til</h3>
-<ul class="country-list">
-  {countries.map((c) => <li>{c.name}</li>)}
-</ul>
-<p>Særlige leveringsvilkår kan gælde for enkelte varer. I så fald står de tydeligt, før du køber.</p>
+<h2 id="levering">5. Levering</h2>
+<p>Vi leverer kun til adresser i Danmark. Din pakke sendes med {carriers}. Leveringstiden er normalt {company.deliveryDays} hverdage. Fragtprisen afhænger af vægt og fragtfirma og vises, før du betaler.</p>
 
-<h2>6. Reklamationsret</h2>
+<h2 id="reklamation">6. Reklamationsret</h2>
 <p>
-  Du har 2 års reklamationsret efter dansk lov. Reklamationsretten dækker fejl i materialer og/eller fremstilling. Afhængigt af
-  situationen kan du få varen repareret eller ombyttet, få pengene tilbage eller få et afslag i prisen.
+  Købelovens regler om mangler gælder. Du kan reklamere i 2 år fra leveringen. Er varen mangelfuld, kan du vælge mellem reparation
+  og omlevering, medmindre det er umuligt eller uforholdsmæssigt dyrt for os. Ellers kan du få et afslag i prisen eller hæve købet,
+  hvis manglen ikke er uvæsentlig. Repareres varen, forlænges reklamationsfristen én gang med 12 måneder.
 </p>
-<p>
-  Reklamationsretten dækker ikke fejl eller skader, der skyldes forkert håndtering eller misbrug af varen. Du skal give os besked om
-  fejlen inden for rimelig tid, efter at du har opdaget den. Ved en berettiget reklamation dækker vi rimelige omkostninger til
-  returfragt.
-</p>
-<p>
-  Returadresse ved reklamation:<br />
-  {company.legalName}<br />
-  {company.address.map((l) => <>{l}<br /></>)}
-</p>
+<p>Du skal give os besked inden for rimelig tid, efter at du har opdaget manglen. Ved en berettiget reklamation dækker vi rimelige omkostninger til returfragt. Returadresse: {company.legalName}, {addr}.</p>
 
 <h2>7. Fortrydelsesret</h2>
 <p>
-  Du har {days} dages fuld fortrydelsesret på varer købt i vores webshop. Fristen løber fra den dag, hvor du (eller en person, du har
-  udpeget) får varen i hænde.
+  Du har {days} dages fortrydelsesret fra den dag, du modtager varen. Du fortryder ved at bruge siden
+  <a href={href("da", "withdraw")}>Fortryd aftale</a>, ved at sende standardfortrydelsesformularen herunder, eller ved at skrive en
+  tydelig besked til <a href={`mailto:${mail}`}>{mail}</a>. Når du har fortrudt, skal du sende varen retur senest {days} dage efter.
 </p>
-<h3>Sådan fortryder du</h3>
-<ul>
-  <li>Du skal give os besked senest {days} dage efter, at du har modtaget varen.</li>
-  <li>Beskeden sendes på e-mail til <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a>.</li>
-  <li>Når du har givet besked, skal du sende varen retur senest {days} dage efter.</li>
-  <li>Du betaler selv de direkte omkostninger ved at sende varen retur.</li>
-  <li>Du kan ikke fortryde blot ved at nægte at modtage pakken uden samtidig at give os tydelig besked.</li>
-</ul>
-<h3>Undtagelser fra fortrydelsesretten</h3>
-<ul>
-  <li>Varer, der er fremstillet efter dine specifikationer eller har et tydeligt personligt præg.</li>
-  <li>Forseglede varer, som af sundheds- eller hygiejnemæssige årsager ikke egner sig til at blive returneret, hvis forseglingen er brudt.</li>
-  <li>Varer, der hurtigt forringes eller bliver for gamle.</li>
-  <li>Digitalt indhold, der ikke leveres på et fysisk medie, hvis leveringen er begyndt med dit forudgående udtrykkelige samtykke.</li>
-</ul>
+<p>
+  Varerne leveres i forseglet emballage. Af sundheds- og hygiejnemæssige årsager bortfalder fortrydelsesretten for en vare, hvis
+  forseglingen er brudt efter leveringen (forbrugeraftaleloven § 18, stk. 2, nr. 5). Uåbnede varer kan altid returneres inden for fristen.
+</p>
+<p>Du betaler selv de direkte omkostninger ved at returnere varen. Du hæfter kun for et eventuelt værditab, der skyldes anden håndtering, end hvad der er nødvendigt for at fastslå varens art og egenskaber.</p>
 
-<h2>8. Varens stand ved returnering</h2>
+<h3 id="formular">Standardfortrydelsesformular</h3>
+<p>Til {company.legalName}, {addr}, {mail}:</p>
 <p>
-  Du hæfter kun for en eventuel værdiforringelse, der skyldes anden håndtering, end hvad der er nødvendigt for at fastslå varens art,
-  egenskaber og funktion. Du må undersøge varen, som du ville gøre i en fysisk butik, men du må ikke tage den i egentlig brug.
-</p>
-<p>
-  Er varen brugt ud over det, betragtes den som brugt, og du kan kun få en del af eller slet ikke noget af købsbeløbet tilbage,
-  afhængigt af varens handelsværdi.
+  Jeg meddeler herved, at jeg ønsker at gøre min fortrydelsesret gældende i forbindelse med min købsaftale om følgende varer: ____<br />
+  Bestilt den ____ / modtaget den ____<br />
+  Forbrugerens navn: ____<br />
+  Forbrugerens adresse: ____<br />
+  Dato og underskrift (kun hvis formularen sendes på papir): ____
 </p>
 
-<h2>9. Tilbagebetaling</h2>
-<p>
-  Fortryder du dit køb, får du det beløb, du har betalt, tilbage. Et eventuelt værditab, som du hæfter for, bliver trukket fra.
-</p>
-<p>
-  Vi tilbagebetaler alle beløb, du har betalt, inklusive standardfragt, uden unødig forsinkelse og senest 14 dage efter, at vi har
-  modtaget din besked om, at du fortryder. Vi kan dog vente med tilbagebetalingen, til vi har fået varen retur eller dokumentation
-  for, at den er sendt retur.
-</p>
+<h2>8. Tilbagebetaling</h2>
+<p>Fortryder du, tilbagebetaler vi alle betalinger, inkl. standardfragt, uden unødig forsinkelse og senest 14 dage efter, at vi har modtaget din besked, med samme betalingsmiddel. Vi kan vente med tilbagebetalingen, til vi har modtaget varen eller dokumentation for, at den er sendt.</p>
 
-<h2>10. Persondata</h2>
-<p>For at kunne behandle din ordre har vi brug for dit navn, din adresse, dit telefonnummer og din e-mailadresse samt din ordrehistorik.</p>
-<p>
-  Vi bruger kun oplysningerne til at levere dine varer og besvare dine henvendelser. Læs mere i vores
-  <a href={href("da", "privacy")}>privatlivspolitik</a>.
-</p>
+<h2>9. Persondata</h2>
+<p>Læs om, hvordan vi behandler dine oplysninger, i vores <a href={href("da", "privacy")}>privatlivspolitik</a>.</p>
 
-<h2>11. Lovvalg og klager</h2>
-<p>Disse handelsbetingelser er underlagt dansk ret.</p>
+<h2>10. Klager</h2>
 <p>
-  Har du en klage over en vare, så kontakt os på <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a>. Finder vi ikke
-  en løsning sammen, kan du klage til Center for Klageløsning i Nævnenes Hus via
-  <a href="https://naevneneshus.dk" target="_blank" rel="noopener">naevneneshus.dk</a>.
+  Har du en klage, så kontakt os på <a href={`mailto:${mail}`}>{mail}</a>. Finder vi ikke en løsning, kan du klage til Center for
+  Klageløsning, Nævnenes Hus, Toldboden 2, 8800 Viborg, via <a href="https://naevneneshus.dk" target="_blank" rel="noopener">naevneneshus.dk</a>.
 </p>
-<p>
-  Bor du i et andet EU-land, kan du få hjælp hos Forbruger Europa (European Consumer Centre Denmark) via
-  <a href="https://forbrugereuropa.dk" target="_blank" rel="noopener">forbrugereuropa.dk</a>.
-</p>
+<p>Aftalen er underlagt dansk ret.</p>

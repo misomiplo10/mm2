@@ -20,19 +20,20 @@ const copy = {
     zip: "Postnr.",
     city: "By",
     country: "Land",
-    age: "Jeg bekræfter, at jeg er fyldt 18 år.",
+    age: "Før købet gennemføres, kontrollerer vi din alder med MitID. Vi sælger ikke til personer under 18 år.",
+    keyInfo: "Betaling med VISA eller Mastercard. Beløbet trækkes, når ordren sendes. Du har 14 dages fortrydelsesret på uåbnede varer; fortrydelsesretten bortfalder for en vare, hvis forseglingen er brudt efter leveringen.",
+    onlyDk: "Vi leverer kun til adresser i Danmark.",
     termsBefore: "Jeg har læst og accepterer ",
     termsAfter: ".",
-    error: "Udfyld venligst alle felter, bekræft din alder og accepter handelsbetingelserne.",
-    thanks: "Tak – du er klar!",
-    notice: "Webshoppen åbner snart. Betaling er ikke sat op endnu, så der er ikke sendt en ordre, og du er ikke blevet opkrævet.",
+    error: "Udfyld alle felter og accepter handelsbetingelserne.",
+    thanks: "Webshoppen er ikke åben endnu.",
+    notice: "Betaling og MitID-alderskontrol er ikke sat op, så der er ikke afgivet nogen ordre, og du er ikke blevet opkrævet.",
     summary: "Oversigt",
     shipping: "Fragt",
     shippingLater: "Beregnes ved betaling",
-    free: "Gratis",
     total: "I alt",
     vat: "Alle priser er inkl. 25 % moms.",
-    pay: "Gå til betaling",
+    pay: "Ordre med betalingsforpligtelse",
     zero: "0 kr",
   },
   en: {
@@ -46,31 +47,31 @@ const copy = {
     zip: "Postcode",
     city: "City",
     country: "Country",
-    age: "I confirm that I am 18 or older.",
+    age: "Before the purchase is completed, we check your age with MitID. We do not sell to anyone under 18.",
+    keyInfo: "Payment by VISA or Mastercard. You are charged when the order ships. You have a 14-day right to cancel on unopened items; it lapses for an item if its seal is broken after delivery.",
+    onlyDk: "We only deliver to addresses in Denmark.",
     termsBefore: "I have read and accept the ",
     termsAfter: ".",
-    error: "Please fill in all fields, confirm your age and accept the terms and conditions.",
-    thanks: "Thanks – you're all set!",
-    notice: "The web shop opens soon. Payment isn't set up yet, so no order has been placed and you have not been charged.",
+    error: "Please fill in all fields and accept the terms and conditions.",
+    thanks: "The web shop is not open yet.",
+    notice: "Payment and MitID age verification are not set up, so no order has been placed and you have not been charged.",
     summary: "Summary",
     shipping: "Shipping",
     shippingLater: "Calculated at payment",
-    free: "Free",
     total: "Total",
     vat: "All prices include 25% Danish VAT.",
-    pay: "Go to payment",
+    pay: "Order with obligation to pay",
     zero: "DKK 0",
   },
 }[lang];
 ---
 
-<BaseLayout title={`${copy.title} – Mister Mellow`} description={copy.description}>
+<BaseLayout title={`${copy.title} – Mister Mellow ApS`} description={copy.description}>
   <section class="block page-top">
     <div class="wrap">
       <SectionTitle title={copy.title} />
 
       <div class="cart-empty page" data-cart-empty>
-        <img src="/img/logo-navy.png" alt="" />
         <p>{t.cartEmpty}</p>
         <a class="btn btn-navy" href={href(lang, "shop")}>{t.toShop}</a>
       </div>
@@ -89,15 +90,12 @@ const copy = {
               <label class="field">{copy.email}<input name="email" type="email" autocomplete="email" required /></label>
               <label class="field">{copy.phone}<input name="phone" type="tel" autocomplete="tel" required /></label>
               <label class="field span-2">{copy.address}<input name="address" autocomplete="street-address" required /></label>
-              <label class="field">{copy.zip}<input name="zip" autocomplete="postal-code" required /></label>
+              <label class="field">{copy.zip}<input name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{4}" required /></label>
               <label class="field">{copy.city}<input name="city" autocomplete="address-level2" required /></label>
-              <label class="field span-2">{copy.country}
-                <select name="country" autocomplete="country" required>
-                  {countries.map((c) => <option value={c.code} selected={c.code === "DK"}>{c.name}</option>)}
-                </select>
-              </label>
+              <p class="field span-2">{copy.country}: {countries[0].name}. {copy.onlyDk}</p>
             </div>
-            <label class="check"><input type="checkbox" name="age" required /> {copy.age}</label>
+            <p class="page-note">{copy.age}</p>
+            <p class="page-note">{copy.keyInfo}</p>
             <label class="check"><input type="checkbox" name="terms" required /> <span>{copy.termsBefore}<a href={href(lang, "terms")} target="_blank" rel="noopener">{t.terms.toLowerCase()}</a>{copy.termsAfter}</span></label>
             <p class="form-error" id="form-error" hidden>{copy.error}</p>
             <div class="notice" id="checkout-notice" hidden>
@@ -109,12 +107,8 @@ const copy = {
 
         <aside class="panel summary">
           <h2 class="panel-h">{copy.summary}</h2>
-          <div class="ship-meter" data-ship-meter>
-            <p data-ship-text></p>
-            <div class="ship-bar" aria-hidden="true"><span data-ship-fill></span></div>
-          </div>
           <div class="sum-row"><span>{t.subtotal}</span><span data-cart-subtotal>{copy.zero}</span></div>
-          <div class="sum-row"><span>{copy.shipping}</span><span data-ship-cost data-later={copy.shippingLater} data-free={copy.free}>{copy.shippingLater}</span></div>
+          <div class="sum-row"><span>{copy.shipping}</span><span>{copy.shippingLater}</span></div>
           <div class="sum-row total"><span>{copy.total}</span><strong data-cart-subtotal>{copy.zero}</strong></div>
           <p class="cart-note">{copy.vat}</p>
           <button class="btn btn-orange btn-block btn-lg" type="submit" form="checkout-form">{copy.pay}</button>

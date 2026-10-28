@@ -1,24 +1,25 @@
 :root {
-  /* Navy on cream: navy #111E5A and cream #FEF4E3.
-     Token names are kept from the first (navy/orange) palette so every rule picks the colours up. */
-  --navy: #111e5a;      /* header, footer, panels, buttons, headings */
-  --navy-2: #1c2b72;    /* slightly lighter navy for panels on navy */
-  --orange: #fef4e3;    /* accent on navy: cream buttons, highlights, prices */
-  --orange-2: #fffaf0;
-  --deep-yellow: #6f7bb5; /* soft navy accent that still shows on cream (sticker shadows, focus rings) */
-  --cream: #fef4e3;
-  --paper: #fffaf1;
-  --purple: #111e5a;    /* eyebrows and italic accents */
-  --lavender: #e9e8f1;  /* pale tints for product tiles and boxes */
-  --peach: #f8ecd6;
-  --pink: #efebf0;
-  --butter: #faf0db;
-  --ink: #111e5a;
-  --muted: #3e4874;
-  --sky: #6fb1e0;
-  --bg: #fef4e3;        /* cream page background */
-  --line: rgba(17, 30, 90, 0.14);
-  --radius: 22px;
+  /* Neutral black, white and greys only: herbal smoking products may not be shown with
+     colours that highlight them (BEK 570/2021 § 4, stk. 6). Token names are kept from the
+     earlier palettes so every rule picks the colours up. */
+  --navy: #1b1b1b;      /* header, footer, panels, buttons, headings */
+  --navy-2: #2a2a2a;
+  --orange: #f2f2f2;    /* light accent on dark */
+  --orange-2: #ffffff;
+  --deep-yellow: #8a8a8a; /* focus rings and outlines */
+  --cream: #ffffff;
+  --paper: #ffffff;
+  --purple: #1b1b1b;
+  --lavender: #f3f3f3;
+  --peach: #f3f3f3;
+  --pink: #f3f3f3;
+  --butter: #f3f3f3;
+  --ink: #1b1b1b;
+  --muted: #5c5c5c;
+  --sky: #f3f3f3;
+  --bg: #ffffff;
+  --line: rgba(0, 0, 0, 0.12);
+  --radius: 14px;
   --display: "Archivo Black", "Arial Black", sans-serif;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Archivo", system-ui, sans-serif;
@@ -407,7 +408,6 @@ h1, h2, h3 { margin: 0; line-height: 1.02; }
   bottom: -50px;
   width: 180px;
   aspect-ratio: 1;
-  background: url("/img/logo-cream.png") center / contain no-repeat;
   opacity: 0.16;
   rotate: -14deg;
 }
@@ -1048,9 +1048,9 @@ main > .story:first-child { margin-top: 0; }
   flex-direction: column;
   transform: translateX(100%);
   transition: transform 0.35s ease;
-  box-shadow: -20px 0 50px rgba(17, 30, 90, 0.25);
+  box-shadow: none;
 }
-.cart-drawer.open { transform: none; }
+.cart-drawer.open { transform: none; box-shadow: -20px 0 50px rgba(0, 0, 0, 0.25); }
 .cart-head {
   display: flex;
   align-items: center;
@@ -1562,3 +1562,33 @@ body.locked { overflow: hidden; }
 }
 .lang-switch a:hover { opacity: 1; }
 .lang-switch a[aria-current="true"] { background: var(--cream); color: var(--navy); opacity: 1; }
+
+/* ---- Compliant version: text only ----
+   Product information uses the site's ordinary font, size and colour (BEK 570/2021 § 4, stk. 6),
+   so product names and prices are not set in the display face or highlighted. */
+.brand-text { font-family: var(--sans); font-weight: 800; font-size: 18px; color: var(--cream); text-decoration: none; white-space: nowrap; }
+.pcard-text { min-height: 0; }
+.pcard-text:hover { transform: none; box-shadow: none; }
+.pcard-text .pcard-body { gap: 4px; }
+.pcard-text h3, .pdp-text .pdp-title { font-family: var(--sans); font-size: 17px; font-weight: 400; line-height: 1.4; letter-spacing: 0; text-transform: none; color: var(--ink); margin: 0; }
+.pcard-text .pcard-meta { font-size: 14px; font-weight: 400; }
+.pcard-text .pcard-price, .pdp-text .pdp-price { font-family: var(--sans); font-size: 17px; font-weight: 400; color: var(--ink); margin: 6px 0 12px; }
+.cat-list { display: flex; flex-wrap: wrap; gap: 12px; }
+.cat-text { display: inline-block; padding: 14px 20px; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; font-weight: 700; }
+.cat-text:hover { border-color: var(--ink); }
+.notice-box { border: 1px solid var(--ink); border-radius: 8px; padding: 14px 18px; margin: 0 0 24px; max-width: 80ch; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.info-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+.info-card h3 { margin: 0 0 6px; font-size: 17px; }
+.info-card p { margin: 0; color: var(--muted); }
+.pdp.pdp-text { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+.pdp-facts h2 { font-size: 18px; margin: 0 0 10px; }
+.pdp-facts h2:not(:first-child) { margin-top: 28px; }
+.facts { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 8px 16px; margin: 0; font-size: 15px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.price-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.price-table th, .price-table td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); }
+.price-table th { color: var(--muted); font-weight: 400; }
+.cart-line { grid-template-columns: 1fr auto; }
+@media (max-width: 860px) { .pdp.pdp-text { grid-template-columns: minmax(0, 1fr); } .facts { grid-template-columns: minmax(0, 1fr); } }

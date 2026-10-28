@@ -1,8 +1,8 @@
 ---
-import ProductVisual from "./ProductVisual.astro";
-import { cartData, fromPrice, hasSizeChoice, isBuyable, kr, metaLine, productUrl, sizeRange, type Product } from "../data/products";
+import { fromPrice, hasSizeChoice, kr, productUrl, sizeRange, type Product } from "../data/products";
 import { langFromUrl, ui } from "../i18n";
 
+/** Name, type, weight and price only: no picture, description or colour (BEK 570/2021 § 4, stk. 3 og 6). */
 interface Props {
   product: Product;
 }
@@ -10,40 +10,17 @@ interface Props {
 const { product: p } = Astro.props;
 const lang = langFromUrl(Astro.url);
 const t = ui[lang];
-const buyable = isBuyable(p);
-const sizes = hasSizeChoice(p);
 const url = productUrl(p, lang);
+const type = { flower: t.typeFlower, preroll: t.typePreroll, hash: t.typeHash, accessory: "" }[p.category];
 ---
 
-<article class="pcard" data-cat={p.category}>
-  <a class={`pcard-media bg-${p.tint}`} href={url} aria-label={p.name}>
-    {p.onRequest && <span class="pcard-flag">{t.onRequest}</span>}
-    {!p.onRequest && !buyable && <span class="pcard-flag">{t.comingSoon}</span>}
-    <ProductVisual visual={p.visual} />
-  </a>
+<article class="pcard pcard-text" data-cat={p.category}>
   <div class="pcard-body">
-    <span class="pcard-brand">Mister Mellow</span>
     <h3><a href={url}>{p.name}</a></h3>
-    <span class="pcard-meta">{metaLine(p, lang)}</span>
-    <p>{p.description[lang]}</p>
+    <span class="pcard-meta">{type} · {sizeRange(p)}</span>
     <div class="pcard-price">
-      {buyable ? (
-        <span>{sizes && <small>{t.from} </small>}{kr(fromPrice(p), lang)}</span>
-      ) : (
-        <span class="muted">{p.onRequest ? t.priceOnRequest : t.priceSoon}</span>
-      )}
-      {sizes ? (
-        <span class="chip">{sizeRange(p)}</span>
-      ) : (
-        p.size && <span class="chip">{p.size}</span>
-      )}
+      <span>{hasSizeChoice(p) && <>{t.from} </>}{kr(fromPrice(p), lang)}</span>
     </div>
-    {buyable && sizes ? (
-      <a class="btn btn-navy btn-block" href={url}>{t.chooseSize}</a>
-    ) : buyable ? (
-      <button class="btn btn-navy btn-block" data-add={cartData(p)}>{t.addToCart}</button>
-    ) : (
-      <a class="btn btn-ghost btn-block" href={url}>{t.viewProduct}</a>
-    )}
+    <a class="btn btn-navy btn-block" href={url}>{hasSizeChoice(p) ? t.chooseSize : t.viewProduct}</a>
   </div>
 </article>

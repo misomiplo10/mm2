@@ -10,49 +10,38 @@ const t = ui[lang];
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <img src="/img/logo-cream.png" alt="Mister Mellow" />
-        <p>{t.footerTagline}</p>
+        <h4>{company.legalName}</h4>
+        <p>
+          {company.address.slice(0, 2).map((l) => <>{l}<br /></>)}
+          CVR {company.cvr}
+        </p>
       </div>
       <div>
         <h4>{t.navigation}</h4>
         <ul>
-          <li><a href={href(lang, "shop")}>Shop</a></li>
-          <li><a href={href(lang, "lab")}>{t.labReports}</a></li>
-          <li><a href={href(lang, "about")}>{t.about}</a></li>
+          <li><a href={href(lang, "shop")}>{t.allProducts}</a></li>
           <li><a href={href(lang, "faq")}>{t.faq}</a></li>
-          <li><a href={href(lang, "find")}>{t.findUs}</a></li>
         </ul>
       </div>
       <div>
-        <h4>{t.retailers}</h4>
+        <h4>{t.buyDelivery}</h4>
         <ul>
-          <li><a href={href(lang, "retail")}>{t.becomeRetailer}</a></li>
-          <li><a href={`${href(lang, "retail")}#vilkaar`}>{t.termsDelivery}</a></li>
-          <li><a href={company.catalog} target="_blank" rel="noopener">{t.catalog}</a></li>
+          <li><a href={href(lang, "terms")}>{t.terms}</a></li>
+          <li><a href={href(lang, "withdraw")}>{t.withdraw}</a></li>
+          <li><a href={href(lang, "privacy")}>{t.privacy}</a></li>
         </ul>
       </div>
       <div>
         <h4>{t.contact}</h4>
         <ul>
+          <li><a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a></li>
           <li><a href={company.phoneHref}>{company.phone}</a></li>
-          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
-          <li><a href={company.instagramUrl} target="_blank" rel="noopener">{company.instagram}</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-disclaimer">
-      <div>
-        <h4>{t.ourPolicy}</h4>
-        <p>{t.ourPolicyText}</p>
-      </div>
-      <div>
-        <h4>{t.disclaimer}</h4>
-        <p>{t.disclaimerText}</p>
-      </div>
-    </div>
     <div class="footer-bottom">
-      <span>© {new Date().getFullYear()} {company.legalName} · CVR {company.cvr} · <a href={href(lang, "privacy")}>{t.privacy}</a> · <a href={href(lang, "terms")}>{t.terms}</a></span>
-      <span>{t.adultsOnly}</span>
+      <span>{t.supervision}</span>
+      <span>{t.legalLine}</span>
     </div>
   </div>
 </footer>

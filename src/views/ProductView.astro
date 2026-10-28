@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ProductCard from "../components/ProductCard.astro";
-import ProductVisual from "../components/ProductVisual.astro";
-import SectionTitle from "../components/SectionTitle.astro";
-import ThcaInfo from "../components/ThcaInfo.astro";
-import { cartData, categoryLabel, categoryUrl, hasSizeChoice, isBuyable, kr, metaLine, products, shopVariants, type Product } from "../data/products";
-import { labFor, labName } from "../data/lab";
-import { href, langFromUrl, pct, ui } from "../i18n";
+import { cartData, categoryLabel, categoryUrl, hasSizeChoice, kr, shopVariants, type Product } from "../data/products";
+import { company } from "../data/company";
+import { href, langFromUrl, ui } from "../i18n";
 
+/**
+ * Text only: name, type, weight, price and what the packaging says. No pictures, videos,
+ * descriptions or claims (BEK 570/2021 § 4, stk. 3, 4 og 6).
+ */
 interface Props {
   product: Product;
 }
@@ -19,186 +19,110 @@ const copy = {
   da: {
     crumbs: "Brødkrumme",
     inclVat: "inkl. moms",
-    size: "Størrelse",
+    size: "Vægt",
     qty: "Antal",
     fewer: "Færre",
     more: "Flere",
-    adults: "Kun til personer over 18 år.",
-    madeToOrder: "Fremstilles kun på bestilling og kan ikke købes i webshoppen.",
-    soon: "Produktet kommer snart i webshoppen. Spørg efter det i din butik.",
-    findInStore: "Find i butik",
-    usps: [`Lab-testet af ${labName.da}`, "Medical grade · høj styrke", "Gode vibes inkluderet"],
-    storage: "Opbevaring",
-    storageText: "Opbevar køligt, tørt og mørkt i lukket emballage. THC-A omdannes gradvist ved varme og lys, så undgå vinduer og varmekilder.",
-    labText: `Alt testes af ${labName.da}, før det kommer i posen.`,
-    seeReports: "Se rapporterne",
-    coa: "Hent lab-rapport (PDF)",
-    thisBatch: "Denne batch:",
-    responsible: "Ansvarligt brug",
-    responsibleText: "Kun til personer over 18 år. Opbevares utilgængeligt for børn.",
-    related: "Du vil måske også kunne lide",
-    videos: "Se sorten tæt på",
+    age: "Aldersgrænse 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.",
+    details: "Oplysninger",
+    type: "Produkttype",
+    maker: "Fabrikant",
+    warning: "Advarsel",
+    warningText: "Rygning af dette produkt er sundhedsskadeligt",
+    ageLimit: "Aldersgrænse",
+    ageLimitText: "18 år",
+    coa: "Analysecertifikat",
+    coaText: "Sendes på anmodning for den konkrete batch",
+    prices: "Vægt og priser",
+    price: "Pris",
+    perKg: "Kilopris",
   },
   en: {
     crumbs: "Breadcrumb",
     inclVat: "incl. VAT",
-    size: "Size",
+    size: "Weight",
     qty: "Quantity",
     fewer: "Fewer",
     more: "More",
-    adults: "For adults 18+ only.",
-    madeToOrder: "Made to order only and not available in the web shop.",
-    soon: "Coming soon to the web shop. Ask for it in your local store.",
-    findInStore: "Find in store",
-    usps: [`Lab-tested by ${labName.en}`, "Medical grade · high potency", "Good vibes included"],
-    storage: "Storage",
-    storageText: "Store cool, dry and dark in the sealed packaging. THC-A slowly converts with heat and light, so keep it away from windows and heat sources.",
-    labText: `Everything is tested by ${labName.en} before it goes in the pouch.`,
-    seeReports: "See the reports",
-    coa: "Download lab report (PDF)",
-    thisBatch: "This batch:",
-    responsible: "Responsible use",
-    responsibleText: "For adults 18+ only. Keep out of reach of children.",
-    related: "You might also like",
-    videos: "See the strain up close",
+    age: "Age limit 18. Your age is checked with MitID before a purchase can be completed.",
+    details: "Details",
+    type: "Product type",
+    maker: "Manufacturer",
+    warning: "Warning",
+    warningText: "Smoking this product damages your health",
+    ageLimit: "Age limit",
+    ageLimitText: "18",
+    coa: "Certificate of analysis",
+    coaText: "Sent on request for the specific batch",
+    prices: "Weights and prices",
+    price: "Price",
+    perKg: "Price per kg",
   },
 }[lang];
-const buyable = isBuyable(p);
-const lab = labFor(p.slug);
 const variants = shopVariants(p);
 const sizes = hasSizeChoice(p);
-const sameCategory = products.filter((x) => x.slug !== p.slug && x.category === p.category);
-const related = [...sameCategory, ...products.filter((x) => x.slug !== p.slug && x.category !== p.category && x.featured)].slice(0, 4);
+const type = { flower: t.typeFlower, preroll: t.typePreroll, hash: t.typeHash, accessory: "" }[p.category];
+const maker = `${company.legalName}, ${company.address.slice(0, 2).join(", ")}, ${company.serviceEmail}`;
+/** Unit price per kg, required for prepacked goods of 50 g or more (BEK 1696/2017 §§ 3 og 8). */
+const perKg = (size: string, price: number) => (parseFloat(size) >= 50 ? `${kr(Math.round((price / parseFloat(size)) * 1000), lang)}/kg` : "–");
 ---
 
-<BaseLayout title={`${p.name} – Mister Mellow`} description={`${p.name}: ${p.description[lang]}`}>
+<BaseLayout title={`${p.name} – Mister Mellow ApS`} description={`${p.name}. ${type}. ${copy.age}`}>
   <section class="block page-top">
     <div class="wrap">
+      <div class="notice-box">{copy.age}</div>
       <nav class="crumbs" aria-label={copy.crumbs}>
-        <a href={href(lang, "shop")}>Shop</a><span>/</span><a href={categoryUrl(p.category, lang)}>{categoryLabel(p.category, lang)}</a><span>/</span><span>{p.name}</span>
+        <a href={href(lang, "shop")}>{t.allProducts}</a><span>/</span><a href={categoryUrl(p.category, lang)}>{categoryLabel(p.category, lang)}</a><span>/</span><span>{p.name}</span>
       </nav>
-
-      <div class="pdp">
-        <div class="pdp-gallery">
-          <div class={`pdp-media bg-${p.tint}`}>
-            {p.onRequest && <span class="pcard-flag">{t.onRequest}</span>}
-            <ProductVisual visual={p.visual} />
+      <div class="pdp pdp-text">
+        <div class="pdp-info">
+          <h1 class="pdp-title">{p.name}</h1>
+          <span class="pcard-meta">{type}</span>
+          <div class="buy-box">
+            <div class="pdp-price"><span data-price>{kr(variants[0].retail, lang)}</span> <small>{copy.inclVat}</small></div>
+            {sizes ? (
+              <div class="pdp-size">
+                <span id="size-label">{copy.size}</span>
+                <div class="size-picker" role="radiogroup" aria-labelledby="size-label">
+                  {variants.map((v, i) => (
+                    <button type="button" class="size-opt" role="radio" aria-checked={i === 0 ? "true" : "false"} data-variant={cartData(p, v)} data-price-label={kr(v.retail, lang)}>
+                      {v.size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              p.size && <div class="pdp-size"><span>{copy.size}</span><span class="chip">{p.size}</span></div>
+            )}
+            <div class="buy-row">
+              <label class="qty">
+                <span class="sr-only">{copy.qty}</span>
+                <button type="button" data-step="-1" aria-label={copy.fewer}>−</button>
+                <input type="number" min="1" max="20" value="1" inputmode="numeric" data-qty-input />
+                <button type="button" data-step="1" aria-label={copy.more}>+</button>
+              </label>
+              <button class="btn btn-navy btn-lg" data-add={cartData(p, variants[0])}>{t.addToCart}</button>
+            </div>
           </div>
         </div>
-
-        <div class="pdp-info">
-          <span class="pcard-brand">Mister Mellow</span>
-          <h1 class="pdp-title">{p.name}</h1>
-          <span class="pcard-meta">{metaLine(p, lang)}</span>
-          <p class="pdp-desc">{p.description[lang]}</p>
-
-          {buyable ? (
-            <div class="buy-box">
-              <div class="pdp-price"><span data-price>{kr(variants[0].retail, lang)}</span> <small>{copy.inclVat}</small></div>
-              {sizes ? (
-                <div class="pdp-size">
-                  <span id="size-label">{copy.size}</span>
-                  <div class="size-picker" role="radiogroup" aria-labelledby="size-label">
-                    {variants.map((v, i) => (
-                      <button
-                        type="button"
-                        class="size-opt"
-                        role="radio"
-                        aria-checked={i === 0 ? "true" : "false"}
-                        data-variant={cartData(p, v)}
-                        data-price-label={kr(v.retail, lang)}
-                      >
-                        {v.size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                p.size && <div class="pdp-size"><span>{copy.size}</span><span class="chip">{p.size}</span></div>
-              )}
-              <div class="buy-row">
-                <label class="qty">
-                  <span class="sr-only">{copy.qty}</span>
-                  <button type="button" data-step="-1" aria-label={copy.fewer}>−</button>
-                  <input type="number" min="1" max="20" value="1" inputmode="numeric" data-qty-input />
-                  <button type="button" data-step="1" aria-label={copy.more}>+</button>
-                </label>
-                <button class="btn btn-orange btn-lg" data-add={cartData(p, variants[0])}>{t.addToCart}</button>
-              </div>
-              <p class="pdp-note">{copy.adults}</p>
-            </div>
-          ) : (
-            <div class="buy-box">
-              <div class="pdp-price muted">{p.onRequest ? t.priceOnRequest : t.priceSoon}</div>
-              <p class="pdp-note">{p.onRequest ? copy.madeToOrder : copy.soon}</p>
-              <a class="btn btn-navy" href={href(lang, "find")}>{copy.findInStore}</a>
-            </div>
-          )}
-
-          <ul class="pdp-usps">
-            {copy.usps.map((u) => <li>{u}</li>)}
-          </ul>
-
-          <div class="faq pdp-acc">
-            <details>
-              <summary>{copy.storage}<span class="faq-ico" aria-hidden="true">›</span></summary>
-              <p>{copy.storageText}</p>
-            </details>
-            <details>
-              <summary>{t.labReports}<span class="faq-ico" aria-hidden="true">›</span></summary>
-              {lab ? (
-                <p>
-                  {copy.labText} {copy.thisBatch} <strong>THC-A {pct(lab.thca, lang)}</strong> · Δ9-THC {pct(lab.d9thc, lang)} · CBD {pct(lab.cbd, lang)}.
-                  <br /><a href={lab.coa} target="_blank" rel="noopener">{copy.coa} ↓</a>
-                </p>
-              ) : (
-                <p>{copy.labText} <a href={href(lang, "lab")}>{copy.seeReports}</a>.</p>
-              )}
-            </details>
-            <details>
-              <summary>{copy.responsible}<span class="faq-ico" aria-hidden="true">›</span></summary>
-              <p>{copy.responsibleText}</p>
-            </details>
-          </div>
+        <div class="pdp-facts">
+          <h2>{copy.details}</h2>
+          <dl class="facts">
+            <dt>{copy.type}</dt><dd>{type}</dd>
+            <dt>{copy.maker}</dt><dd>{maker}</dd>
+            <dt>{copy.warning}</dt><dd>{copy.warningText}</dd>
+            <dt>{copy.ageLimit}</dt><dd>{copy.ageLimitText}</dd>
+            <dt>{copy.coa}</dt><dd>{copy.coaText}</dd>
+          </dl>
+          <h2>{copy.prices}</h2>
+          <table class="price-table">
+            <thead><tr><th>{copy.size}</th><th>{copy.price}</th><th>{copy.perKg}</th></tr></thead>
+            <tbody>{variants.map((v) => <tr><td>{v.size}</td><td>{kr(v.retail, lang)}</td><td>{perKg(v.size, v.retail)}</td></tr>)}</tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
-
-  {p.videos && (
-    <section class="block strain-videos">
-      <div class="wrap">
-        <SectionTitle title={copy.videos} />
-        <div class:list={["strain-video-row", `n-${p.videos.length}`]}>
-          {p.videos.map((src, i) => (
-            <video
-              src={src}
-              poster={src.replace(/\.mp4$/, ".webp")}
-              controls
-              playsinline
-              muted
-              loop
-              preload="none"
-              aria-label={`${p.name} – video ${i + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  {p.category !== "accessory" && <ThcaInfo />}
-
-  {related.length > 0 && (
-    <section class="block">
-      <div class="wrap">
-        <SectionTitle title={copy.related} link={{ href: href(lang, "shop"), label: t.seeAll }} />
-        <div class="rail product-rail" id="related">
-          {related.map((r) => <ProductCard product={r} />)}
-        </div>
-      </div>
-    </section>
-  )}
 </BaseLayout>
 
 <script>
