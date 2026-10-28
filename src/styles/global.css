@@ -1592,3 +1592,9 @@ body.locked { overflow: hidden; }
 .price-table th { color: var(--muted); font-weight: 400; }
 .cart-line { grid-template-columns: 1fr auto; }
 @media (max-width: 860px) { .pdp.pdp-text { grid-template-columns: minmax(0, 1fr); } .facts { grid-template-columns: minmax(0, 1fr); } }
+
+/* Stacked wordmark (no mascot): small in the navy header, large on the front page only */
+.brand-logo { display: block; line-height: 0; }
+.brand-logo img { height: 48px; width: auto; }
+.hero-logo { margin: 0 0 18px; line-height: 0; }
+.hero-logo img { width: min(415px, 80vw); height: auto; }
