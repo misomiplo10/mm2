@@ -18,9 +18,9 @@ const faq = [
 <PlainLayout title="Spørgsmål og svar – Mister Mellow ApS" description="Svar om bestilling, levering, betaling, fortrydelse og alderskontrol hos Mister Mellow ApS.">
   <h1>Spørgsmål og svar</h1>
   {faq.map(([q, a]) => (
-    <>
-      <h2>{q}</h2>
+    <details>
+      <summary>{q}</summary>
       <p>{a}</p>
-    </>
+    </details>
   ))}
 </PlainLayout>

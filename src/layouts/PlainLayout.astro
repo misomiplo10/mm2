@@ -1,5 +1,6 @@
 ---
 import { company } from "../data/company";
+import { categoryHref, shopCategories } from "../data/shop";
 
 interface Props {
   title: string;
@@ -8,13 +9,7 @@ interface Props {
 
 const { title, description } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
-const nav = [
-  { href: "/", label: "Forside" },
-  { href: "/shop", label: "Produkter" },
-  { href: "/faq", label: "Spørgsmål og svar" },
-  { href: "/handelsbetingelser", label: "Handelsbetingelser" },
-  { href: "/kurv", label: "Kurv" },
-];
+const current = (href: string) => (path === href ? "page" : undefined);
 ---
 
 <!doctype html>
@@ -25,59 +20,112 @@ const nav = [
     <title>{title}</title>
     <meta name="description" content={description} />
     <style is:global>
-      /* One standard font, size and colour for everything (BEK 570/2021 § 4, stk. 6). */
+      /* Black, white and greys only, one font and one size for product information (BEK 570/2021 § 4, stk. 6). */
+      :root { --ink: #111; --muted: #5f5f5f; --line: #e2e2e2; --soft: #f6f6f6; }
       * { box-sizing: border-box; }
-      body { margin: 0; background: #fff; color: #111; font: 16px/1.6 Helvetica, Arial, sans-serif; }
-      .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
-      header, footer { border-color: #ccc; border-style: solid; border-width: 0; }
-      header { border-bottom-width: 1px; padding: 14px 0; }
-      header .wrap { display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: baseline; }
-      header nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+      body { margin: 0; background: #fff; color: var(--ink); font: 16px/1.6 Helvetica, Arial, sans-serif; }
+      .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
       a { color: inherit; }
-      a[aria-current="page"] { font-weight: bold; text-decoration: none; }
-      main { padding: 24px 0 48px; }
-      h1 { font-size: 24px; margin: 0 0 16px; }
-      h2 { font-size: 19px; margin: 28px 0 8px; }
-      h3 { font-size: 16px; margin: 18px 0 6px; }
-      p, li { max-width: 70ch; }
+      .infobar { background: var(--soft); border-bottom: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+      .infobar .wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 24px; padding-block: 7px; }
+      .site-head { border-bottom: 1px solid var(--line); }
+      .site-head .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px; padding-block: 16px; }
+      .brand { font-weight: bold; font-size: 18px; text-decoration: none; letter-spacing: .01em; }
+      .main-nav { display: flex; flex-wrap: wrap; gap: 4px 20px; flex: 1; }
+      .main-nav a, .head-tools a { text-decoration: none; }
+      .main-nav a:hover, .head-tools a:hover { text-decoration: underline; }
+      a[aria-current="page"] { font-weight: bold; }
+      .head-tools { display: flex; gap: 18px; }
+      main { padding: 32px 0 64px; }
+      h1 { font-size: 28px; line-height: 1.2; margin: 0 0 12px; }
+      h2 { font-size: 20px; margin: 32px 0 10px; }
+      h3 { font-size: 16px; margin: 20px 0 6px; }
+      p, li { max-width: 72ch; }
+      .muted { color: var(--muted); }
       table { border-collapse: collapse; width: 100%; }
-      th, td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid #ddd; vertical-align: top; }
+      th, td { text-align: left; padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+      th { font-size: 14px; color: var(--muted); font-weight: normal; }
       .num { text-align: right; white-space: nowrap; }
       .table-box { overflow-x: auto; }
-      button { font: inherit; padding: 6px 12px; border: 1px solid #111; background: #fff; color: #111; border-radius: 3px; cursor: pointer; }
-      button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
-      label { display: block; margin: 10px 0; }
-      input, select { font: inherit; display: block; width: 100%; max-width: 420px; padding: 6px 8px; border: 1px solid #999; border-radius: 3px; }
+      button, .btn { font: inherit; display: inline-block; padding: 8px 14px; border: 1px solid var(--ink); background: #fff; color: var(--ink); border-radius: 4px; cursor: pointer; text-decoration: none; }
+      button.primary { background: var(--ink); color: #fff; }
+      button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+      label { display: block; margin: 12px 0; }
+      input, select { font: inherit; display: block; width: 100%; max-width: 420px; padding: 8px 10px; border: 1px solid #999; border-radius: 4px; background: #fff; color: var(--ink); }
       input[type="checkbox"] { display: inline; width: auto; margin-right: 6px; }
-      .box { border: 1px solid #111; padding: 12px 14px; margin: 16px 0; }
-      footer { border-top-width: 1px; padding: 18px 0 40px; font-size: 14px; }
-      footer p { margin: 0 0 8px; }
+      .box { border: 1px solid var(--ink); padding: 14px 16px; margin: 18px 0; }
+      .box p { margin: 0; }
+      details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+      details summary { cursor: pointer; font-weight: bold; }
+      details p { margin: 8px 0 0; }
+      .site-foot { border-top: 1px solid var(--line); background: var(--soft); font-size: 14px; }
+      .foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; padding-block: 32px 16px; }
+      .foot-grid h2 { font-size: 14px; margin: 0 0 8px; }
+      .foot-grid ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+      .foot-legal { border-top: 1px solid var(--line); padding-block: 16px 40px; color: var(--muted); }
+      .foot-legal p { margin: 0 0 6px; }
+      .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
       [hidden] { display: none !important; }
     </style>
   </head>
   <body>
-    <header>
+    <div class="infobar">
       <div class="wrap">
-        <strong>{company.legalName}</strong>
-        <nav aria-label="Hovedmenu">
-          {nav.map((n) => <a href={n.href} aria-current={path === n.href ? "page" : undefined}>{n.label}{n.href === "/kurv" && <> (<span data-cart-count>0</span>)</>}</a>)}
+        <span>Kun levering i Danmark</span>
+        <span>Levering normalt {company.deliveryDays} hverdage</span>
+        <span>18+ med MitID-alderskontrol</span>
+      </div>
+    </div>
+    <header class="site-head">
+      <div class="wrap">
+        <a class="brand" href="/">{company.legalName}</a>
+        <nav class="main-nav" aria-label="Kategorier">
+          <a href="/shop" aria-current={current("/shop")}>Alle produkter</a>
+          {shopCategories.map((c) => <a href={categoryHref(c)} aria-current={current(categoryHref(c))}>{c.label}</a>)}
         </nav>
+        <div class="head-tools">
+          <a href="/shop#soeg">Søg</a>
+          <a href="/kurv" aria-current={current("/kurv")}>Kurv (<span data-cart-count>0</span>)</a>
+        </div>
       </div>
     </header>
     <main class="wrap">
       <slot />
     </main>
-    <footer>
+    <footer class="site-foot">
       <div class="wrap">
-        <p>
-          {company.legalName} · {company.address.slice(0, 2).join(", ")} · CVR {company.cvr}<br />
-          E-mail: <a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a> · Telefon: <a href={company.phoneHref}>{company.phone}</a><br />
-          Tilsynsmyndighed for urtebaserede rygeprodukter: Erhvervsstyrelsen
-        </p>
-        <p>Salg kun til personer over 18 år. Alderen kontrolleres med MitID ved køb. Rygning af dette produkt er sundhedsskadeligt.</p>
-        <p>
-          <a href="/handelsbetingelser">Handelsbetingelser</a> · <a href="/fortryd">Fortryd aftale</a> · <a href="/privatlivspolitik">Privatlivspolitik</a>
-        </p>
+        <div class="foot-grid">
+          <div>
+            <h2>Hjælp og kontakt</h2>
+            <ul>
+              <li><a href="/faq">Spørgsmål og svar</a></li>
+              <li><a href={`mailto:${company.serviceEmail}`}>{company.serviceEmail}</a></li>
+              <li><a href={company.phoneHref}>{company.phone}</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Køb og levering</h2>
+            <ul>
+              <li><a href="/handelsbetingelser">Handelsbetingelser</a></li>
+              <li><a href="/handelsbetingelser#levering">Levering</a></li>
+              <li><a href="/fortryd">Fortryd aftale</a></li>
+              <li><a href="/handelsbetingelser#reklamation">Reklamation</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Virksomhed</h2>
+            <ul>
+              <li>{company.legalName}</li>
+              <li>{company.address.slice(0, 2).join(", ")}</li>
+              <li>CVR {company.cvr}</li>
+              <li><a href="/privatlivspolitik">Privatlivspolitik</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot-legal">
+          <p>Tilsynsmyndighed for urtebaserede rygeprodukter: Erhvervsstyrelsen.</p>
+          <p>Salg kun til personer over 18 år. Alderen kontrolleres med MitID ved køb. Rygning af dette produkt er sundhedsskadeligt.</p>
+        </div>
       </div>
     </footer>
     <script>

@@ -1,0 +1,56 @@
+---
+import { kr, perKg, type ShopProduct } from "../data/shop";
+
+/** Size picker, price and "Læg i kurv" for one product; price and unit price follow the chosen size. */
+interface Props {
+  product: ShopProduct;
+}
+const { product: p } = Astro.props;
+const first = p.variants[0];
+const data = p.variants.map((v) => ({ key: v.key, name: p.name, size: v.size, price: v.price, price_kr: kr(v.price), kg: perKg(v) }));
+---
+
+<div class="buy" data-variants={JSON.stringify(data)}>
+  {p.variants.length > 1 ? (
+    <label class="buy-size">
+      <span class="sr">Vægt for {p.name}</span>
+      <select data-size>
+        {p.variants.map((v, i) => <option value={i}>{v.size}</option>)}
+      </select>
+    </label>
+  ) : (
+    <span class="buy-size">{first.size}</span>
+  )}
+  <span class="buy-price" data-price>{kr(first.price)}</span>
+  <span class="buy-kg muted" data-kg>{perKg(first)}</span>
+  <button type="button" data-add aria-label={`Læg ${p.name} i kurv`}>Læg i kurv</button>
+</div>
+
+<style>
+  .buy { display: grid; grid-template-columns: 110px 100px 130px auto; gap: 8px 16px; align-items: center; }
+  .buy-size { margin: 0; }
+  .buy-size select { width: 100%; }
+  .buy-price { text-align: right; }
+  .buy-kg { font-size: 14px; text-align: right; }
+  @media (max-width: 560px) { .buy { grid-template-columns: 1fr 1fr; } .buy-price, .buy-kg { text-align: left; } }
+</style>
+
+<script>
+  import { add } from "../scripts/cart";
+
+  document.querySelectorAll<HTMLElement>(".buy").forEach((row) => {
+    const variants = JSON.parse(row.dataset.variants!);
+    const select = row.querySelector<HTMLSelectElement>("[data-size]");
+    const chosen = () => variants[select ? Number(select.value) : 0];
+    select?.addEventListener("change", () => {
+      row.querySelector("[data-price]")!.textContent = chosen().price_kr;
+      row.querySelector("[data-kg]")!.textContent = chosen().kg;
+    });
+    row.querySelector("[data-add]")!.addEventListener("click", () => {
+      const v = chosen();
+      add({ key: v.key, name: v.name, size: v.size, price: v.price });
+      const status = document.getElementById("cart-status");
+      if (status) status.textContent = `${v.name} ${v.size} er lagt i kurven.`;
+    });
+  });
+</script>

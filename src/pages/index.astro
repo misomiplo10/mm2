@@ -1,6 +1,7 @@
 ---
 import PlainLayout from "../layouts/PlainLayout.astro";
 import { company } from "../data/company";
+import { categoryHref, shopCategories } from "../data/shop";
 ---
 
 <PlainLayout title={company.legalName} description={`${company.legalName}, CVR ${company.cvr}. Urtebaserede rygeprodukter. Salg kun til personer over 18 år.`}>
@@ -8,7 +9,8 @@ import { company } from "../data/company";
   <p>Vi sælger urtebaserede rygeprodukter. Vi leverer kun til adresser i Danmark.</p>
   <h2>Kategorier</h2>
   <ul>
-    <li><a href="/shop">Urtebaserede rygeprodukter</a></li>
+    <li><a href="/shop">Alle urtebaserede rygeprodukter</a></li>
+    {shopCategories.map((c) => <li><a href={categoryHref(c)}>{c.label}</a></li>)}
   </ul>
   <div class="box">
     <p><strong>Aldersgrænse 18 år.</strong> Vi sælger ikke til personer under 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.</p>

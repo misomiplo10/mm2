@@ -1,0 +1,45 @@
+---
+import PlainLayout from "../../layouts/PlainLayout.astro";
+import BuyRow from "../../components/BuyRow.astro";
+import { categoryHref, healthWarning, kr, manufacturer, perKg, productType, shopProducts, type ShopProduct } from "../../data/shop";
+
+export function getStaticPaths() {
+  return shopProducts.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+interface Props {
+  product: ShopProduct;
+}
+const { product: p } = Astro.props;
+---
+
+<PlainLayout title={`${p.name} – Mister Mellow ApS`} description={`${p.name}. ${productType(p)}. Salg kun til personer over 18 år.`}>
+  <div class="box"><p><strong>Aldersgrænse 18 år.</strong> Din alder kontrolleres med MitID, før et køb kan gennemføres.</p></div>
+  <p class="muted"><a href="/shop">Alle produkter</a> / <a href={categoryHref(p.category)}>{p.category.label}</a> / {p.name}</p>
+  <h1>{p.name}</h1>
+  <BuyRow product={p} />
+  <p id="cart-status" class="muted" role="status" aria-live="polite"></p>
+
+  <h2>Oplysninger</h2>
+  <div class="table-box">
+    <table>
+      <tbody>
+        <tr><th scope="row">Produkttype</th><td>{productType(p)}</td></tr>
+        <tr><th scope="row">Fabrikant</th><td>{manufacturer}</td></tr>
+        <tr><th scope="row">Advarsel</th><td>{healthWarning}</td></tr>
+        <tr><th scope="row">Aldersgrænse</th><td>18 år</td></tr>
+        <tr><th scope="row">Analysecertifikat</th><td>Sendes på anmodning for den konkrete batch</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Størrelser og priser</h2>
+  <div class="table-box">
+    <table>
+      <thead><tr><th>Vægt</th><th class="num">Pris</th><th class="num">Kilopris</th></tr></thead>
+      <tbody>
+        {p.variants.map((v) => <tr><td>{v.size}</td><td class="num">{kr(v.price)}</td><td class="num">{perKg(v)}</td></tr>)}
+      </tbody>
+    </table>
+  </div>
+</PlainLayout>

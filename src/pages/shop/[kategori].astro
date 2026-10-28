@@ -1,0 +1,23 @@
+---
+import PlainLayout from "../../layouts/PlainLayout.astro";
+import ProductList from "../../components/ProductList.astro";
+import { shopCategories, shopProducts, type ShopCategory } from "../../data/shop";
+
+export function getStaticPaths() {
+  return shopCategories.map((category) => ({ params: { kategori: category.slug }, props: { category } }));
+}
+
+interface Props {
+  category: ShopCategory;
+}
+const { category } = Astro.props;
+const list = shopProducts.filter((p) => p.category.id === category.id);
+---
+
+<PlainLayout title={`${category.label} – Mister Mellow ApS`} description={`Urtebaserede rygeprodukter: ${category.label.toLowerCase()} med vægt og pris. Salg kun til personer over 18 år.`}>
+  <div class="box"><p><strong>Aldersgrænse 18 år.</strong> Det er forbudt at sælge urtebaserede rygeprodukter til personer under 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.</p></div>
+  <p class="muted"><a href="/shop">Alle produkter</a> / {category.label}</p>
+  <h1>{category.label}</h1>
+  <p class="muted">{list.length} produkter. Priser i danske kroner inkl. 25 % moms.</p>
+  <ProductList products={list} />
+</PlainLayout>

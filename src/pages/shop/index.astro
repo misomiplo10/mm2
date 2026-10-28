@@ -1,48 +1,39 @@
 ---
 import PlainLayout from "../../layouts/PlainLayout.astro";
-import { kr, perKg, shopLines } from "../../data/shop";
+import ProductList from "../../components/ProductList.astro";
+import { categoryHref, shopCategories, shopProducts } from "../../data/shop";
 ---
 
-<PlainLayout title={`Urtebaserede rygeprodukter – Mister Mellow ApS`} description="Liste over urtebaserede rygeprodukter med vægt og pris. Salg kun til personer over 18 år.">
-  <div class="box">
-    <p><strong>Aldersgrænse 18 år.</strong> Det er forbudt at sælge urtebaserede rygeprodukter til personer under 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.</p>
+<PlainLayout title="Alle produkter – Mister Mellow ApS" description="Liste over urtebaserede rygeprodukter med vægt og pris. Salg kun til personer over 18 år.">
+  <div class="box"><p><strong>Aldersgrænse 18 år.</strong> Det er forbudt at sælge urtebaserede rygeprodukter til personer under 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.</p></div>
+  <h1>Alle produkter</h1>
+  <p class="muted">Urtebaserede rygeprodukter. Priser i danske kroner inkl. 25 % moms. Fragt vises i kurven, før du betaler.</p>
+  <div class="tools">
+    <label id="soeg">Søg efter produkt<input type="search" id="search" placeholder="Produktnavn" autocomplete="off" /></label>
+    <nav aria-label="Kategorier" class="cats">
+      {shopCategories.map((c) => <a class="btn" href={categoryHref(c)}>{c.label}</a>)}
+    </nav>
   </div>
-  <h1>Urtebaserede rygeprodukter</h1>
-  <p>Alle priser er i danske kroner inkl. 25 % moms. Fragt vises i kurven, før du betaler.</p>
-  <div class="table-box">
-    <table>
-      <thead>
-        <tr><th>Produkt</th><th>Type</th><th class="num">Vægt</th><th class="num">Pris</th><th class="num">Kilopris</th><th><span class="sr">Kurv</span></th></tr>
-      </thead>
-      <tbody>
-        {shopLines.map((l) => (
-          <tr>
-            <td>{l.name}</td>
-            <td>{l.type}</td>
-            <td class="num">{l.size}</td>
-            <td class="num">{kr(l.price)}</td>
-            <td class="num">{perKg(l)}</td>
-            <td><button type="button" data-add={JSON.stringify({ key: l.key, name: l.name, size: l.size, price: l.price })} aria-label={`Læg ${l.name} ${l.size} i kurv`}>Læg i kurv</button></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  <p id="added" role="status" aria-live="polite"></p>
+  <ProductList products={shopProducts} />
+  <p id="no-hits" hidden>Ingen produkter matcher din søgning.</p>
 </PlainLayout>
 
 <style>
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .tools { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 24px; margin: 20px 0 8px; }
+  .tools label { flex: 1; min-width: 220px; margin: 0; }
+  .cats { display: flex; flex-wrap: wrap; gap: 8px; }
 </style>
 
 <script>
-  import { add } from "../../scripts/cart";
-  const status = document.getElementById("added")!;
-  document.addEventListener("click", (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-add]");
-    if (!btn) return;
-    const item = JSON.parse(btn.dataset.add!);
-    add(item);
-    status.textContent = `${item.name} ${item.size} er lagt i kurven.`;
+  const input = document.getElementById("search") as HTMLInputElement;
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    let hits = 0;
+    document.querySelectorAll<HTMLElement>(".prow").forEach((row) => {
+      const show = !q || row.dataset.name!.includes(q);
+      row.hidden = !show;
+      hits += Number(show);
+    });
+    document.getElementById("no-hits")!.hidden = hits > 0;
   });
 </script>
