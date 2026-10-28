@@ -1598,3 +1598,8 @@ body.locked { overflow: hidden; }
 .brand-logo img { height: 48px; width: auto; }
 .hero-logo { margin: 0 0 18px; line-height: 0; }
 .hero-logo img { width: min(415px, 80vw); height: auto; }
+
+/* Pouch photos (draft branch) */
+.pcard-pouch { display: block; background: #fdf8ee; border-bottom: 1px solid var(--line); }
+.pcard-pouch img { width: 100%; height: auto; display: block; }
+.pdp-pouch { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 0 20px; border-radius: 14px; background: #fdf8ee; }
