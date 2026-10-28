@@ -10,8 +10,8 @@ const lang = langFromUrl(Astro.url);
 const t = ui[lang];
 const copy = {
   da: {
-    title: "Mister Mellow ApS",
-    description: `Mister Mellow ApS, CVR ${company.cvr}. Urtebaserede rygeprodukter. Salg kun til personer over 18 år.`,
+    title: "Mister Mellow",
+    description: `Mister Mellow, CVR ${company.cvr}. Urtebaserede rygeprodukter. Salg kun til personer over 18 år.`,
     sub: "Vi sælger urtebaserede rygeprodukter. Vi leverer kun til adresser i Danmark.",
     categories: "Kategorier",
     age: "Aldersgrænse 18 år",
@@ -24,8 +24,8 @@ const copy = {
     contact: "Kontakt",
   },
   en: {
-    title: "Mister Mellow ApS",
-    description: `Mister Mellow ApS, CVR ${company.cvr}. Herbal products for smoking. Sold only to people aged 18 or over.`,
+    title: "Mister Mellow",
+    description: `Mister Mellow, CVR ${company.cvr}. Herbal products for smoking. Sold only to people aged 18 or over.`,
     sub: "We sell herbal products for smoking. We only deliver to addresses in Denmark.",
     categories: "Categories",
     age: "Age limit 18",
@@ -43,7 +43,7 @@ const copy = {
 <BaseLayout title={copy.title} description={copy.description}>
   <section class="hero">
     <div class="wrap">
-      <h1 class="hero-title">{company.legalName}</h1>
+      <h1 class="hero-title">{company.name}</h1>
       <p class="hero-sub">{copy.sub}</p>
       <div class="hero-actions">
         <a class="btn btn-navy" href={href(lang, "shop")}>{t.allProducts}</a>

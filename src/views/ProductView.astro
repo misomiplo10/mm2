@@ -67,7 +67,7 @@ const maker = `${company.legalName}, ${company.address.slice(0, 2).join(", ")}, 
 const perKg = (size: string, price: number) => (parseFloat(size) >= 50 ? `${kr(Math.round((price / parseFloat(size)) * 1000), lang)}/kg` : "–");
 ---
 
-<BaseLayout title={`${p.name} – Mister Mellow ApS`} description={`${p.name}. ${type}. ${copy.age}`}>
+<BaseLayout title={`${p.name} – Mister Mellow`} description={`${p.name}. ${type}. ${copy.age}`}>
   <section class="block page-top">
     <div class="wrap">
       <div class="notice-box">{copy.age}</div>

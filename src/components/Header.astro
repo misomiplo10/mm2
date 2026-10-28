@@ -16,7 +16,7 @@ const shopPath = href(lang, "shop");
 
 <header class="site-header">
   <nav class="nav wrap" aria-label={t.mainMenu}>
-    <a class="brand brand-text" href={href(lang, "home")} aria-label={t.skipHome}>{company.legalName}</a>
+    <a class="brand brand-text" href={href(lang, "home")} aria-label={t.skipHome}>{company.name}</a>
     <ul class="nav-links">
       <li class="has-menu">
         <a href={shopPath} aria-current={path.startsWith(shopPath) ? "page" : undefined}>Shop <span class="caret" aria-hidden="true">▾</span></a>

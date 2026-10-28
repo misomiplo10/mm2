@@ -9,7 +9,7 @@ const lang = langFromUrl(Astro.url);
 const t = ui[lang];
 const copy = {
   da: {
-    description: "Fortryd dit køb hos Mister Mellow ApS.",
+    description: "Fortryd dit køb hos Mister Mellow.",
     lead: `Her kan du fortryde et køb inden for fortrydelsesfristen på ${company.withdrawalDays} dage. Udfyld felterne, og tryk på "Bekræft fortrydelse".`,
     name: "Fulde navn",
     order: "Ordrenummer",
@@ -22,7 +22,7 @@ const copy = {
     body: "Jeg fortryder min aftale.",
   },
   en: {
-    description: "Cancel your purchase from Mister Mellow ApS.",
+    description: "Cancel your purchase from Mister Mellow.",
     lead: `Here you can cancel a purchase within the ${company.withdrawalDays}-day cancellation period. Fill in the fields and press "Confirm cancellation".`,
     name: "Full name",
     order: "Order number",
@@ -37,7 +37,7 @@ const copy = {
 }[lang];
 ---
 
-<BaseLayout title={`${t.withdraw} – Mister Mellow ApS`} description={copy.description}>
+<BaseLayout title={`${t.withdraw} – Mister Mellow`} description={copy.description}>
   <section class="block page-top">
     <div class="wrap legal">
       <SectionTitle title={t.withdraw} />

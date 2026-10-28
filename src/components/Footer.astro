@@ -10,8 +10,9 @@ const t = ui[lang];
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <h4>{company.legalName}</h4>
+        <h4>{company.name}</h4>
         <p>
+          {company.legalName}<br />
           {company.address.slice(0, 2).map((l) => <>{l}<br /></>)}
           CVR {company.cvr}
         </p>
