@@ -306,12 +306,9 @@ const HELD_BACK = ["milkshake-zeethos", "rainbow-sherbet", "turbobacon", "obama-
 
 export const products = allProducts.filter((p) => !HELD_BACK.includes(p.slug));
 
-/**
- * Pouch photos (silver pouch with the label). Approved by the company's lawyer in writing
- * (question 6, 3 Nov 2026).
- */
-const POUCHES = ["fresh-frozen", "midnight-rider", "sunday-cruise", "dry-sift"];
-export const pouchImage = (p: Product) => (POUCHES.includes(p.slug) ? `/img/pouches/${p.slug}` : undefined);
+/** The product's own photo or packshot (the orange and purple pouches, the tubes and the flower and hash photos). */
+export const productImage = (p: Product) =>
+  p.visual.kind === "photo" || p.visual.kind === "packshot" || p.visual.kind === "cover" ? { src: p.visual.src, kind: p.visual.kind } : undefined;
 
 /** What the shop sells: the variants, or the single size/retail price. */
 export const shopVariants = (p: Product): Variant[] =>
