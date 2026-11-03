@@ -8,6 +8,8 @@ export const company = {
   serviceEmail: "M@mistermellow.dk",
   phone: "+45 71 85 83 60",
   phoneHref: "tel:+4571858360",
+  instagram: "@mistermellow.dk",
+  instagramUrl: "https://instagram.com/mistermellow.dk",
   carriers: ["DAO", "PostNord", "GLS", "Bring"],
   /** Countries we ship to. Denmark only until each other country has been checked legally. */
   shippingCountries: ["DK"],
