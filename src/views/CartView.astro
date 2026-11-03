@@ -22,7 +22,6 @@ const copy = {
     country: "Land",
     age: "Jeg bekræfter, at jeg er fyldt 18 år.",
     keyInfo: "Betaling med VISA eller Mastercard. Beløbet trækkes, når ordren sendes. Du har 14 dages fortrydelsesret på uåbnede varer; fortrydelsesretten bortfalder for en vare, hvis forseglingen er brudt efter leveringen.",
-    onlyDk: "Vi leverer kun til adresser i Danmark.",
     termsBefore: "Jeg har læst og accepterer ",
     termsAfter: ".",
     error: "Udfyld alle felter, bekræft din alder og accepter handelsbetingelserne.",
@@ -49,7 +48,6 @@ const copy = {
     country: "Country",
     age: "I confirm that I am 18 or older.",
     keyInfo: "Payment by VISA or Mastercard. You are charged when the order ships. You have a 14-day right to cancel on unopened items; it lapses for an item if its seal is broken after delivery.",
-    onlyDk: "We only deliver to addresses in Denmark.",
     termsBefore: "I have read and accept the ",
     termsAfter: ".",
     error: "Please fill in all fields, confirm your age and accept the terms and conditions.",
@@ -90,9 +88,13 @@ const copy = {
               <label class="field">{copy.email}<input name="email" type="email" autocomplete="email" required /></label>
               <label class="field">{copy.phone}<input name="phone" type="tel" autocomplete="tel" required /></label>
               <label class="field span-2">{copy.address}<input name="address" autocomplete="street-address" required /></label>
-              <label class="field">{copy.zip}<input name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{4}" required /></label>
+              <label class="field">{copy.zip}<input name="zip" autocomplete="postal-code" required /></label>
               <label class="field">{copy.city}<input name="city" autocomplete="address-level2" required /></label>
-              <p class="field span-2">{copy.country}: {countries[0].name}. {copy.onlyDk}</p>
+              <label class="field span-2">{copy.country}
+                <select name="country" autocomplete="country" required>
+                  {countries.map((c) => <option value={c.code} selected={c.code === "DK"}>{c.name}</option>)}
+                </select>
+              </label>
             </div>
             <label class="check"><input type="checkbox" name="age" required /> {copy.age}</label>
             <p class="page-note">{copy.keyInfo}</p>

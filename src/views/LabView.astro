@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { labTests } from "../data/lab";
+import { products } from "../data/products";
+import { langFromUrl, productHref, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const t = ui[lang];
+const n = (v: string) => (lang === "en" ? v.replace(",", ".") : v);
+const copy = {
+  da: {
+    description: "Analysecertifikater for Mister Mellows produkter.",
+    lead: "Her finder du analysecertifikaterne for vores produkter. Værdierne er i procent, som angivet i rapporterne. \"< LOQ\" betyder under kvantificeringsgrænsen (0,05 %).",
+    product: "Produkt",
+    sample: "Prøve",
+    lab: "Laboratorium",
+    date: "Dato",
+    report: "Rapport",
+    download: "Hent PDF",
+    sumThc: "THC i alt",
+    other: "Har du brug for analysecertifikatet for et andet produkt eller en bestemt batch, så skriv til os.",
+  },
+  en: {
+    description: "Certificates of analysis for Mister Mellow products.",
+    lead: "Here are the certificates of analysis for our products. Values are in percent, as stated in the reports. \"< LOQ\" means below the limit of quantification (0.05%).",
+    product: "Product",
+    sample: "Sample",
+    lab: "Laboratory",
+    date: "Date",
+    report: "Report",
+    download: "Download PDF",
+    sumThc: "Total THC",
+    other: "If you need the certificate for another product or a specific batch, please contact us.",
+  },
+}[lang];
+const productName = (slug: string) => products.find((p) => p.slug === slug)?.name ?? slug;
+---
+
+<BaseLayout title={`${t.labReports} – Mister Mellow`} description={copy.description}>
+  <section class="block page-top">
+    <div class="wrap">
+      <SectionTitle title={t.labReports} />
+      <p class="page-lead">{copy.lead}</p>
+      <div class="lab-table-box">
+        <table class="lab-table">
+          <thead>
+            <tr>
+              <th>{copy.product}</th><th>THC-A</th><th>Δ9-THC</th><th>{copy.sumThc}</th><th>CBD</th><th>CBDA</th><th>CBG</th>
+              <th>{copy.lab}</th><th>{copy.date}</th><th>{copy.report}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {labTests.map((r) => (
+              <tr>
+                <td><a href={productHref(lang, r.product)}>{productName(r.product)}</a><small>{copy.sample}: {r.sample}</small></td>
+                <td>{n(r.results.thca)} %</td><td>{n(r.results.d9thc)} %</td><td>{n(r.results.sumThc)} %</td>
+                <td>{n(r.results.cbd)} %</td><td>{n(r.results.cbda)} %</td><td>{n(r.results.cbg)} %</td>
+                <td>{r.lab}</td><td>{r.date}</td>
+                <td><a href={r.pdf} target="_blank" rel="noopener">{copy.download}</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="page-note">{copy.other}</p>
+    </div>
+  </section>
+</BaseLayout>

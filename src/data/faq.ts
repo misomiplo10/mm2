@@ -1,5 +1,5 @@
 import { company } from "./company";
-import type { Lang } from "../i18n";
+import { countriesText, type Lang } from "../i18n";
 
 /**
  * Practical answers only. Nothing about effects, strength, legality or the police: on a site for
@@ -29,7 +29,7 @@ const da: FaqGroup[] = [
   {
     title: "Levering",
     items: [
-      { q: "Hvor leverer I?", a: ["Kun til adresser i Danmark."] },
+      { q: "Hvor leverer I?", a: [`Til adresser i ${countriesText(company.shippingCountries, "da")}.`] },
       { q: "Hvad koster fragt?", a: ["Fragtprisen afhænger af vægt og fragtfirma og vises i kurven, før du betaler."] },
       { q: "Hvor lang er leveringstiden?", a: [`Normalt ${company.deliveryDays} hverdage fra bestilling.`] },
     ],
@@ -56,7 +56,7 @@ const en: FaqGroup[] = [
   {
     title: "Delivery",
     items: [
-      { q: "Where do you deliver?", a: ["Only to addresses in Denmark."] },
+      { q: "Where do you deliver?", a: [`To addresses in ${countriesText(company.shippingCountries, "en")}.`] },
       { q: "What does shipping cost?", a: ["The price depends on weight and carrier and is shown in the cart before you pay."] },
       { q: "How long does delivery take?", a: [`Usually ${company.deliveryDays} business days from ordering.`] },
     ],

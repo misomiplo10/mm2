@@ -10,6 +10,7 @@ const routes = {
   shop: { da: "/shop", en: "/en/shop" },
   faq: { da: "/faq", en: "/en/faq" },
   find: { da: "/find-os", en: "/en/find-us" },
+  lab: { da: "/lab-rapporter", en: "/en/lab-reports" },
   withdraw: { da: "/fortryd", en: "/en/withdraw" },
   cart: { da: "/kurv", en: "/en/cart" },
   privacy: { da: "/privatlivspolitik", en: "/en/privacy" },
@@ -175,4 +176,10 @@ export function countryList(codes: readonly string[], lang: Lang) {
   return codes
     .map((code) => ({ code, name: UK_NATIONS[code]?.[lang] ?? names.of(code)! }))
     .sort((a, b) => (a.code === "DK" ? -1 : b.code === "DK" ? 1 : a.name.localeCompare(b.name, lang)));
+}
+
+/** "Danmark, Belgien … og Tyskland": the shipping countries as one sentence-ready list. */
+export function countriesText(codes: readonly string[], lang: Lang) {
+  const names = countryList(codes, lang).map((c) => c.name);
+  return names.length > 1 ? `${names.slice(0, -1).join(", ")} ${lang === "en" ? "and" : "og"} ${names.at(-1)}` : names[0];
 }

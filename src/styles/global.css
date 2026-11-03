@@ -1612,3 +1612,11 @@ body.locked { overflow: hidden; }
 .pcard-pouch.is-packshot img, .pdp-pouch.is-packshot img { padding: 8%; }
 .pcard-pouch.is-cover img, .pdp-pouch.is-cover img { object-fit: cover; }
 .pdp-pouch { width: 100%; max-width: 420px; aspect-ratio: 4 / 5; margin: 0 0 20px; border-radius: 14px; overflow: hidden; background: var(--paper); }
+
+/* Lab reports table */
+.lab-table-box { overflow-x: auto; margin: 24px 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); }
+.lab-table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 880px; }
+.lab-table th, .lab-table td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.lab-table th { font-size: 13px; font-weight: 600; color: var(--muted); }
+.lab-table tr:last-child td { border-bottom: 0; }
+.lab-table td small { display: block; font-size: 12px; color: var(--muted); }

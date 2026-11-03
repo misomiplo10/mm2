@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import { categories } from "../data/products";
 import { company } from "../data/company";
-import { categoryHref, href, langFromUrl, ui } from "../i18n";
+import { categoryHref, countriesText, href, langFromUrl, ui } from "../i18n";
 
 /** The front page may only show categories, not products (BEK 570/2021 § 4, stk. 5). */
 const lang = langFromUrl(Astro.url);
@@ -12,12 +12,12 @@ const copy = {
   da: {
     title: "Mister Mellow",
     description: `Mister Mellow, CVR ${company.cvr}. Blomster, hash og forrullede produkter. Salg kun til personer over 18 år.`,
-    sub: "Vi sælger blomster, hash og forrullede produkter. Vi leverer kun til adresser i Danmark.",
+    sub: `Vi sælger blomster, hash og forrullede produkter. Vi leverer til ${countriesText(company.shippingCountries, "da")}.`,
     categories: "Kategorier",
     age: "Aldersgrænse 18 år",
     ageText: "Vi sælger ikke til personer under 18 år.",
     info: [
-      ["Levering", `Kun i Danmark. Normalt ${company.deliveryDays} hverdage. Fragtprisen vises, før du betaler.`],
+      ["Levering", `Til ${countriesText(company.shippingCountries, "da")}. I Danmark normalt ${company.deliveryDays} hverdage. Fragtprisen vises, før du betaler.`],
       ["Betaling", "VISA og Mastercard. Beløbet trækkes, når ordren sendes."],
       ["Fortrydelse", "14 dages fortrydelsesret på uåbnede varer."],
     ],
@@ -26,12 +26,12 @@ const copy = {
   en: {
     title: "Mister Mellow",
     description: `Mister Mellow, CVR ${company.cvr}. Flower, hash and pre-rolled products. Sold only to people aged 18 or over.`,
-    sub: "We sell flower, hash and pre-rolled products. We only deliver to addresses in Denmark.",
+    sub: `We sell flower, hash and pre-rolled products. We deliver to ${countriesText(company.shippingCountries, "en")}.`,
     categories: "Categories",
     age: "Age limit 18",
     ageText: "We do not sell to anyone under 18.",
     info: [
-      ["Delivery", `Denmark only. Usually ${company.deliveryDays} business days. The shipping price is shown before you pay.`],
+      ["Delivery", `To ${countriesText(company.shippingCountries, "en")}. Usually ${company.deliveryDays} business days within Denmark. The shipping price is shown before you pay.`],
       ["Payment", "VISA and Mastercard. You are charged when the order ships."],
       ["Cancellation", "14-day right to cancel on unopened items."],
     ],

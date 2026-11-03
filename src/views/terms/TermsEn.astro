@@ -1,6 +1,6 @@
 ---
 import { company } from "../../data/company";
-import { href } from "../../i18n";
+import { countriesText, href } from "../../i18n";
 
 const carriers = company.carriers.join(", ").replace(/, ([^,]*)$/, " and $1");
 const days = company.withdrawalDays;
@@ -30,7 +30,7 @@ const addr = company.address.slice(0, 2).join(", ");
 <p>We accept VISA and Mastercard. You are only charged when the order ships. You receive an order confirmation by email with these terms, and we store the contract.</p>
 
 <h2 id="levering">5. Delivery</h2>
-<p>We only deliver to addresses in Denmark. Your parcel is sent with {carriers}. Delivery usually takes {company.deliveryDays} business days. The shipping price depends on weight and carrier and is shown before you pay.</p>
+<p>We deliver to addresses in {countriesText(company.shippingCountries, "en")}. We do not deliver to other countries. Your parcel is sent with {carriers}. Within Denmark delivery usually takes {company.deliveryDays} business days; to the other countries it can take longer. The shipping price depends on weight and carrier and is shown before you pay.</p>
 
 <h2 id="reklamation">6. Complaints about defects</h2>
 <p>The defect rules of the Danish Sale of Goods Act apply. You can complain for 2 years from delivery. If an item is defective, you can choose repair or replacement unless that is impossible or disproportionately costly for us; otherwise you can get a price reduction or cancel the purchase if the defect is not minor. If the item is repaired, the complaint period is extended once by 12 months.</p>

@@ -11,8 +11,8 @@ export const company = {
   instagram: "@mistermellow.dk",
   instagramUrl: "https://instagram.com/mistermellow.dk",
   carriers: ["DAO", "PostNord", "GLS", "Bring"],
-  /** Countries we ship to. Denmark only until each other country has been checked legally. */
-  shippingCountries: ["DK"],
+  /** Countries we ship to (ISO codes). Order doesn't matter, the pages put Denmark first and sort the rest by name. */
+  shippingCountries: ["DK", "BE", "DE", "FR", "NL", "ES", "PT"],
   /** Business days from order to delivery */
   deliveryDays: "1–2",
   withdrawalDays: 14,
