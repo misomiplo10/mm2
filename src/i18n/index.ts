@@ -9,6 +9,7 @@ const routes = {
   home: { da: "/", en: "/en/" },
   shop: { da: "/shop", en: "/en/shop" },
   faq: { da: "/faq", en: "/en/faq" },
+  find: { da: "/find-os", en: "/en/find-us" },
   withdraw: { da: "/fortryd", en: "/en/withdraw" },
   cart: { da: "/kurv", en: "/en/cart" },
   privacy: { da: "/privatlivspolitik", en: "/en/privacy" },

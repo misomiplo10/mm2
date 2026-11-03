@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import { stores } from "../data/stores";
+import { href, langFromUrl, ui } from "../i18n";
+
+const lang = langFromUrl(Astro.url);
+const t = ui[lang];
+const copy = {
+  da: {
+    description: "Butikker, der forhandler Mister Mellow.",
+    lead: "Du kan købe Mister Mellow i",
+    shop: "webshoppen",
+    rest: "og hos disse forhandlere.",
+  },
+  en: {
+    description: "Shops that sell Mister Mellow.",
+    lead: "You can buy Mister Mellow in the",
+    shop: "web shop",
+    rest: "and at these shops.",
+  },
+}[lang];
+---
+
+<BaseLayout title={`${t.findUs} – Mister Mellow`} description={copy.description}>
+  <section class="block page-top">
+    <div class="wrap">
+      <SectionTitle title={t.findUs} />
+      <p class="page-lead">{copy.lead} <a href={href(lang, "shop")}>{copy.shop}</a> {copy.rest}</p>
+      {stores.map((g) => (
+        <div class="store-group">
+          <h2 class="store-area">{g.area}</h2>
+          <ul class="store-list">
+            {g.stores.map((s) => (
+              <li>
+                <strong>{s.name}</strong>
+                <span>{s.street}, {s.postcode}<br />{s.city}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

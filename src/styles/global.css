@@ -1598,3 +1598,11 @@ body.locked { overflow: hidden; }
 .brand-logo img { height: 48px; width: auto; }
 .hero-logo { margin: 0 0 18px; line-height: 0; }
 .hero-logo img { width: min(415px, 80vw); height: auto; }
+
+/* Find os: shops grouped by area, name above a monospace address */
+.store-group { margin-top: 36px; }
+.store-area { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; padding-bottom: 10px; border-bottom: 1px solid var(--ink); }
+.store-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); column-gap: 24px; }
+.store-list li { display: grid; gap: 4px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.store-list strong { font-weight: 500; }
+.store-list span { font-family: ui-monospace, "SF Mono", Menlo, "Courier New", monospace; font-size: 13px; line-height: 1.5; color: var(--muted); }

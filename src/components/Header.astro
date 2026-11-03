@@ -6,6 +6,7 @@ import { categoryHref, href, langFromUrl, langs, translatePath, ui, type Route }
 const lang = langFromUrl(Astro.url);
 const t = ui[lang];
 const links: { route: Route; label: string }[] = [
+  { route: "find", label: t.findUs },
   { route: "faq", label: t.faq },
   { route: "terms", label: t.terms },
 ];
