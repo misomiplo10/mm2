@@ -20,14 +20,14 @@ const copy = {
     zip: "Postnr.",
     city: "By",
     country: "Land",
-    age: "Før købet gennemføres, kontrollerer vi din alder med MitID. Vi sælger ikke til personer under 18 år.",
+    age: "Jeg bekræfter, at jeg er fyldt 18 år.",
     keyInfo: "Betaling med VISA eller Mastercard. Beløbet trækkes, når ordren sendes. Du har 14 dages fortrydelsesret på uåbnede varer; fortrydelsesretten bortfalder for en vare, hvis forseglingen er brudt efter leveringen.",
     onlyDk: "Vi leverer kun til adresser i Danmark.",
     termsBefore: "Jeg har læst og accepterer ",
     termsAfter: ".",
-    error: "Udfyld alle felter og accepter handelsbetingelserne.",
+    error: "Udfyld alle felter, bekræft din alder og accepter handelsbetingelserne.",
     thanks: "Webshoppen er ikke åben endnu.",
-    notice: "Betaling og MitID-alderskontrol er ikke sat op, så der er ikke afgivet nogen ordre, og du er ikke blevet opkrævet.",
+    notice: "Betaling er ikke sat op endnu, så der er ikke afgivet nogen ordre, og du er ikke blevet opkrævet.",
     summary: "Oversigt",
     shipping: "Fragt",
     shippingLater: "Beregnes ved betaling",
@@ -47,14 +47,14 @@ const copy = {
     zip: "Postcode",
     city: "City",
     country: "Country",
-    age: "Before the purchase is completed, we check your age with MitID. We do not sell to anyone under 18.",
+    age: "I confirm that I am 18 or older.",
     keyInfo: "Payment by VISA or Mastercard. You are charged when the order ships. You have a 14-day right to cancel on unopened items; it lapses for an item if its seal is broken after delivery.",
     onlyDk: "We only deliver to addresses in Denmark.",
     termsBefore: "I have read and accept the ",
     termsAfter: ".",
-    error: "Please fill in all fields and accept the terms and conditions.",
+    error: "Please fill in all fields, confirm your age and accept the terms and conditions.",
     thanks: "The web shop is not open yet.",
-    notice: "Payment and MitID age verification are not set up, so no order has been placed and you have not been charged.",
+    notice: "Payment is not set up yet, so no order has been placed and you have not been charged.",
     summary: "Summary",
     shipping: "Shipping",
     shippingLater: "Calculated at payment",
@@ -94,7 +94,7 @@ const copy = {
               <label class="field">{copy.city}<input name="city" autocomplete="address-level2" required /></label>
               <p class="field span-2">{copy.country}: {countries[0].name}. {copy.onlyDk}</p>
             </div>
-            <p class="page-note">{copy.age}</p>
+            <label class="check"><input type="checkbox" name="age" required /> {copy.age}</label>
             <p class="page-note">{copy.keyInfo}</p>
             <label class="check"><input type="checkbox" name="terms" required /> <span>{copy.termsBefore}<a href={href(lang, "terms")} target="_blank" rel="noopener">{t.terms.toLowerCase()}</a>{copy.termsAfter}</span></label>
             <p class="form-error" id="form-error" hidden>{copy.error}</p>

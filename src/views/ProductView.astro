@@ -23,7 +23,8 @@ const copy = {
     qty: "Antal",
     fewer: "Færre",
     more: "Flere",
-    age: "Aldersgrænse 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres.",
+    age: "Aldersgrænse 18 år. Vi sælger ikke til personer under 18 år.",
+    use: "Anvendelse",
     details: "Oplysninger",
     type: "Produkttype",
     maker: "Fabrikant",
@@ -42,7 +43,8 @@ const copy = {
     qty: "Quantity",
     fewer: "Fewer",
     more: "More",
-    age: "Age limit 18. Your age is checked with MitID before a purchase can be completed.",
+    age: "Age limit 18. We do not sell to anyone under 18.",
+    use: "Use",
     details: "Details",
     type: "Product type",
     maker: "Manufacturer",
@@ -108,6 +110,7 @@ const perKg = (size: string, price: number) => (parseFloat(size) >= 50 ? `${kr(M
           <dl class="facts">
             <dt>{copy.type}</dt><dd>{type}</dd>
             <dt>{copy.maker}</dt><dd>{maker}</dd>
+            <dt>{copy.use}</dt><dd>{t.productUse}</dd>
             <dt>{copy.ageLimit}</dt><dd>{copy.ageLimitText}</dd>
             <dt>{copy.coa}</dt><dd>{copy.coaText}</dd>
           </dl>

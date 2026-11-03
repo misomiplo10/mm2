@@ -307,9 +307,8 @@ const HELD_BACK = ["milkshake-zeethos", "rainbow-sherbet", "turbobacon", "obama-
 export const products = allProducts.filter((p) => !HELD_BACK.includes(p.slug));
 
 /**
- * Pouch photos (silver pouch with the label). DRAFT on this branch only: product pictures are
- * not allowed online for herbal smoking products (BEK 570/2021 § 4, stk. 6) unless the lawyer
- * confirms otherwise.
+ * Pouch photos (silver pouch with the label). Approved by the company's lawyer in writing
+ * (question 6, 3 Nov 2026).
  */
 const POUCHES = ["fresh-frozen", "midnight-rider", "sunday-cruise", "dry-sift"];
 export const pouchImage = (p: Product) => (POUCHES.includes(p.slug) ? `/img/pouches/${p.slug}` : undefined);

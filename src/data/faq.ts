@@ -21,7 +21,7 @@ const da: FaqGroup[] = [
   {
     title: "Bestilling og betaling",
     items: [
-      { q: "Hvem kan købe?", a: ["Kun personer over 18 år. Din alder kontrolleres med MitID, før et køb kan gennemføres. Fragtfirmaet kan også bede om legitimation ved levering."] },
+      { q: "Hvem kan købe?", a: ["Kun personer over 18 år. Du bekræfter din alder, når du bestiller. Fragtfirmaet kan også bede om legitimation ved levering."] },
       { q: "Hvordan betaler jeg?", a: ["Med VISA eller Mastercard. Beløbet trækkes, når ordren sendes."] },
       { q: "Kan jeg få et analysecertifikat?", a: [`Ja. Skriv til ${company.serviceEmail} med produktnavn og batchnummer, så sender vi analysecertifikatet for den pågældende batch.`] },
     ],
@@ -48,7 +48,7 @@ const en: FaqGroup[] = [
   {
     title: "Ordering and payment",
     items: [
-      { q: "Who can buy?", a: ["Only people aged 18 or over. Your age is checked with MitID before a purchase can be completed. The carrier may also ask for ID on delivery."] },
+      { q: "Who can buy?", a: ["Only people aged 18 or over. You confirm your age when you order. The carrier may also ask for ID on delivery."] },
       { q: "How do I pay?", a: ["By VISA or Mastercard. You are charged when the order ships."] },
       { q: "Can I get a certificate of analysis?", a: [`Yes. Email ${company.serviceEmail} with the product name and batch number and we will send the certificate for that batch.`] },
     ],
