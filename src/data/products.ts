@@ -33,6 +33,16 @@ const HASH_PRICES: Variant[] = [
   { size: "100 g", retail: 4499 },
 ];
 
+/**
+ * Prices for the products that also sell under Bliss: HASH_PRICES (99,50 kr./g at 2 g) scaled to the
+ * product's own price per gram and rounded to the nearest …9 kr, exactly as on the Bliss site.
+ */
+const scaledPrices = (perGram: number): Variant[] =>
+  HASH_PRICES.map(({ size, retail }) => ({
+    size,
+    retail: size === "2 g" && perGram === 99.5 ? retail : Math.round((retail * perGram) / 99.5 / 10 + 0.1) * 10 - 1,
+  }));
+
 export interface Product {
   slug: string;
   name: string;
@@ -150,6 +160,26 @@ const allProducts: Product[] = [
     visual: { kind: "photo", src: "/img/flower/pink-castle.webp", alt: "Pink Castle" },
   },
   {
+    slug: "wedding-cake",
+    name: "Wedding Cake",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: { da: "Wedding Cake", en: "Wedding Cake" },
+    variants: scaledPrices(109),
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/products/wedding-cake.webp", alt: "Wedding Cake" },
+  },
+  {
+    slug: "purple-haze",
+    name: "Purple Haze",
+    category: "flower",
+    format: { da: "Flower", en: "Flower" },
+    description: { da: "Purple Haze", en: "Purple Haze" },
+    variants: scaledPrices(109),
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/products/purple-haze.webp", alt: "Purple Haze" },
+  },
+  {
     slug: "milkshake-zeethos",
     name: "Milkshake Zeethos",
     category: "flower",
@@ -162,20 +192,6 @@ const allProducts: Product[] = [
     videos: ["/video/milkshake-zeethos-1.mp4"],
     tint: "butter",
     visual: { kind: "photo", src: "/img/flower/milkshake-zeethos.webp", alt: "Milkshake Zeethos" },
-  },
-  {
-    slug: "flying-dutchman",
-    name: "Flying Dutchman",
-    category: "flower",
-    format: { da: "Flower", en: "Flower" },
-    description: {
-      da: "Flying Dutchman – Cali-flower med THC-A. Se sorten tæt på i videoen.",
-      en: "Flying Dutchman – Cali flower with THC-A. See the strain up close in the video.",
-    },
-    variants: byGram(2, 6, 10, 20, 50, 100),
-    videos: ["/video/flying-dutchman-1.mp4", "/video/flying-dutchman-2.mp4", "/video/flying-dutchman-3.mp4"],
-    tint: "lavender",
-    visual: { kind: "cover", src: "/img/flower/flying-dutchman.webp", alt: "Flying Dutchman" },
   },
   {
     slug: "obama-runtz",
@@ -281,6 +297,66 @@ const allProducts: Product[] = [
     featured: true,
     tint: "lavender",
     visual: { kind: "photo", src: "/img/dry-sift.jpg", alt: "Dry Sift hash" },
+  },
+  {
+    slug: "rosinella",
+    name: "Rosinella",
+    category: "hash",
+    format: { da: "Hash", en: "Hash" },
+    description: { da: "Rosinella", en: "Rosinella" },
+    variants: scaledPrices(199),
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/products/rosinella.webp", alt: "Rosinella" },
+  },
+  {
+    slug: "la-mousse",
+    name: "La Mousse",
+    category: "hash",
+    format: { da: "Hash", en: "Hash" },
+    description: { da: "La Mousse", en: "La Mousse" },
+    variants: scaledPrices(99.5),
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/products/la-mousse.webp", alt: "La Mousse" },
+  },
+  {
+    slug: "cosa-nostra",
+    name: "Cosa Nostra",
+    category: "hash",
+    format: { da: "Hash", en: "Hash" },
+    description: { da: "Cosa Nostra", en: "Cosa Nostra" },
+    variants: scaledPrices(99.5),
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/products/cosa-nostra.webp", alt: "Cosa Nostra" },
+  },
+  {
+    slug: "purple-storm",
+    name: "Purple Storm",
+    category: "hash",
+    format: { da: "Hash", en: "Hash" },
+    description: { da: "Purple Storm", en: "Purple Storm" },
+    variants: scaledPrices(199),
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/products/purple-storm.webp", alt: "Purple Storm" },
+  },
+  {
+    slug: "blue-diamond",
+    name: "Blue Diamond",
+    category: "hash",
+    format: { da: "Hash", en: "Hash" },
+    description: { da: "Blue Diamond", en: "Blue Diamond" },
+    variants: scaledPrices(199),
+    tint: "lavender",
+    visual: { kind: "photo", src: "/img/products/blue-diamond.webp", alt: "Blue Diamond" },
+  },
+  {
+    slug: "piatella",
+    name: "Piatella",
+    category: "hash",
+    format: { da: "Hash", en: "Hash" },
+    description: { da: "Piatella", en: "Piatella" },
+    variants: scaledPrices(180),
+    tint: "lavender",
+    visual: { kind: "packshot", src: "/img/products/piatella.webp", alt: "Piatella" },
   },
   {
     slug: "mister-mellow-lighter",
