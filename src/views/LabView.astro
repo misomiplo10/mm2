@@ -8,6 +8,8 @@ import { langFromUrl, productHref, ui } from "../i18n";
 const lang = langFromUrl(Astro.url);
 const t = ui[lang];
 const n = (v: string) => (lang === "en" ? v.replace(",", ".") : v);
+/** "< LOQ" stays as it is; numbers get a % sign. */
+const pct = (v: string) => (v.startsWith("<") ? v : `${n(v)} %`);
 const copy = {
   da: {
     description: "Analysecertifikater for Mister Mellows produkter.",
@@ -34,7 +36,7 @@ const copy = {
     other: "If you need the certificate for another product or a specific batch, please contact us.",
   },
 }[lang];
-const productName = (slug: string) => products.find((p) => p.slug === slug)?.name ?? slug;
+const productName = (r: { product?: string; name: string }) => products.find((p) => p.slug === r.product)?.name ?? r.name;
 ---
 
 <BaseLayout title={`${t.labReports} – Mister Mellow`} description={copy.description}>
@@ -53,9 +55,9 @@ const productName = (slug: string) => products.find((p) => p.slug === slug)?.nam
           <tbody>
             {labTests.map((r) => (
               <tr>
-                <td><a href={productHref(lang, r.product)}>{productName(r.product)}</a><small>{copy.sample}: {r.sample}</small></td>
-                <td>{n(r.results.thca)} %</td><td>{n(r.results.d9thc)} %</td><td>{n(r.results.sumThc)} %</td>
-                <td>{n(r.results.cbd)} %</td><td>{n(r.results.cbda)} %</td><td>{n(r.results.cbg)} %</td>
+                <td>{r.product ? <a href={productHref(lang, r.product)}>{productName(r)}</a> : <strong>{r.name}</strong>}<small>{copy.sample}: {r.sample}</small></td>
+                <td>{pct(r.results.thca)}</td><td>{pct(r.results.d9thc)}</td><td>{pct(r.results.sumThc)}</td>
+                <td>{pct(r.results.cbd)}</td><td>{pct(r.results.cbda)}</td><td>{pct(r.results.cbg)}</td>
                 <td>{r.lab}</td><td>{r.date}</td>
                 <td><a href={r.pdf} target="_blank" rel="noopener">{copy.download}</a></td>
               </tr>
