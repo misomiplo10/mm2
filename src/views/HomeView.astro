@@ -67,10 +67,11 @@ const copy = {
         <strong>{copy.age}.</strong> {copy.ageText}
       </div>
       <div class="info-grid">
-        {copy.info.map(([h, p]) => (
+        {copy.info.map(([h, p], i) => (
           <div class="info-card">
             <h3>{h}</h3>
             <p>{p}</p>
+            {i === 0 && <p><a href={`${href(lang, "terms")}#lande`}>{t.countries} →</a></p>}
           </div>
         ))}
         <div class="info-card">

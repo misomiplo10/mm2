@@ -1,6 +1,6 @@
 ---
 import { company } from "../../data/company";
-import { countriesText, href } from "../../i18n";
+import { countriesText, countryList, href } from "../../i18n";
 
 const carriers = company.carriers.join(", ").replace(/, ([^,]*)$/, " og $1");
 const days = company.withdrawalDays;
@@ -34,6 +34,10 @@ const addr = company.address.slice(0, 2).join(", ");
 <p>Vi tager imod VISA og Mastercard. Beløbet trækkes først, når ordren sendes. Du får en ordrebekræftelse på e-mail med disse betingelser, og vi gemmer aftalen.</p>
 
 <h2 id="levering">5. Levering</h2>
+<h3 id="lande">Lande vi leverer til</h3>
+<ul class="country-list">
+  {countryList(company.shippingCountries, "da").map((c) => <li>{c.name}</li>)}
+</ul>
 <p>Vi leverer til adresser i {countriesText(company.shippingCountries, "da")}. Vi leverer ikke til andre lande. Din pakke sendes med {carriers}. I Danmark er leveringstiden normalt {company.deliveryDays} hverdage; til de øvrige lande kan den være længere. Fragtprisen afhænger af vægt og fragtfirma og vises, før du betaler.</p>
 
 <h2 id="reklamation">6. Reklamationsret</h2>
