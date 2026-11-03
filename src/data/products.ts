@@ -77,7 +77,7 @@ export interface CategoryInfo {
 export const categories: CategoryInfo[] = [
   { id: "flower", label: { da: "Blomster", en: "Flower" }, tint: "lavender", visual: { kind: "photo", src: "/img/flower-trio.jpg", alt: "" } },
   { id: "preroll", label: { da: "Forrullede", en: "Pre-rolled" }, tint: "pink", visual: { kind: "packshot", src: "/img/tube-daydream.webp", alt: "" } },
-  { id: "hash", label: { da: "Hash", en: "Hash" }, tint: "peach", visual: { kind: "photo", src: "/img/fresh-frozen.jpg", alt: "" } },
+  { id: "hash", label: { da: "Hash", en: "Hash" }, tint: "peach", visual: { kind: "photo", src: "/img/products/la-mousse.webp", alt: "" } },
 ];
 
 const allProducts: Product[] = [
@@ -265,38 +265,6 @@ const allProducts: Product[] = [
     featured: true,
     tint: "butter",
     visual: { kind: "packshot", src: "/img/tube-sunrise.webp", alt: "Sunrise pre-roll" },
-  },
-  {
-    slug: "fresh-frozen",
-    name: "Fresh Frozen",
-    category: "hash",
-    format: { da: "Hash", en: "Hash" },
-    size: "2 g",
-    description: {
-      da: "Fresh Frozen hash infused med THC-A – blød, aromatisk og fuld af karakter.",
-      en: "Fresh Frozen hash infused with THC-A – soft, aromatic and full of character.",
-    },
-    wholesale: 119,
-    variants: HASH_PRICES,
-    featured: true,
-    tint: "peach",
-    visual: { kind: "photo", src: "/img/fresh-frozen.jpg", alt: "Fresh Frozen hash" },
-  },
-  {
-    slug: "dry-sift",
-    name: "Dry Sift",
-    category: "hash",
-    format: { da: "Hash", en: "Hash" },
-    size: "2 g",
-    description: {
-      da: "Klassisk Dry Sift hash med THC-A – ren, tør og aromatisk.",
-      en: "Classic Dry Sift hash with THC-A – clean, dry and aromatic.",
-    },
-    wholesale: 112,
-    variants: HASH_PRICES,
-    featured: true,
-    tint: "lavender",
-    visual: { kind: "photo", src: "/img/dry-sift.jpg", alt: "Dry Sift hash" },
   },
   {
     slug: "rosinella",
