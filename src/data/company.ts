@@ -4,23 +4,13 @@ export const company = {
   cvr: "46798163",
   vat: "DK46798163",
   address: ["Lavændelstræde 1, kld.", "1462 København K", "Danmark"],
-  /** Customer service address used in the terms and conditions */
+  /** Customer service email, used everywhere on the site */
   serviceEmail: "M@mistermellow.dk",
-  email: "bestillinger@mistermellow.dk",
   phone: "+45 71 85 83 60",
   phoneHref: "tel:+4571858360",
-  instagram: "@mistermellow.dk",
-  instagramUrl: "https://instagram.com/mistermellow.dk",
-  tagline: "Stay Sunny, Stay Mellow.",
-  catalog: "/docs/mister-mellow-katalog-2026.pdf",
-  /** Webshop orders over this amount (kr incl. moms) ship free */
-  freeShippingOver: 499,
   carriers: ["DAO", "PostNord", "GLS", "Bring"],
-  /** Countries we ship to (ISO codes; UK split into its four nations). Order doesn't matter, the pages sort by name. */
-  shippingCountries: [
-    "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IS", "IE", "IT",
-    "LV", "LU", "MT", "NL", "PL", "SI", "ES", "CH", "GB-ENG", "GB-NIR", "GB-SCT", "GB-WLS",
-  ],
+  /** Countries we ship to. Denmark only until each other country has been checked legally. */
+  shippingCountries: ["DK"],
   /** Business days from order to delivery */
   deliveryDays: "1–2",
   withdrawalDays: 14,
